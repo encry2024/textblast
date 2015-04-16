@@ -1,5 +1,9 @@
 <?php
 
+Route::bind('recipient', function( $id ) {
+    return App\Recipient::find($id);
+});
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -11,9 +15,8 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index');
-
-Route::get('home', 'HomeController@index');
+get('/', ['as' => '/home', 'uses' => 'HomeController@index']);
+get('phonebook', ['as'  => 'pb', 'uses' => 'RecipientController@index']);
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',

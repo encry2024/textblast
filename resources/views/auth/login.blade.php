@@ -3,9 +3,17 @@
 @section('content')
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
+		<div class="col-md-7 center">
+		    <br><br><br><br>
+		    <p class="size-30 text-center">NORTHSTAR SOLUTIONS INC.</p>
+		    <br/>
 			<div class="panel panel-default">
-				<div class="panel-heading">Login</div>
+				<div class="panel-heading white-bg">
+				<span><img src="{!! URL::to('/') !!}/packages/images/logo-nsi.png" style="margin-bottom: -3.5rem; margin-right: 1rem;"></span>
+				<span><label class="sgnin-lbl size-16">Sign in to</label></span>
+				<br>
+				<span><label class="size-24 nsi-lbl">Text Blast v0.1</label></span>
+				</div>
 				<div class="panel-body">
 					@if (count($errors) > 0)
 						<div class="alert alert-danger">
@@ -20,7 +28,7 @@
 
 					<form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/login') }}">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
-
+                        <br>
 						<div class="form-group">
 							<label class="col-md-4 control-label">E-Mail Address</label>
 							<div class="col-md-6">
@@ -48,7 +56,6 @@
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
 								<button type="submit" class="btn btn-primary">Login</button>
-
 								<a class="btn btn-link" href="{{ url('/password/email') }}">Forgot Your Password?</a>
 							</div>
 						</div>

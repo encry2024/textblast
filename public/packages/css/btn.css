@@ -1,0 +1,7 @@
+.btn:active, .btn:focus {
+    outline: none !important;
+}
+
+.lgn-btn-1-6 {
+    width: 15%;
+}
