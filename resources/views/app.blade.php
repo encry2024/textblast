@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{!! URL::to('/') !!}/packages/css/separators.css"/>
     <link href="{{ asset('packages/css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ URL::to('/') }}/bootstrap/bootstrap-3.3.4/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="{{ URL::to('/') }}/packages/DataTables-1.10.4/media/css/jquery.dataTables.min.css"/>
 	<!-- Fonts -->
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -23,11 +24,13 @@
 </head>
 <body>
     <script src="{{ URL::to('/') }}/bootstrap/bootstrap-3.3.4/js/jquery-1.11.2.min.js"></script>
+    <script src="{{ URL::to('/') }}/packages/DataTables-1.10.4/media/js/jquery.dataTables.min.js"></script>
+
     <script src="{{ URL::to('/') }}/bootstrap/bootstrap-3.3.4/js/bootstrap.min.js"></script>
 
 	@yield('header')
 	@yield('content')
-
+    @yield('script')
     <style>
         body {
             -webkit-font-smoothing: antialiased;

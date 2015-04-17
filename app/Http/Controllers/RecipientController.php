@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use App\Recipient;
 
 class RecipientController extends Controller {
 
@@ -12,9 +13,24 @@ class RecipientController extends Controller {
 	 *
 	 * @return Response
 	 */
+    public function __construct(Recipient $recipient) {
+        $this->recipient = $recipient;
+    }
+
 	public function index()
 	{
-		//
+		//code...
+        $json = array();
+        $recipients = $this->recipient->get();
+        foreach ($recipients as $recipient) {
+            $json[] = array(
+                'id' 				=> $recipient->id,
+                'slug'              => $recipient->id,
+                'name' 				=> $recipient->name,
+                'updated_at' 		=> date('F d, Y [ h:i A D ]', strtotime($category->updated_at)),
+            );
+        }
+        return json_encode($json);
 	}
 
 	/**

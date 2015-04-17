@@ -1,8 +1,24 @@
 <?php
-
+#---------------------------------------------- RECIPIENT
 Route::bind('recipient', function( $id ) {
     return App\Recipient::find($id);
 });
+
+Route::resource('recipient', 'RecipientController', [
+    'names' =>  [
+        'index'     =>  'recipients',
+        'create'    =>  'recipient/create',
+    ],
+]);
+
+#----------------------------------------------- INBOX
+Route::bind('inbox', function() {
+    return App\Inbox::all();
+});
+
+Route::resource('inbox', 'InboxController', [
+    'only'  =>  ['index'],
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +32,9 @@ Route::bind('recipient', function( $id ) {
 */
 
 get('/', ['as' => '/home', 'uses' => 'HomeController@index']);
-get('phonebook', ['as'  => 'pb', 'uses' => 'RecipientController@index']);
+get('contacts', ['as'  => 'pb', 'uses' => function() {
+    return view('recipient.create');
+}]);
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',

@@ -12,9 +12,25 @@ class InboxController extends Controller {
 	 *
 	 * @return Response
 	 */
+    public function __construct(Inbox $inbox) {
+        $this->inbox = $inbox;
+    }
+
 	public function index()
 	{
-		//
+		//code...
+        $json = array();
+        $inboxes = $this->inbox->get();
+        foreach ($inboxes as $inbox) {
+
+            $json[] = array(
+                'id' 				=> $recipient->id,
+                'slug'              => $recipient->id,
+                'name' 				=> $recipient->name,
+                'updated_at' 		=> date('F d, Y [ h:i A D ]', strtotime($category->updated_at)),
+            );
+        }
+        return json_encode($json);
 	}
 
 	/**

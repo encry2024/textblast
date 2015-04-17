@@ -16,6 +16,7 @@ class CreateInboxesTable extends Migration {
 		{
 			$table->increments('id');
             $table->integer('recipient_id')->unsigned();
+            $table->integer('team_id')->unsigned();
             $table->string('messages');
 			$table->timestamps();
 		});
