@@ -5,29 +5,38 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
+use App\Inbox;
+use App\Recipient;
+use App\Team;
+
 class InboxController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @return Response
+	 * return Response
 	 */
-    public function __construct(Inbox $inbox) {
+    public function __construct(Inbox $inbox, Recipient $recipient, Team $team) {
         $this->inbox = $inbox;
+        $this->recipient = $recipient;
+        $this->team = $team;
     }
 
 	public function index()
 	{
-		//code...
         $json = array();
         $inboxes = $this->inbox->get();
+
         foreach ($inboxes as $inbox) {
+            $rcpnts = $this->recipient->find($inbox->recipient_id)->first();
+            $groups = $this->team->find($inbox->recipient_team_id)->first();
 
             $json[] = array(
-                'id' 				=> $recipient->id,
-                'slug'              => $recipient->id,
-                'name' 				=> $recipient->name,
-                'updated_at' 		=> date('F d, Y [ h:i A D ]', strtotime($category->updated_at)),
+                'recipient_id'      => $inbox->recipient_id,
+                'group_id'          => $groups->id,
+                'group_name'        => $groups->name,
+                'recipient_name'    => $rcpnts->lastName . ' ' . $rcpnts->firstName,
+                'updated_at' 		=> date('F d, Y [ h:i A D ]', strtotime($inbox->updated_at)),
             );
         }
         return json_encode($json);

@@ -4,7 +4,11 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+
+use App\RecipientNumber;
 use App\Recipient;
+use App\Team;
+use App\RecipientTeam;
 
 class RecipientController extends Controller {
 
@@ -13,8 +17,12 @@ class RecipientController extends Controller {
 	 *
 	 * @return Response
 	 */
-    public function __construct(Recipient $recipient) {
+    public function __construct(Recipient $recipient, RecipientNumber $recipient_number,
+                                RecipientTeam $recipient_team, Team $team) {
         $this->recipient = $recipient;
+        $this->recipient_number = $recipient_number;
+        $this->recipient_team = $recipient_team;
+        $this->team = $team;
     }
 
 	public function index()
@@ -23,11 +31,19 @@ class RecipientController extends Controller {
         $json = array();
         $recipients = $this->recipient->get();
         foreach ($recipients as $recipient) {
+
+            $recipientNumber = $this->recipient_number->where('recipient_id', $recipient->id)->first();
+            $recipientTeam_id = $this->recipient_team->where('recipient_id', $recipient->id)->first();
+            $team_info = $this->team->find($recipientTeam_id->team_id);
+
             $json[] = array(
                 'id' 				=> $recipient->id,
-                'slug'              => $recipient->id,
                 'name' 				=> $recipient->name,
-                'updated_at' 		=> date('F d, Y [ h:i A D ]', strtotime($category->updated_at)),
+                'provider'          => $recipient->provider,
+                'group_name'        => $team_info->name,
+                'group_id'          => $team_info->id,
+                'recipient_phone'   => $recipientNumber->phonenumber,
+                'recent_updates'    => date('F d, Y [ h:i A D ]', strtotime($recipient->updated_at)),
             );
         }
         return json_encode($json);

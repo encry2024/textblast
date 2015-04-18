@@ -6,29 +6,42 @@
 
 @section('content')
 <div class="container">
-    @include('util.m-sidebar')
+    <div class="col-lg-3">
+        <br/>
+        <div class="panel panel-default col-lg-12">
+            <div class="panel-body left">
+                <a href="{{ route('') }}" class="btn btn-primary col-lg-12" role="button"><span class="glyphicon glyphicon-plus"></span> Add Contact</a>
+                <br/><br/>
+                <a href="#" class="btn btn-primary col-lg-12" role="button"><span class="glyphicon glyphicon-th-list"></span> Add to Group</a>
+                <div></div>
+                <br/><br/>
+                <div class="sprtr"></div>
+                <br/>
+                <a href="{{route('/home') }}" class="btn btn-primary col-lg-12" role="button"><span class="glyphicon glyphicon-menu-left" ></span> Back to Home</a>
+            </div>
+        </div>
+    </div>
     <div class="col-lg-9 col-md-offset-center-2">
     <br/>
         <div class="panel panel-default col-lg-12">
            <div class="page-header">
-                <h3><span class="glyphicon glyphicon-inbox"></span> Inbox <span class="right"><a href="#" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-pencil"></span> Compose SMS</a></span></h3>
+                <h3><span class="glyphicon glyphicon-book"></span> Contacts</h3>
            </div>
-           <table id="messages" class="table"></table>
+           <table id="contacts" class="table"></table>
         </div>
     </div>
 </div>
-@endsection
+@stop
 
 @section('script')
 <script type="text/javascript">
-	$.getJSON("inbox", function(data) {
-		$('#messages').dataTable({
+	$.getJSON("recipients", function(data) {
+		$('#contacts').dataTable({
 			"aaData": data,
 			"lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
-			"aaSorting": [[ 4, 'desc' ]],
 			"oLanguage": {
-			    "sEmptyTable":     "There are currently no messages...",
-				"sLengthMenu": "No. of MSGS _MENU_",
+			    "sEmptyTable": "No contacts to be shown...",
+				"sLengthMenu": "No. of Contacts _MENU_",
 				"oPaginate": {
 				"sFirst": "First ", // This is the link to the first
 				"sPrevious": "&#8592; Previous", // This is the link to the previous
@@ -41,18 +54,16 @@
 			//MDATAPROP - TBODY
 			"aoColumns":
 			[
-
 				{"sTitle": "Name", "sWidth": "20%", "mDataProp": "name"},
-				{"sTitle": "Number", "sWidth": "15%","mDataProp": "phonenumber"},
-				{"sTitle": "Message", "sWidth": "30%","mDataProp": "msg"},
-				{"sTitle": "Provider", "sWidth": "15%","mDataProp": "provider"},
-				{"sTitle": "Date Received", "sWidth": "20%","mDataProp": "created_at"},
+				{"sTitle": "Number", "sWidth": "20%","mDataProp": "recipient_number"},
+				{"sTitle": "Group Name", "sWidth": "20%","mDataProp": "group_name"},
+				{"sTitle": "Provider", "sWidth": "20%","mDataProp": "provider"},
+				{"sTitle": "Recent Updates", "sWidth": "20%","mDataProp": "updated_at"},
 			],
 			"aoColumnDefs":
 			[
 				//FORMAT THE VALUES THAT IS DISPLAYED ON mDataProp
-				//ID
-				//CATEGORY SLUG
+				// RECIPIENT NAME
 				{
 					"aTargets": [ 0 ], // Column to target
 					"mRender": function ( data, type, full ) {
@@ -63,33 +74,43 @@
 						return "<a href='#' class='size-14 text-left'>" + full["name"] + "</a>";
 					}
 				},
-                //CATEGORY RECENT UPDATE
+                // RECIPIENT PHONE NUMBER
 				{
 					"aTargets": [ 1 ], // Column to target
 					"mRender": function ( data, type, full ) {
 					// 'full' is the row's data object, and 'data' is this column's data
 					// e.g. 'full[0]' is the comic id, and 'data' is the comic title
-					return '<label class="text-center size-14"> ' + full["phonenumber"] + ' </label>';
+					return '<label class="text-center size-14"> ' + full["recipient_number"] + ' </label>';
 					}
 				},
-		        {
-                    "aTargets": [ 2 ], // Column to target
-                    "mRender": function ( data, type, full ) {
-                    // 'full' is the row's data object, and 'data' is this column's data
-                    // e.g. 'full[0]' is the comic id, and 'data' is the comic title
-                    return '<label class="text-center size-14"> ' + full["msg"] + ' </label>';
-                    }
-                },
+				// RECIPIENT'S GROUP NAME
                 {
+                    "aTargets": [ 2 ], // Column to target
+                        "mRender": function ( data, type, full ) {
+                        // 'full' is the row's data object, and 'data' is this column's data
+                        // e.g. 'full[0]' is the comic id, and 'data' is the comic title
+                        return '<label class="text-center size-14"> ' + full["group_name"] + ' </label>';
+                        }
+                },
+                // RECIPIENT'S PROVIDER
+		        {
                     "aTargets": [ 3 ], // Column to target
                     "mRender": function ( data, type, full ) {
                     // 'full' is the row's data object, and 'data' is this column's data
                     // e.g. 'full[0]' is the comic id, and 'data' is the comic title
-                    return '<label class="text-center size-14"> ' + full["created_at"] + ' </label>';
+                    return '<label class="text-center size-14"> ' + full["provider"] + ' </label>';
+                    }
+                },
+                // CHANGES ON RECIPIENT
+                {
+                    "aTargets": [ 4 ], // Column to target
+                    "mRender": function ( data, type, full ) {
+                    // 'full' is the row's data object, and 'data' is this column's data
+                    // e.g. 'full[0]' is the comic id, and 'data' is the comic title
+                    return '<label class="text-center size-14"> ' + full["updated_at"] + ' </label>';
                     }
                 },
 			],
-
 			/*"fnDrawCallback": function( oSettings ) {
 				*//* Need to redo the counters if filtered or sorted *//*
 				if ( oSettings.bSorted || oSettings.bFiltered )
