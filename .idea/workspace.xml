@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ad8ff700-fbcd-4b1f-8104-4747135ffc9a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="laravel.iws" />
@@ -41,8 +40,8 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8004926" vertical-offset="890" max-vertical-offset="1431">
-              <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+            <state vertical-scroll-proportion="1.0" vertical-offset="782" max-vertical-offset="1431">
+              <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
               <folding>
                 <element signature="e#556#941#0#PHP" expanded="false" />
               </folding>
@@ -409,7 +408,13 @@
       <option name="project" value="LOCAL" />
       <updated>1429503368842</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Update #5 - Separator for all GET and POST request.">
+      <created>1429503754021</created>
+      <option name="number" value="00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1429503754021</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -457,7 +462,8 @@
     <MESSAGE value="Update #3 - Route for recipient &amp; inbox. Fixed #1 - recipients ajax table&#10;Update #4 - Separate Route::controller." />
     <MESSAGE value="Update #3 - Route for recipient &amp; inbox. Fixed #1 - recipients ajax table" />
     <MESSAGE value="Update #4 - Separate Route::controller." />
-    <option name="LAST_COMMIT_MESSAGE" value="Update #4 - Separate Route::controller." />
+    <MESSAGE value="Update #5 - Separator for all GET and POST request." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update #5 - Separator for all GET and POST request." />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.8172043" />
   </component>
   <component name="XDebuggerManager">
@@ -843,8 +849,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8004926" vertical-offset="890" max-vertical-offset="1431">
-          <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+        <state vertical-scroll-proportion="1.0" vertical-offset="782" max-vertical-offset="1431">
+          <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
           <folding>
             <element signature="e#556#941#0#PHP" expanded="false" />
           </folding>
