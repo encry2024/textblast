@@ -15,7 +15,7 @@ class RecipientController extends Controller {
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @return Response
+	 * return Response
 	 */
     public function __construct(Recipient $recipient, RecipientNumber $recipient_number,
                                 RecipientTeam $recipient_team, Team $team) {
@@ -32,19 +32,21 @@ class RecipientController extends Controller {
         $recipients = $this->recipient->get();
         foreach ($recipients as $recipient) {
 
-            $recipientNumber = $this->recipient_number->where('recipient_id', $recipient->id)->first();
-            $recipientTeam_id = $this->recipient_team->where('recipient_id', $recipient->id)->first();
+            $recipientNumbers = $this->recipient_number->where('recipient_id', $recipient->id)->get();
+            $recipientTeam_id = $this->recipient_team->where('recipient_id', $recipient->id)->get();
             $team_info = $this->team->find($recipientTeam_id->team_id);
 
-            $json[] = array(
-                'id' 				=> $recipient->id,
-                'name' 				=> $recipient->name,
-                'provider'          => $recipient->provider,
-                'group_name'        => $team_info->name,
-                'group_id'          => $team_info->id,
-                'recipient_phone'   => $recipientNumber->phonenumber,
-                'recent_updates'    => date('F d, Y [ h:i A D ]', strtotime($recipient->updated_at)),
-            );
+            foreach ($recipientNumbers as $r_n ) {
+                $json[] = array(
+                    'id' 				=> $recipient->id,
+                    'name' 				=> $recipient->name,
+                    'provider'          => $recipient->provider,
+                    'group_name'        => $team_info->name,
+                    'group_id'          => $team_info->id,
+                    'recipient_phone'   => $r_n->phonenumber,
+                    'recent_updates'    => date('F d, Y [ h:i A D ]', strtotime($recipient->updated_at)),
+                );
+            }
         }
         return json_encode($json);
 	}

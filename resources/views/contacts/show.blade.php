@@ -10,7 +10,7 @@
         <br/>
         <div class="panel panel-default col-lg-12">
             <div class="panel-body left">
-                <a href="{{ route('') }}" class="btn btn-primary col-lg-12" role="button"><span class="glyphicon glyphicon-plus"></span> Add Contact</a>
+                <a href="#" class="btn btn-primary col-lg-12" role="button" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus"></span> Add Contact</a>
                 <br/><br/>
                 <a href="#" class="btn btn-primary col-lg-12" role="button"><span class="glyphicon glyphicon-th-list"></span> Add to Group</a>
                 <div></div>
@@ -28,6 +28,25 @@
                 <h3><span class="glyphicon glyphicon-book"></span> Contacts</h3>
            </div>
            <table id="contacts" class="table"></table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add Recipient</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
         </div>
     </div>
 </div>
