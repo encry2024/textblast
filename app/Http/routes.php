@@ -31,13 +31,15 @@ Route::resource('inbox', 'InboxController', [
 |
 */
 
+#--------------------------------------------------------------- Admin Route Controller
+Route::controllers([
+    'auth' => 'Auth\AuthController',
+    'password' => 'Auth\PasswordController',
+]);
+#----------------------------------------------------------------
+
 get('/', ['as' => '/home', 'uses' => 'HomeController@index']);
 
 get('contacts', ['as'  => 'pb', 'uses' => function() {
     return view('contacts.show');
 }]);
-
-Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
-]);
