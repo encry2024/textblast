@@ -14,11 +14,10 @@
     @endif
 
 	<div class="col-lg-3">
-		<div class="panel panel-default col-lg-12">
-			<div class="panel-body left">
+		<div class="panel panel-default col-lg-11">
+			<div class="panel-body">
 				<a href="#" class="btn btn-primary col-lg-12" role="button" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus"></span> Add Contact</a>
-				<br/><br/>
-				<a href="#" class="btn btn-primary col-lg-12" role="button"><span class="glyphicon glyphicon-th-list"></span> Add to Group</a>
+				<br/>
 				<div></div>
 				<br/><br/>
 				<div class="sprtr"></div>
@@ -88,13 +87,13 @@
 
 @section('script')
 <script type="text/javascript">
-	$.getJSON("recipients", function(data) {
+	$.getJSON("recipient", function(data) {
 		$('#contacts').dataTable({
 			"aaData": data,
 			"lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
 			"oLanguage": {
 				"sEmptyTable": "No contacts to be shown...",
-				"sLengthMenu": "No. of Contacts _MENU_",
+				"sLengthMenu": "per Contacts _MENU_",
 				"oPaginate": {
                     "sFirst": "First ", // This is the link to the first
                     "sPrevious": "&#8592; Previous", // This is the link to the previous
@@ -123,7 +122,7 @@
 						url = url.replace(':id', full["id"]);
 						// 'full' is the row's data object, and 'data' is this column's data
 						// e.g. 'full[0]' is the comic id, and 'data' is the comic title
-						return "<a href='  " + url + "' class='size-14 text-left'>" + full["name"] + "</a>";
+						return "<a href='" + url + "' class='size-14 text-left'>" + full["name"] + "</a>";
 					}
 				},
 				// RECIPIENT PHONE NUMBER

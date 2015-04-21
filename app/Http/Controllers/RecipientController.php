@@ -78,9 +78,12 @@ class RecipientController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show(Recipient $recipient)
-	{
+	public function show(Recipient $recipient, Team $team,
+                         RecipientTeam $recipientTeam) {
+
 		$rpt_nums = RecipientNumber::where('recipient_id', $recipient->id)->get();
+        $recipientTeam = RecipientTeam::where('recipient_id', $recipient->id)->get();
+
 		return view('contacts.edit', compact('recipient', 'rpt_nums'));
 	}
 

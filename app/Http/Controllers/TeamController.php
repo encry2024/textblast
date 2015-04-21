@@ -10,11 +10,24 @@ class TeamController extends Controller {
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @return Response
+	 * return Response
 	 */
-	public function index()
-	{
+    public function __construct(Team $team) {
+        $this->team = $team;
+    }
+
+	public function index() {
 		//
+        $json = array();
+        $teams = $this->team->get();
+        foreach ($teams as $team) {
+            $json[] = array(
+                'id' 				=> $team->id,
+                'name' 				=> $team->name,
+                'recent_updates'    => date('F d, Y [ h:i A D ]', strtotime($team->updated_at)),
+            );
+        }
+        return json_encode($json);
 	}
 
 	/**
@@ -22,8 +35,7 @@ class TeamController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function create()
-	{
+	public function create() {
 		//
 	}
 
@@ -32,8 +44,7 @@ class TeamController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
-	{
+	public function store() {
 		//
 	}
 
@@ -43,8 +54,7 @@ class TeamController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
-	{
+	public function show($id) {
 		//
 	}
 
@@ -54,8 +64,7 @@ class TeamController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
-	{
+	public function edit($id) {
 		//
 	}
 
@@ -65,8 +74,7 @@ class TeamController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
-	{
+	public function update($id) {
 		//
 	}
 
@@ -76,8 +84,7 @@ class TeamController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
-	{
+	public function destroy($id) {
 		//
 	}
 

@@ -10,8 +10,9 @@
     <div class="col-lg-9 col-md-offset-center-2">
     <br/>
         <div class="panel panel-default col-lg-12">
+         <h2>{{ count($inbox) }} Msgs</h2>
            <div class="page-header">
-                <h3><span class="glyphicon glyphicon-inbox"></span> Inbox <span class="size-14"><label> - {{ count($inbox) }} message(s)</label></span> <span class="right"><a href="#" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-pencil"></span> Compose SMS</a></span></h3>
+                <h3><span class="glyphicon glyphicon-inbox"></span> Inbox <span class="right"><a href="#" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-pencil"></span> Compose SMS</a></span></h3>
            </div>
            <table id="messages" class="table"></table>
         </div>
@@ -28,7 +29,7 @@
 			"aaSorting": [[ 4, 'desc' ]],
 			"oLanguage": {
 			    "sEmptyTable":     "There are currently no messages...",
-				"sLengthMenu": "No. of MSGS _MENU_",
+				"sLengthMenu": "per MSGS _MENU_",
 				"oPaginate": {
 				"sFirst": "First ", // This is the link to the first
 				"sPrevious": "&#8592; Previous", // This is the link to the previous

@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 # MODEL
-use App\Recipient;
+
 use App\RecipientNumber;
 
 class Recipient extends Eloquent {
@@ -20,6 +20,10 @@ class Recipient extends Eloquent {
 
     public function recipientNumber() {
         return $this->hasMany('RecipientNumber');
+    }
+
+    public function recipientTeam() {
+        return $this->hasManyThrough('App\Team', 'App\RecipientTeam', 'recipient_id', 'id');
     }
 
     public static function register_Recipient($rcp_request, $rcp_n_request) {

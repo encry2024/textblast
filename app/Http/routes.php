@@ -1,14 +1,15 @@
 <?php
 #------------------------------------------------------------ RECIPIENT
-Route::bind('recipients', function( $id ) {
+Route::bind('recipient', function( $id ) {
 	return App\Recipient::find($id)->first();
 });
 
-Route::resource('recipients', 'RecipientController', [
+Route::resource('recipient', 'RecipientController', [
 	'names' =>  [
-		'index'     =>  'recipients',
+		'index'    =>  'recipients',
 		'store'    =>  'recipient/store',
         'show'     =>  'recipient/show',
+        'update'   =>  'recipient/update',
 	],
 ]);
 
@@ -19,6 +20,15 @@ Route::bind('inbox', function() {
 
 Route::resource('inbox', 'InboxController', [
 	'only'  =>  ['index'],
+]);
+
+#-------------------------------------------------------------- TEAM
+Route::bind('team', function() {
+    return App\Team::all();
+});
+
+Route::resource('team', 'InboxController', [
+    'only'  =>  ['index'],
 ]);
 
 #--------------------------------------------------------------- Admin Route Controller
