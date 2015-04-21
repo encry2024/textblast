@@ -1,14 +1,16 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
-
+# MODELS
 use App\RecipientNumber;
 use App\Recipient;
 use App\Team;
 use App\RecipientTeam;
+
+use App\Http\Requests\CreateRecipientNumberRequest;
+use App\Http\Requests\CreateRecipientRequest;
+
 
 class RecipientController extends Controller {
 
@@ -33,17 +35,13 @@ class RecipientController extends Controller {
         foreach ($recipients as $recipient) {
 
             $recipientNumbers = $this->recipient_number->where('recipient_id', $recipient->id)->get();
-            $recipientTeam_id = $this->recipient_team->where('recipient_id', $recipient->id)->get();
-            $team_info = $this->team->find($recipientTeam_id->team_id);
 
             foreach ($recipientNumbers as $r_n ) {
                 $json[] = array(
                     'id' 				=> $recipient->id,
                     'name' 				=> $recipient->name,
-                    'provider'          => $recipient->provider,
-                    'group_name'        => $team_info->name,
-                    'group_id'          => $team_info->id,
-                    'recipient_phone'   => $r_n->phonenumber,
+                    'provider'          => $r_n->provider,
+                    'recipient_number'  => $r_n->phone_number,
                     'recent_updates'    => date('F d, Y [ h:i A D ]', strtotime($recipient->updated_at)),
                 );
             }
@@ -66,9 +64,12 @@ class RecipientController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
-	{
-		//
+	public function store(CreateRecipientRequest $rcp_request,
+                          CreateRecipientNumberRequest $rcp_n_request) {
+
+        $store_recipient = Recipient::register_Recipient($rcp_request, $rcp_n_request);
+
+        return $store_recipient;
 	}
 
 	/**

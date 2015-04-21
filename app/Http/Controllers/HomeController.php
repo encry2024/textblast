@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Recipient;
 class HomeController extends Controller {
 
 	/*
@@ -28,9 +29,10 @@ class HomeController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index( Recipient $recipient )
 	{
-		return view('home');
+        $recipients = $recipient->all();
+		return view('home', compact('recipients'));
 	}
 
 }

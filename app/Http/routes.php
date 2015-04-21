@@ -7,7 +7,7 @@ Route::bind('recipients', function( $id ) {
 Route::resource('recipients', 'RecipientController', [
 	'names' =>  [
 		'index'     =>  'recipients',
-		'create'    =>  'recipient/create',
+		'store'    =>  'recipient/store',
 	],
 ]);
 
@@ -20,23 +20,12 @@ Route::resource('inbox', 'InboxController', [
 	'only'  =>  ['index'],
 ]);
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
-
 #--------------------------------------------------------------- Admin Route Controller
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
-#----------------------------------------------------------------
+
 
 
 #---------------------------------------------------------------- GET
@@ -44,14 +33,12 @@ Route::controllers([
 get('/', ['as' => '/home', 'uses' => 'HomeController@index']);
 
 get('contacts', ['as'  => 'pb', 'uses' => function() {
-	return view('contacts.show');
+	    return view('contacts.show');
 }]);
 
-#----------------------------------------------------------------
+
 
 
 #---------------------------------------------------------------- POST
 
 
-
-#----------------------------------------------------------------
