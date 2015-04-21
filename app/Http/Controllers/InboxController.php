@@ -35,7 +35,7 @@ class InboxController extends Controller {
                 'recipient_id'      => $inbox->recipient_id,
                 'group_id'          => $groups->id,
                 'group_name'        => $groups->name,
-                'recipient_name'    => $rcpnts->lastName . ' ' . $rcpnts->firstName,
+                'recipient_name'    => $rcpnts->name,
                 'updated_at' 		=> date('F d, Y [ h:i A D ]', strtotime($inbox->updated_at)),
             );
         }

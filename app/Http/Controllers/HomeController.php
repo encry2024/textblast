@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers;
 
 use App\Recipient;
+use App\Inbox;
+
 class HomeController extends Controller {
 
 	/*
@@ -29,10 +31,11 @@ class HomeController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index( Recipient $recipient )
+	public function index( Recipient $recipient, Inbox $inbox )
 	{
         $recipients = $recipient->all();
-		return view('home', compact('recipients'));
+        $inbox 		= $inbox->all();
+		return view('home', compact('recipients', 'inbox'));
 	}
 
 }

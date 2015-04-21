@@ -8,6 +8,7 @@ Route::resource('recipients', 'RecipientController', [
 	'names' =>  [
 		'index'     =>  'recipients',
 		'store'    =>  'recipient/store',
+        'show'     =>  'recipient/show',
 	],
 ]);
 

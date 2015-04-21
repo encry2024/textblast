@@ -108,8 +108,8 @@
 			"aoColumns":
 			[
 				{"sTitle": "Name", "sWidth": "15%", "mDataProp": "name"},
-				{"sTitle": "Number", "sWidth": "10%","mDataProp": "recipient_number"},
-				{"sTitle": "Provider", "sWidth": "10%","mDataProp": "provider"},
+				{"sTitle": "Number", "sWidth": "6%","mDataProp": "recipient_number"},
+				{"sTitle": "Provider", "sWidth": "5%","mDataProp": "provider"},
 				{"sTitle": "Recent Update", "sWidth": "15%","mDataProp": "recent_updates"},
 			],
 			"aoColumnDefs":
@@ -119,11 +119,11 @@
 				{
 					"aTargets": [ 0 ], // Column to target
 					"mRender": function ( data, type, full ) {
-						{{--var url = '{{ route('category_path/show', ":slug") }}';--}}
-						{{--url = url.replace(':slug', full["slug"]);--}}
+						var url = '{{ route('recipient/show', ":id") }}';
+						url = url.replace(':id', full["id"]);
 						// 'full' is the row's data object, and 'data' is this column's data
 						// e.g. 'full[0]' is the comic id, and 'data' is the comic title
-						return "<a href='#' class='size-14 text-left'>" + full["name"] + "</a>";
+						return "<a href='  " + url + "' class='size-14 text-left'>" + full["name"] + "</a>";
 					}
 				},
 				// RECIPIENT PHONE NUMBER

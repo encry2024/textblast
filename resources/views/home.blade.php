@@ -11,7 +11,7 @@
     <br/>
         <div class="panel panel-default col-lg-12">
            <div class="page-header">
-                <h3><span class="glyphicon glyphicon-inbox"></span> Inbox <span class="right"><a href="#" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-pencil"></span> Compose SMS</a></span></h3>
+                <h3><span class="glyphicon glyphicon-inbox"></span> Inbox <span class="size-14"><label> - {{ count($inbox) }} message(s)</label></span> <span class="right"><a href="#" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-pencil"></span> Compose SMS</a></span></h3>
            </div>
            <table id="messages" class="table"></table>
         </div>
