@@ -26,10 +26,11 @@ class HomeController extends Controller {
 		$this->middleware('auth');
 	}
 
+
 	/**
-	 * Show the application dashboard to the user.
-	 *
-	 * @return Response
+	 * @param Recipient $recipient
+	 * @param Inbox $inbox
+	 * @return \Illuminate\View\View
 	 */
 	public function index( Recipient $recipient, Inbox $inbox )
 	{

@@ -11,17 +11,21 @@ use App\Team;
 
 class InboxController extends Controller {
 
+
 	/**
-	 * Display a listing of the resource.
-	 *
-	 * return Response
+	 * @param Inbox $inbox
+	 * @param Recipient $recipient
+	 * @param Team $team
 	 */
-    public function __construct(Inbox $inbox, Recipient $recipient, Team $team) {
+	public function __construct(Inbox $inbox, Recipient $recipient, Team $team) {
         $this->inbox = $inbox;
         $this->recipient = $recipient;
         $this->team = $team;
     }
 
+	/**
+	 * @return string
+	 */
 	public function index()
 	{
         $json = array();

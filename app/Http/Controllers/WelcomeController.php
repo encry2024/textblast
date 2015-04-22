@@ -13,10 +13,9 @@ class WelcomeController extends Controller {
 	|
 	*/
 
+
 	/**
-	 * Create a new controller instance.
-	 *
-	 * @return void
+	 * @param return middleware('guest')
 	 */
 	public function __construct()
 	{

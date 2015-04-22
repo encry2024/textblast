@@ -15,12 +15,14 @@ use App\Http\Requests\CreateRecipientRequest;
 
 class RecipientController extends Controller {
 
+
 	/**
-	 * Display a listing of the resource.
-	 *
-	 * return Response
+	 * @param Recipient $recipient
+	 * @param RecipientNumber $recipient_number
+	 * @param RecipientTeam $recipient_team
+	 * @param Team $team
 	 */
-    public function __construct(Recipient $recipient, RecipientNumber $recipient_number,
+	public function __construct(Recipient $recipient, RecipientNumber $recipient_number,
                                 RecipientTeam $recipient_team, Team $team) {
         $this->recipient = $recipient;
         $this->recipient_number = $recipient_number;
@@ -28,6 +30,9 @@ class RecipientController extends Controller {
         $this->team = $team;
     }
 
+	/**
+	 * @return string
+	 */
 	public function index()
 	{
 		//code...
@@ -59,10 +64,11 @@ class RecipientController extends Controller {
 		//
 	}
 
+
 	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
+	 * @param CreateRecipientRequest $rcp_request
+	 * @param CreateRecipientNumberRequest $rcp_n_request
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function store(CreateRecipientRequest $rcp_request,
                           CreateRecipientNumberRequest $rcp_n_request) {
@@ -72,11 +78,12 @@ class RecipientController extends Controller {
         return $store_recipient;
 	}
 
+
 	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
+	 * @param Recipient $recipient
+	 * @param Team $team
+	 * @param RecipientTeam $recipientTeam
+	 * @return \Illuminate\View\View
 	 */
 	public function show(Recipient $recipient, Team $team,
                          RecipientTeam $recipientTeam) {
