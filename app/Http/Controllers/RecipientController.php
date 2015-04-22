@@ -8,6 +8,7 @@ use App\Recipient;
 use App\Team;
 use App\RecipientTeam;
 
+# REQUESTS
 use App\Http\Requests\CreateRecipientNumberRequest;
 use App\Http\Requests\CreateRecipientRequest;
 
@@ -54,8 +55,7 @@ class RecipientController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function create()
-	{
+	public function create() {
 		//
 	}
 

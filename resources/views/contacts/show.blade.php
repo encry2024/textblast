@@ -14,15 +14,11 @@
     @endif
 
 	<div class="col-lg-3">
-		<div class="panel panel-default col-lg-11">
+		<div class="panel panel-default col-lg-12">
 			<div class="panel-body">
-				<a href="#" class="btn btn-primary col-lg-12" role="button" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus"></span> Add Contact</a>
-				<br/>
-				<div></div>
-				<br/><br/>
-				<div class="sprtr"></div>
-				<br/>
-				<a href="{{route('/home') }}" class="btn btn-primary col-lg-12" role="button"><span class="glyphicon glyphicon-menu-left" ></span> Back to Home</a>
+				<a href="#" class="col-lg-12" data-toggle="modal" data-target="#recipientModal"><span class="glyphicon glyphicon-plus"></span> Add Recipient</a>
+				<br/><br/><br/><br/><br/><br/><br/>
+				<a href="{{route('/home') }}" class="col-lg-12"><span class="glyphicon glyphicon-menu-left" ></span> Back to Home</a>
 			</div>
 		</div>
 	</div>
@@ -38,7 +34,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="recipientModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     {!! Form::open(['route' => 'recipient/store']) !!}
 	<div class="modal-dialog">
 		<div class="modal-content ">
