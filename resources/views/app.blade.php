@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{!! URL::to('/') !!}/packages/css/location.css"/>
     <link rel="stylesheet" href="{!! URL::to('/') !!}/packages/css/panel.css"/>
     <link rel="stylesheet" href="{!! URL::to('/') !!}/packages/css/separators.css"/>
+    <link rel="stylesheet" href="{!! URL::to('/') !!}/packages/jquery-dropdown/source/css/multilist.css"/>
     <link href="{{ asset('packages/css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ URL::to('/') }}/bootstrap/bootstrap-3.3.4/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="{{ URL::to('/') }}/packages/DataTables-1.10.4/media/css/jquery.dataTables.min.css"/>
@@ -31,13 +32,12 @@
 
     <script src="{{ URL::to('/') }}/packages/DataTables-1.10.4/media/js/jquery.dataTables.min.js"></script>
     <script src="{{ URL::to('/') }}/bootstrap/bootstrap-3.3.4/js/bootstrap.min.js"></script>
-
+	<script src="{{ URL::to('/') }}/packages/jquery-dropdown/demo/jquery.tmpl.min.js"></script>
+	<script src="{{ URL::to('/') }}/packages/jquery-dropdown/source/js/multilist.js"></script>
 
 	@yield('header')
 	@yield('content')
     @yield('script')
-
-
 
     <style>
         body {

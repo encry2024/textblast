@@ -33,7 +33,7 @@
 	</div>
 </div>
 
-<!-- Modal -->
+<!-- Recipient Modal -->
 <div class="modal fade" id="recipientModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     {!! Form::open(['route' => 'recipient/store']) !!}
 	<div class="modal-dialog">
@@ -89,7 +89,7 @@
 			"lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
 			"oLanguage": {
 				"sEmptyTable": "No contacts to be shown...",
-				"sLengthMenu": "per Contacts _MENU_",
+				"sLengthMenu": "Per Contacts _MENU_",
 				"oPaginate": {
                     "sFirst": "First ", // This is the link to the first
                     "sPrevious": "&#8592; Previous", // This is the link to the previous

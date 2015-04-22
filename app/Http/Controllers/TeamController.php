@@ -2,8 +2,11 @@
 
 use App\Http\Requests;
 
+# MODEL
 use App\Team;
 
+# REQUESTS
+use App\Http\Requests\CreateTeamRequest;
 class TeamController extends Controller {
 
 	/**
@@ -25,6 +28,7 @@ class TeamController extends Controller {
             $json[] = array(
                 'id' 				=> $team->id,
                 'name' 				=> $team->name,
+				'description'		=> str_limit($team->description, $limit = 35, $end = '...'),
                 'recent_updates'    => date('F d, Y [ h:i A D ]', strtotime($team->updated_at)),
             );
         }
@@ -40,13 +44,18 @@ class TeamController extends Controller {
 		//
 	}
 
+
 	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
+	 * @param CreateTeamRequest $team_request
+	 * @param Team $team
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
-	public function store() {
-		//
+	public function store( CreateTeamRequest $team_request, Team $team ) {
+		$t_r = $team->create( $team_request->request->all() );
+
+		$team_name = $t_r->name;
+
+		return redirect()->back()->with('success_msg', 'Team:'.$team_name.' was successfully saved.');
 	}
 
 	/**

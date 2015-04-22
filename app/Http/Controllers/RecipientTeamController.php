@@ -3,15 +3,25 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\RecipientTeam;
+use App\Team;
 use Illuminate\Http\Request;
+
+use App\Http\Requests\CreateRecipientTeamRequest;
 
 class RecipientTeamController extends Controller {
 
+
 	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
+	 * @param RecipientTeam $recipientTeam
+	 * @param Team $team
 	 */
+	public function __constructor( RecipientTeam $recipientTeam,
+								   Team $team) {
+		$this->recipientTeam = $recipientTeam;
+		$this->team = $team;
+	}
+
 	public function index()
 	{
 		//
@@ -27,14 +37,22 @@ class RecipientTeamController extends Controller {
 		//
 	}
 
+
 	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
+	 * @param CreateRecipientTeamRequest $crtp
+	 * @param RecipientTeam $recipientTeam
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
-	public function store()
-	{
-		//
+	public function store( CreateRecipientTeamRequest $crtp,
+						   RecipientTeam $recipientTeam, Team $team ) {
+
+		$rt_id = $recipientTeam->create( $crtp->request->all() );
+
+		$team_id = $rt_id->id;
+
+		$tm = $team->find($team_id);
+
+		return redirect()->back()->with('success_msg', 'Recipient was successfully tagged to the Group:'.$tm->name.'.');
 	}
 
 	/**

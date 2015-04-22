@@ -21,7 +21,7 @@ class RecipientController extends Controller {
 	 * @param RecipientNumber $recipient_number
 	 * @param RecipientTeam $recipient_team
 	 * @param Team $team
-	 */
+	*/
 	public function __construct(Recipient $recipient, RecipientNumber $recipient_number,
                                 RecipientTeam $recipient_team, Team $team) {
         $this->recipient = $recipient;
@@ -89,9 +89,9 @@ class RecipientController extends Controller {
                          RecipientTeam $recipientTeam) {
 
 		$rpt_nums = RecipientNumber::where('recipient_id', $recipient->id)->get();
-        $recipientTeam = RecipientTeam::where('recipient_id', $recipient->id)->get();
+        $recipientTeams = RecipientTeam::where('recipient_id', $recipient->id)->get();
 
-		return view('contacts.edit', compact('recipient', 'rpt_nums'));
+		return view('contacts.edit', compact('recipient', 'rpt_nums', 'recipientTeams'));
 	}
 
 	/**

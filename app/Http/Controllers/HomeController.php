@@ -2,6 +2,7 @@
 
 use App\Recipient;
 use App\Inbox;
+use App\Team;
 
 class HomeController extends Controller {
 
@@ -30,13 +31,16 @@ class HomeController extends Controller {
 	/**
 	 * @param Recipient $recipient
 	 * @param Inbox $inbox
+	 * @param Team $team
 	 * @return \Illuminate\View\View
 	 */
-	public function index( Recipient $recipient, Inbox $inbox )
+	public function index( Recipient $recipient, Inbox $inbox, Team $team )
 	{
         $recipients = $recipient->all();
         $inbox 		= $inbox->all();
-		return view('home', compact('recipients', 'inbox'));
+		$team		= $team->all();
+
+		return view('home', compact('recipients', 'inbox', 'team'));
 	}
 
 }
