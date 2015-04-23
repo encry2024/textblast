@@ -39,18 +39,11 @@ class RecipientController extends Controller {
         $json = array();
         $recipients = $this->recipient->get();
         foreach ($recipients as $recipient) {
-
-            $recipientNumbers = $this->recipient_number->where('recipient_id', $recipient->id)->get();
-
-            foreach ($recipientNumbers as $r_n ) {
-                $json[] = array(
-                    'id' 				=> $recipient->id,
-                    'name' 				=> $recipient->name,
-                    'provider'          => $r_n->provider,
-                    'recipient_number'  => $r_n->phone_number,
-                    'recent_updates'    => date('F d, Y [ h:i A D ]', strtotime($recipient->updated_at)),
-                );
-            }
+			$json[] = array(
+				'id' 				=> $recipient->id,
+				'name' 				=> $recipient->name,
+				'recent_updates'    => date('F d, Y [ h:i A D ]', strtotime($recipient->updated_at)),
+			);
         }
         return json_encode($json);
 	}
@@ -89,7 +82,7 @@ class RecipientController extends Controller {
                          RecipientTeam $recipientTeam) {
 
 		$rpt_nums = RecipientNumber::where('recipient_id', $recipient->id)->get();
-        $recipientTeams = RecipientTeam::where('recipient_id', $recipient->id)->get();
+        $recipientTeams = $recipientTeam->where('recipient_id', $recipient->id)->get();
 
 		return view('contacts.edit', compact('recipient', 'rpt_nums', 'recipientTeams'));
 	}
@@ -118,13 +111,15 @@ class RecipientController extends Controller {
 
 	/**
 	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
+	 * @param Recipient $recipient
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy(Recipient $recipient)
 	{
 		//
+		$recipient->delete();
+
+		return redirect( route('pb') )->with('success_msg', 'Recipient was successfully deleted');
 	}
 
 }

@@ -39,6 +39,7 @@ class RecipientTeamController extends Controller {
 
 
 	/**
+	 * @param Team $team
 	 * @param CreateRecipientTeamRequest $crtp
 	 * @param RecipientTeam $recipientTeam
 	 * @return \Illuminate\Http\RedirectResponse
@@ -48,7 +49,7 @@ class RecipientTeamController extends Controller {
 
 		$rt_id = $recipientTeam->create( $crtp->request->all() );
 
-		$team_id = $rt_id->id;
+		$team_id = $rt_id->team_id;
 
 		$tm = $team->find($team_id);
 
@@ -90,13 +91,12 @@ class RecipientTeamController extends Controller {
 
 	/**
 	 * Remove the specified resource from storage.
-	 *
+	 * @param Request $request
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
-	{
-		//
+	public function destroy( Request $request ) {
+		return $request->get('id_textbox');
 	}
 
 }

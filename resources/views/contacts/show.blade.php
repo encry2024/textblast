@@ -103,8 +103,6 @@
 			"aoColumns":
 			[
 				{"sTitle": "Name", "sWidth": "15%", "mDataProp": "name"},
-				{"sTitle": "Number", "sWidth": "6%","mDataProp": "recipient_number"},
-				{"sTitle": "Provider", "sWidth": "5%","mDataProp": "provider"},
 				{"sTitle": "Recent Update", "sWidth": "15%","mDataProp": "recent_updates"},
 			],
 			"aoColumnDefs":
@@ -121,27 +119,10 @@
 						return "<a href='" + url + "' class='size-14 text-left'>" + full["name"] + "</a>";
 					}
 				},
-				// RECIPIENT PHONE NUMBER
-				{
-					"aTargets": [ 1 ], // Column to target
-					"mRender": function ( data, type, full ) {
-					// 'full' is the row's data object, and 'data' is this column's data
-					// e.g. 'full[0]' is the comic id, and 'data' is the comic title
-					return '<label class="text-center size-14"> ' + full["recipient_number"] + ' </label>';
-					}
-				},
-				// RECIPIENT'S PROVIDER
-				{
-                    "aTargets": [ 2 ], // Column to target
-                    "mRender": function ( data, type, full ) {
-                    // 'full' is the row's data object, and 'data' is this column's data
-                    // e.g. 'full[0]' is the comic id, and 'data' is the comic title
-                    return '<label class="text-center size-14"> ' + full["provider"] + ' </label>';
-                    }
-                },
+
 				// RECIPIENT'S GROUP NAME
 				{
-					"aTargets": [ 3 ], // Column to target
+					"aTargets": [ 1 ], // Column to target
 						"mRender": function ( data, type, full ) {
 						// 'full' is the row's data object, and 'data' is this column's data
 						// e.g. 'full[0]' is the comic id, and 'data' is the comic title

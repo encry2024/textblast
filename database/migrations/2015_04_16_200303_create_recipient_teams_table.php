@@ -18,6 +18,7 @@ class CreateRecipientTeamsTable extends Migration {
             $table->integer('team_id')->unsigned();
             $table->integer('recipient_id')->unsigned();
 			$table->timestamps();
+			$table->softDeletes();
 		});
 	}
 

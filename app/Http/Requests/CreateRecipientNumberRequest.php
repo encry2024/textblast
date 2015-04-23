@@ -22,7 +22,7 @@ class CreateRecipientNumberRequest extends Request {
 	public function rules()
 	{
 		return [
-			'phone_number' => 'required',
+			'phone_number' => 'required|unique:recipient_numbers,phone_number',
             'provider'     => 'required'
 		];
 	}

@@ -1,9 +1,9 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
+use App\Http\Requests\CreateRecipientNumberRequest;
+use App\RecipientNumber;
 
 class RecipientNumberController extends Controller {
 
@@ -27,14 +27,15 @@ class RecipientNumberController extends Controller {
 		//
 	}
 
+
 	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
+	 * @param CreateRecipientNumberRequest $rcp_n_request
+	 * @return mixed
 	 */
-	public function store()
-	{
-		//
+	public function store(CreateRecipientNumberRequest $rcp_n_request) {
+		$store_recipient = RecipientNumber::register_RecipientNumber($rcp_n_request->all(), Input::get('rcpt_id'));
+
+		return $store_recipient;
 	}
 
 	/**
