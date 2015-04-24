@@ -26,4 +26,10 @@ class CreateTeamRequest extends Request {
 		];
 	}
 
+	public function messages()
+	{
+		return [
+			'name.unique' => 'Group/Team is already existing on the database.'
+		];
+	}
 }

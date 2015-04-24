@@ -2,15 +2,10 @@
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class RecipientNumber extends Eloquent {
 
 	//
-	use SoftDeletes;
-
-	protected $softDelete = true;
-	protected $dates = ['deleted_at'];
 
 	public function recipient() {
 		return $this->belongsTo('Recipient');

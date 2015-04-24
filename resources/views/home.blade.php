@@ -22,7 +22,7 @@
 
 @section('script')
 <script type="text/javascript">
-	$.getJSON("inbox", function(data) {
+	$.getJSON("sms", function(data) {
 		$('#messages').dataTable({
 			"aaData": data,
 			"lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
@@ -42,12 +42,11 @@
 			//MDATAPROP - TBODY
 			"aoColumns":
 			[
-
-				{"sTitle": "Name", "sWidth": "20%", "mDataProp": "name"},
-				{"sTitle": "Number", "sWidth": "15%","mDataProp": "phonenumber"},
-				{"sTitle": "Message", "sWidth": "30%","mDataProp": "msg"},
-				{"sTitle": "Provider", "sWidth": "15%","mDataProp": "provider"},
-				{"sTitle": "Date Received", "sWidth": "20%","mDataProp": "created_at"},
+				{"sTitle": "Name", "sWidth": "20%", "mDataProp": "id"},
+				{"sTitle": "Message", "sWidth": "20%", "mDataProp": "msg"},
+				{"sTitle": "Recipient Type", "sWidth": "15%", "mDataProp": "msg_type"},
+				{"sTitle": "SMS Type", "sWidth": "15%", "mDataProp": "type"},
+				{"sTitle": "Received/Sent", "sWidth": "15%", "mDataProp": "received"},
 			],
 			"aoColumnDefs":
 			[
@@ -61,7 +60,7 @@
 					    {{--url = url.replace(':slug', full["slug"]);--}}
 						// 'full' is the row's data object, and 'data' is this column's data
 						// e.g. 'full[0]' is the comic id, and 'data' is the comic title
-						return "<a href='#' class='size-14 text-left'>" + full["name"] + "</a>";
+						return "<a href='#' class='size-14 text-left'>" + full["id"] + "</a>";
 					}
 				},
                 //CATEGORY RECENT UPDATE
@@ -70,7 +69,7 @@
 					"mRender": function ( data, type, full ) {
 					// 'full' is the row's data object, and 'data' is this column's data
 					// e.g. 'full[0]' is the comic id, and 'data' is the comic title
-					return '<label class="text-center size-14"> ' + full["phonenumber"] + ' </label>';
+					return '<label class="text-center size-14"> ' + full["msg"] + ' </label>';
 					}
 				},
 		        {
@@ -78,7 +77,7 @@
                     "mRender": function ( data, type, full ) {
                     // 'full' is the row's data object, and 'data' is this column's data
                     // e.g. 'full[0]' is the comic id, and 'data' is the comic title
-                    return '<label class="text-center size-14"> ' + full["msg"] + ' </label>';
+                    return '<label class="text-center size-14"> ' + full["msg_type"] + ' </label>';
                     }
                 },
                 {
@@ -86,7 +85,15 @@
                     "mRender": function ( data, type, full ) {
                     // 'full' is the row's data object, and 'data' is this column's data
                     // e.g. 'full[0]' is the comic id, and 'data' is the comic title
-                    return '<label class="text-center size-14"> ' + full["created_at"] + ' </label>';
+                    return '<label class="text-center size-14"> ' + full["type"] + ' </label>';
+                    }
+                },
+				{
+                    "aTargets": [ 4 ], // Column to target
+                    "mRender": function ( data, type, full ) {
+                    // 'full' is the row's data object, and 'data' is this column's data
+                    // e.g. 'full[0]' is the comic id, and 'data' is the comic title
+                    return '<label class="text-center size-14"> ' + full["received"] + ' </label>';
                     }
                 },
 			],

@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Recipient;
-use App\Inbox;
+use App\Sms;
 use App\Team;
 
 class HomeController extends Controller {
@@ -30,14 +30,14 @@ class HomeController extends Controller {
 
 	/**
 	 * @param Recipient $recipient
-	 * @param Inbox $inbox
+	 * @param Sms $sms
 	 * @param Team $team
 	 * @return \Illuminate\View\View
 	 */
-	public function index( Recipient $recipient, Inbox $inbox, Team $team )
+	public function index( Recipient $recipient, Sms $sms, Team $team )
 	{
         $recipients = $recipient->all();
-        $inbox 		= $inbox->all();
+        $inbox 		= $sms->all();
 		$team		= $team->all();
 
 		return view('home', compact('recipients', 'inbox', 'team'));

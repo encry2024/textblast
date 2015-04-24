@@ -2,6 +2,10 @@
 
 use App\Http\Requests\Request;
 
+use App\RecipientNumber;
+use App\Recipient;
+use App\Sms;
+
 class CreateRecipientNumberRequest extends Request {
 
 	/**
@@ -21,10 +25,34 @@ class CreateRecipientNumberRequest extends Request {
 	 */
 	public function rules()
 	{
+
 		return [
 			'phone_number' => 'required|unique:recipient_numbers,phone_number',
-            'provider'     => 'required'
+            'provider'     => 'required',
 		];
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
+	public function messages()
+	{
+
+		$recipient_pn = ($this->phone_number) ?: 'NULL';
+		$rcpt_id = RecipientNumber::where('phone_number', $recipient_pn)->first();
+		if ( $rcpt_id != NULL) {
+			$recipient = Recipient::find($rcpt_id->recipient_id);
+
+			return [
+				'phone_number.unique' => "Phone Number is already taken by: " .  $recipient->name,
+				'provider.required'	=> "You need to provide the Carrier/Provider",
+			];
+		} else {
+			return [
+				'phone_number.unique' => "Phone Number is already taken",
+				'provider.required'	=> "You need to provide the Carrier/Provider",
+			];
+		}
+	}
 }

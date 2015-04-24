@@ -22,9 +22,17 @@ class CreateRecipientTeamRequest extends Request {
 	public function rules()
 	{
 		return [
-			'team_id' => 'required',
+			'team_id' => 'required|unique:recipient_teams,recipient_id',
 			'recipient_id'	=>	'required',
 			//
+		];
+	}
+
+	public function messages()
+	{
+		$recipientTeam_id = ($this->id) ?: 'NULL';
+		return [
+			'team_id.unique' => 'The recipient is already in that group ' . $recipientTeam_id
 		];
 	}
 

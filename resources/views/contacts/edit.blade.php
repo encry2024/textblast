@@ -12,7 +12,15 @@
 			{{ Session::get('success_msg')  }}
 		</div>
 	@endif
-
+	@if (count($errors) > 0)
+		<div class="alert alert-danger">
+			<ul>
+				@foreach ($errors->all() as $error)
+					<li>{{ $error }}</li>
+				@endforeach
+			</ul>
+		</div>
+	@endif
 	<div class="col-lg-3">
 		<div class="panel panel-default col-lg-12">
 			<div class="panel-body">
@@ -73,7 +81,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	{!! Form::open(['route' => 'recipient/store']) !!}
+	{!! Form::open(['route' => 'recipient.store']) !!}
 	<div class="modal-dialog">
 		<div class="modal-content ">
 			<div class="modal-header">
@@ -156,7 +164,7 @@
 
 <!-- Untag Modal -->
 <div class="modal fade" name="dlt" id="dlt" tabindex="-1" role="dialog" aria-labelledby="myModalLabels" aria-hidden="true">
-    {!! Form::open(array('url'=>'untag')) !!}
+    {!! Form::open(['method'=>'DELETE', 'route' => 'recipientTeam.destroy']) !!}
 	<div class="modal-dialog">
 		<div class="modal-content ">
 			<div class="modal-header">
@@ -188,7 +196,7 @@
 
 <!-- Delete Contact Modal -->
 <div class="modal fade" name="dlt" id="deleteNumModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabels" aria-hidden="true">
-    {!! Form::open(array('url'=>'delete/contact')) !!}
+    {!! Form::open(['method'=>'DELETE', 'route' => 'recipientNumber.destroy']) !!}
 	<div class="modal-dialog">
 		<div class="modal-content ">
 			<div class="modal-header">
@@ -327,7 +335,7 @@
 
 <!-- Edit Number Modal -->
 <div class="modal fade" id="editNum" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	{!! Form::open(['method'=>'PATCH', 'route'=>['contact/update']]) !!}
+	{!! Form::open(['method'=>'PATCH', 'route'=>['recipientNumber.update']]) !!}
 	<div class="modal-dialog">
 		<div class="modal-content ">
 			<div class="modal-header">
@@ -368,7 +376,7 @@
 
 <!-- Edit Group Modal -->
 <div class="modal fade" id="editGroup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	{!! Form::open(['method'=>'PATCH', 'route'=>['team/update']]) !!}
+	{!! Form::open(['method'=>'PATCH', 'route'=>['recipientTeam.update']]) !!}
 	<div class="modal-dialog">
 		<div class="modal-content ">
 			<div class="modal-header">
@@ -404,8 +412,6 @@
 
 @section('script')
 <script>
-	var grp_n;
-
 	function untagRecipient(id,name) {
 		document.getElementById("id_textbox").value = id;
 		document.getElementById('name_textbox').innerHTML = name;
@@ -426,7 +432,7 @@
 		document.getElementById("grp_name").value = grp_name;
 	}
 
-	$.getJSON("{{ route('team') }}", function(data) {
+	$.getJSON("{{ route('team.index') }}", function(data) {
 		var datalist = [];
 		console.log(data);
 

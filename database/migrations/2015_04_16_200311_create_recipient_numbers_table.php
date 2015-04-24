@@ -18,7 +18,6 @@ class CreateRecipientNumbersTable extends Migration {
             $table->integer('recipient_id')->unsigned();
             $table->string('phone_number', 14);
             $table->string('provider');
-            $table->softDeletes();
 			$table->timestamps();
 		});
 	}

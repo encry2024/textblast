@@ -25,4 +25,10 @@ class CreateRecipientRequest extends Request {
 		];
 	}
 
+	public function messages()
+	{
+		return [
+			'name.required' => "Please provide the Recipient's name"
+		];
+	}
 }

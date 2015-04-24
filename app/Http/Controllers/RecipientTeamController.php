@@ -91,11 +91,12 @@ class RecipientTeamController extends Controller {
 	/**
 	 * Remove the specified resource from storage.
 	 * @param Request $request
-	 * @param  int  $id
 	 * @return Response
 	 */
 	public function destroy( Request $request ) {
-		return $request->get('id_textbox');
-	}
+		$untag_rcptTeam = RecipientTeam::find( $request->get('team_id') );
+		$untag_rcptTeam->delete();
 
+		return redirect()->back()->with('success_msg', 'Recipient was successfully untagged.');
+	}
 }

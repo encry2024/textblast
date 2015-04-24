@@ -81,9 +81,11 @@ class RecipientNumberController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
-	{
-		//
+	public function destroy($id) {
+		$del_contact = App\RecipientNumber::find( Input::get('num_id') );
+		$del_contact->delete();
+
+		return redirect()->back()->with('success_msg', "Recipient's contact was successfully deleted.");
 	}
 
 }

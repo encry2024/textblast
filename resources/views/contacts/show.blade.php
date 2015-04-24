@@ -12,7 +12,16 @@
             {{ Session::get('success_msg')  }}
         </div>
     @endif
-
+	@if (count($errors) > 0)
+		<div class="alert alert-danger" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<ul>
+				@foreach ($errors->all() as $error)
+					<li>{{ $error }}</li>
+				@endforeach
+			</ul>
+		</div>
+	@endif
 	<div class="col-lg-3">
 		<div class="panel panel-default col-lg-12">
 			<div class="panel-body">
@@ -35,7 +44,7 @@
 
 <!-- Recipient Modal -->
 <div class="modal fade" id="recipientModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    {!! Form::open(['route' => 'recipient/store']) !!}
+    {!! Form::open(['route' => 'recipient.store']) !!}
 	<div class="modal-dialog">
 		<div class="modal-content ">
 			<div class="modal-header">
@@ -112,7 +121,7 @@
 				{
 					"aTargets": [ 0 ], // Column to target
 					"mRender": function ( data, type, full ) {
-						var url = '{{ route('recipient/show', ":id") }}';
+						var url = '{{ route('recipient.show', ":id") }}';
 						url = url.replace(':id', full["id"]);
 						// 'full' is the row's data object, and 'data' is this column's data
 						// e.g. 'full[0]' is the comic id, and 'data' is the comic title

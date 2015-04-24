@@ -14,6 +14,8 @@ class TeamController extends Controller {
 	 *
 	 * @param Team $team
 	 */
+	protected $team;
+
     public function __construct(Team $team) {
         $this->team = $team;
     }
@@ -65,7 +67,7 @@ class TeamController extends Controller {
 	 * @return Response
 	 */
 	public function show($id) {
-		//
+		return view('groups.edit');
 	}
 
 	/**
