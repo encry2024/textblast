@@ -9,7 +9,7 @@ Route::resource('recipient', 'RecipientController', [
 		'index'    	=>  'recipients',
 		'store'    	=>  'recipient/store',
         'show'     	=>  'recipient/show',
-        'update'   	=>  'recipient/update',
+        'update'   	=>  'recipient.update',
 		'edit'		=>	'recipient.edit',
 		'delete'	=>	'recipient.destroy'
 	],
@@ -45,7 +45,8 @@ Route::resource('recipientTeam', 'RecipientTeamController', [
 	'names'  =>  [
 		'index' => 'recipientTeam',
 		'store'	=> 'recipientTeam.store',
-		'destroy'	=>	'recipientTeam.destroy'
+		'destroy' => 'recipientTeam.destroy',
+		'update' => 'team/update'
 	],
 ]);
 
@@ -56,7 +57,8 @@ Route::bind('recipientNumber', function( $id ) {
 
 Route::resource('recipientNumber', 'RecipientNumberController', [
 	'names'  =>  [
-		'store'	=>	'recipientNumber.store'
+		'store'	=>	'recipientNumber.store',
+		'update' => 'contact/update',
 	],
 ]);
 
@@ -82,7 +84,6 @@ Route::get('groups', ['as' => 'grp', 'uses' => function() {
 
 
 #---------------------------------------------------------------- POST
-
 
 Route::post('untag', function() {
 	$untag_rcptTeam = App\RecipientTeam::find( Input::get('team_id') );

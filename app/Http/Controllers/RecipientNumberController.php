@@ -62,13 +62,17 @@ class RecipientNumberController extends Controller {
 
 	/**
 	 * Update the specified resource in storage.
-	 *
+	 * @param RecipientNumber $rcp_num
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
-	{
-		//
+	public function update(RecipientNumber $rcp_num) {
+		$update = $rcp_num->find( Input::get('rcp_id') );
+		$update->phone_number = Input::get('phone_number');
+		$update->provider = Input::get('provider');
+		$update->save();
+
+		return redirect()->back()->with('success_msg', "Recipient's contact was successfully updated.");
 	}
 
 	/**

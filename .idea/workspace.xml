@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ad8ff700-fbcd-4b1f-8104-4747135ffc9a" name="Default" comment="Update #11 - Added untag function">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/2015_04_16_200303_create_recipient_teams_table.php" afterPath="$PROJECT_DIR$/database/migrations/2015_04_16_200303_create_recipient_teams_table.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Requests/CreateRecipientNumberRequest.php" afterPath="$PROJECT_DIR$/app/Http/Requests/CreateRecipientNumberRequest.php" />
+    <list default="true" id="ad8ff700-fbcd-4b1f-8104-4747135ffc9a" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/RecipientController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/RecipientController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/RecipientNumber.php" afterPath="$PROJECT_DIR$/app/RecipientNumber.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/RecipientNumberController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/RecipientNumberController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/RecipientTeam.php" afterPath="$PROJECT_DIR$/app/RecipientTeam.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/RecipientTeamController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/RecipientTeamController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/contacts/edit.blade.php" afterPath="$PROJECT_DIR$/resources/views/contacts/edit.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/contacts/show.blade.php" afterPath="$PROJECT_DIR$/resources/views/contacts/show.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="laravel.iws" />
@@ -37,34 +33,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="RecipientController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RecipientController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.807693" vertical-offset="3783" max-vertical-offset="4454">
-              <caret line="118" column="10" selection-start-line="118" selection-start-column="10" selection-end-line="118" selection-end-column="10" />
-              <folding>
-                <element signature="e#39#61#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RecipientNumber.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/RecipientNumber.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.384615" vertical-offset="0" max-vertical-offset="1156">
-              <caret line="11" column="33" selection-start-line="11" selection-start-column="33" selection-end-line="11" selection-end-column="33" />
-              <folding>
-                <element signature="e#22#73#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Recipient.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Recipient.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.0" vertical-offset="0" max-vertical-offset="1734">
+            <state vertical-scroll-proportion="0.0" vertical-offset="442" max-vertical-offset="1734">
               <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="16" selection-end-column="38" />
               <folding>
                 <element signature="e#22#44#0#PHP" expanded="true" />
@@ -76,16 +48,9 @@
       <file leaf-file-name="edit.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/contacts/edit.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.36610168" vertical-offset="1790" max-vertical-offset="11016">
-              <caret line="59" column="43" selection-start-line="59" selection-start-column="43" selection-end-line="59" selection-end-column="43" />
-              <folding>
-                <element signature="e#1609#1638#0#HTML" expanded="true" />
-                <element signature="e#1718#1752#0#HTML" expanded="true" />
-                <element signature="e#2359#2388#0#HTML" expanded="true" />
-                <element signature="e#2468#2502#0#HTML" expanded="true" />
-                <element signature="e#4031#4060#0#HTML" expanded="true" />
-                <element signature="e#9656#9685#0#HTML" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="-20.01017" vertical-offset="13234" max-vertical-offset="15538">
+              <caret line="42" column="236" selection-start-line="42" selection-start-column="236" selection-end-line="42" selection-end-column="236" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -93,7 +58,7 @@
       <file leaf-file-name="CreateRecipientNumberRequest.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Requests/CreateRecipientNumberRequest.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.5" vertical-offset="621" max-vertical-offset="1224">
+            <state vertical-scroll-proportion="0.0" vertical-offset="621" max-vertical-offset="1224">
               <caret line="24" column="77" selection-start-line="24" selection-start-column="77" selection-end-line="24" selection-end-column="77" />
               <folding />
             </state>
@@ -103,8 +68,18 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.0" vertical-offset="0" max-vertical-offset="3536">
-              <caret line="13" column="43" selection-start-line="13" selection-start-column="43" selection-end-line="13" selection-end-column="43" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1335" max-vertical-offset="3570">
+              <caret line="45" column="35" selection-start-line="45" selection-start-column="35" selection-end-line="45" selection-end-column="35" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RecipientTeamController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RecipientTeamController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2407" max-vertical-offset="3400">
+              <caret line="87" column="33" selection-start-line="87" selection-start-column="33" selection-end-line="87" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -168,14 +143,14 @@
         <option value="$PROJECT_DIR$/app/Team.php" />
         <option value="5c67bcdc/scratch" />
         <option value="$PROJECT_DIR$/database/migrations/2015_04_16_200303_create_recipient_teams_table.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/RecipientTeamController.php" />
         <option value="$PROJECT_DIR$/app/RecipientTeam.php" />
+        <option value="$PROJECT_DIR$/resources/views/contacts/show.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Requests/CreateRecipientNumberRequest.php" />
         <option value="$PROJECT_DIR$/app/RecipientNumber.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/RecipientNumberController.php" />
-        <option value="$PROJECT_DIR$/resources/views/contacts/show.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/RecipientController.php" />
         <option value="$PROJECT_DIR$/app/Http/routes.php" />
-        <option value="$PROJECT_DIR$/app/Http/Requests/CreateRecipientNumberRequest.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/RecipientTeamController.php" />
         <option value="$PROJECT_DIR$/resources/views/contacts/edit.blade.php" />
       </list>
     </option>
@@ -391,7 +366,7 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="840" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
-    <property name="SearchEverywhereHistoryKey" value="RecipientControll&#9;FILE&#9;file://C:/wamp/www/textblast/app/Http/Controllers/RecipientController.php&#10;show&#9;FILE&#9;file://C:/wamp/www/textblast/resources/views/contacts/show.blade.php&#10;RecipientNumber&#9;FILE&#9;file://C:/wamp/www/textblast/app/Http/Controllers/RecipientNumberController.php&#10;RecipientNum&#9;FILE&#9;file://C:/wamp/www/textblast/app/Http/Controllers/RecipientNumberController.php&#10;route&#9;FILE&#9;file://C:/wamp/www/textblast/app/Http/routes.php&#10;create_recip&#9;FILE&#9;file://C:/wamp/www/textblast/database/migrations/2015_04_16_200303_create_recipient_teams_table.php&#10;RecipientContro&#9;FILE&#9;file://C:/wamp/www/textblast/app/Http/Controllers/RecipientController.php&#10;Rec&#9;FILE&#9;file://C:/wamp/www/textblast/app/Recipient.php&#10;RecipientTeam&#9;FILE&#9;file://C:/wamp/www/textblast/app/RecipientTeam.php&#10;Tea&#9;FILE&#9;file://C:/wamp/www/textblast/app/Team.php&#10;multilist.css&#9;FILE&#9;file://C:/wamp/www/textblast/public/packages/jquery-dropdown/source/css/multilist.css&#10;Team&#9;FILE&#9;file://C:/wamp/www/textblast/app/Team.php&#10;route.php&#9;FILE&#9;file://C:/wamp/www/textblast/app/Http/routes.php&#10;contacts/edit&#9;FILE&#9;file://C:/wamp/www/textblast/resources/views/contacts/edit.blade.php&#10;m-side&#9;FILE&#9;file://C:/wamp/www/textblast/resources/views/util/m-sidebar.blade.php&#10;Home&#9;FILE&#9;file://C:/wamp/www/textblast/app/Http/Controllers/HomeController.php&#10;Recipient&#9;FILE&#9;file://C:/wamp/www/textblast/app/Recipient.php&#10;Recipient.php&#9;FILE&#9;file://C:/wamp/www/textblast/app/Http/Controllers/RecipientTeamController.php&#10;groups/show&#9;FILE&#9;file://C:/wamp/www/textblast/resources/views/groups/show.blade.php&#10;contacts/&#9;FILE&#9;file://C:/wamp/www/textblast/resources/views/contacts&#10;create&#9;FILE&#9;file://C:/wamp/www/textblast/database/migrations/2015_04_16_200318_create_teams_table.php&#10;teamcontro&#9;FILE&#9;file://C:/wamp/www/textblast/app/Http/Controllers/TeamController.php&#10;TeamControl&#9;FILE&#9;file://C:/wamp/www/textblast/app/Http/Controllers/TeamController.php&#10;teamControl&#9;FILE&#9;file://C:/wamp/www/textblast/app/Http/Controllers/RecipientTeamController.php&#10;m-si&#9;FILE&#9;file://C:/wamp/www/textblast/resources/views/util/m-sidebar.blade.php&#10;group/sho&#9;FILE&#9;file://C:/wamp/www/textblast/resources/views/groups/show.blade.php&#10;edit&#9;FILE&#9;file://C:/wamp/www/textblast/resources/views/contacts/edit.blade.php&#10;boot&#9;FILE&#9;file://C:/wamp/www/textblast/public/bootstrap/bootstrap-3.3.4/css/bootstrap.css" />
+    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://C:/wamp/www/textblast/app/Http/Controllers/RecipientTeamController.php&#10;Create&#9;FILE&#9;file://C:/wamp/www/textblast/app/Http/Requests/CreateRecipientRequest.php&#10;RecipientControll&#9;FILE&#9;file://C:/wamp/www/textblast/app/Http/Controllers/RecipientController.php&#10;show&#9;FILE&#9;file://C:/wamp/www/textblast/resources/views/contacts/show.blade.php&#10;RecipientNumber&#9;FILE&#9;file://C:/wamp/www/textblast/app/Http/Controllers/RecipientNumberController.php&#10;RecipientNum&#9;FILE&#9;file://C:/wamp/www/textblast/app/Http/Controllers/RecipientNumberController.php&#10;route&#9;FILE&#9;file://C:/wamp/www/textblast/app/Http/routes.php&#10;create_recip&#9;FILE&#9;file://C:/wamp/www/textblast/database/migrations/2015_04_16_200303_create_recipient_teams_table.php&#10;RecipientContro&#9;FILE&#9;file://C:/wamp/www/textblast/app/Http/Controllers/RecipientController.php&#10;Rec&#9;FILE&#9;file://C:/wamp/www/textblast/app/Recipient.php&#10;RecipientTeam&#9;FILE&#9;file://C:/wamp/www/textblast/app/RecipientTeam.php&#10;Tea&#9;FILE&#9;file://C:/wamp/www/textblast/app/Team.php&#10;multilist.css&#9;FILE&#9;file://C:/wamp/www/textblast/public/packages/jquery-dropdown/source/css/multilist.css&#10;Team&#9;FILE&#9;file://C:/wamp/www/textblast/app/Team.php&#10;route.php&#9;FILE&#9;file://C:/wamp/www/textblast/app/Http/routes.php&#10;contacts/edit&#9;FILE&#9;file://C:/wamp/www/textblast/resources/views/contacts/edit.blade.php&#10;m-side&#9;FILE&#9;file://C:/wamp/www/textblast/resources/views/util/m-sidebar.blade.php&#10;Home&#9;FILE&#9;file://C:/wamp/www/textblast/app/Http/Controllers/HomeController.php&#10;Recipient&#9;FILE&#9;file://C:/wamp/www/textblast/app/Recipient.php&#10;Recipient.php&#9;FILE&#9;file://C:/wamp/www/textblast/app/Http/Controllers/RecipientTeamController.php&#10;groups/show&#9;FILE&#9;file://C:/wamp/www/textblast/resources/views/groups/show.blade.php&#10;contacts/&#9;FILE&#9;file://C:/wamp/www/textblast/resources/views/contacts&#10;create&#9;FILE&#9;file://C:/wamp/www/textblast/database/migrations/2015_04_16_200318_create_teams_table.php&#10;teamcontro&#9;FILE&#9;file://C:/wamp/www/textblast/app/Http/Controllers/TeamController.php&#10;TeamControl&#9;FILE&#9;file://C:/wamp/www/textblast/app/Http/Controllers/TeamController.php&#10;teamControl&#9;FILE&#9;file://C:/wamp/www/textblast/app/Http/Controllers/RecipientTeamController.php&#10;m-si&#9;FILE&#9;file://C:/wamp/www/textblast/resources/views/util/m-sidebar.blade.php&#10;group/sho&#9;FILE&#9;file://C:/wamp/www/textblast/resources/views/groups/show.blade.php&#10;edit&#9;FILE&#9;file://C:/wamp/www/textblast/resources/views/contacts/edit.blade.php&#10;boot&#9;FILE&#9;file://C:/wamp/www/textblast/public/bootstrap/bootstrap-3.3.4/css/bootstrap.css" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -408,15 +383,15 @@
       <BehatRunner />
       <method />
     </configuration>
-    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
-      <method />
-    </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
       <node-options />
       <gulpfile />
       <tasks />
       <pass-parent-env-vars>false</pass-parent-env-vars>
       <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
       <method />
     </configuration>
     <list size="0" />
@@ -504,7 +479,13 @@
       <option name="project" value="LOCAL" />
       <updated>1429719219459</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Update #11 - Added untag function, Add Contact, Delete Contact, Delete Recipient, Added Tag Recipient.">
+      <created>1429783443811</created>
+      <option name="number" value="00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1429783443811</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -524,14 +505,14 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40182647" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32930514" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32930514" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -560,7 +541,8 @@
     <MESSAGE value="Update #9.1- Change buttons to links, Added Edit Recipient Name." />
     <MESSAGE value="Update #9.1.1- Added PHPDocs in: HomeController, InboxController, RecipientController, TeamController." />
     <MESSAGE value="Update #10 - Added ajax table in Group page, Add Group Function, Tag a Recipient to a Team/Group, Added Searchable dropdown box for tagging a recipient to a group." />
-    <option name="LAST_COMMIT_MESSAGE" value="Update #10 - Added ajax table in Group page, Add Group Function, Tag a Recipient to a Team/Group, Added Searchable dropdown box for tagging a recipient to a group." />
+    <MESSAGE value="Update #11 - Added untag function, Add Contact, Delete Contact, Delete Recipient, Added Tag Recipient." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update #11 - Added untag function, Add Contact, Delete Contact, Delete Recipient, Added Tag Recipient." />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.8172043" />
   </component>
   <component name="XDebuggerManager">
@@ -726,7 +708,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-36.98145" vertical-offset="21930" max-vertical-offset="224060">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -741,7 +722,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="3.9175258" vertical-offset="0" max-vertical-offset="3360">
           <caret line="83" column="12" selection-start-line="83" selection-start-column="12" selection-end-line="83" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -777,9 +757,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.67993367" vertical-offset="984" max-vertical-offset="1768">
           <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-          <folding>
-            <element signature="e#39#57#0#PHP" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -822,7 +799,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4389439" vertical-offset="4698" max-vertical-offset="9010">
           <caret line="146" column="14" selection-start-line="146" selection-start-column="14" selection-end-line="146" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -830,7 +806,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6559865" vertical-offset="2195" max-vertical-offset="2788">
           <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -838,7 +813,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.58965516" vertical-offset="474" max-vertical-offset="1190">
           <caret line="24" column="53" selection-start-line="24" selection-start-column="53" selection-end-line="24" selection-end-column="53" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -846,7 +820,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.2896552" vertical-offset="0" max-vertical-offset="1258">
           <caret line="22" column="5" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -854,15 +827,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.1137931" vertical-offset="0" max-vertical-offset="1360">
           <caret line="20" column="34" selection-start-line="20" selection-start-column="34" selection-end-line="20" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Requests/CreateRecipientRequest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.70689654" vertical-offset="270" max-vertical-offset="1156">
-          <caret line="20" column="7" selection-start-line="20" selection-start-column="7" selection-end-line="20" selection-end-column="7" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -870,9 +834,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="31.076923" vertical-offset="1964" max-vertical-offset="3638">
           <caret line="34" column="24" selection-start-line="34" selection-start-column="22" selection-end-line="34" selection-end-column="24" />
-          <folding>
-            <element signature="e#39#61#0#PHP" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -880,7 +841,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-47.076923" vertical-offset="0" max-vertical-offset="1904">
           <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -888,9 +848,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-10.538462" vertical-offset="270" max-vertical-offset="850">
           <caret line="16" column="31" selection-start-line="16" selection-start-column="31" selection-end-line="16" selection-end-column="35" />
-          <folding>
-            <element signature="e#22#73#0#PHP" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -898,19 +855,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5275862" vertical-offset="0" max-vertical-offset="850">
           <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="12" selection-end-column="38" />
-          <folding>
-            <element signature="e#22#73#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RecipientTeamController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.67288136" vertical-offset="1473" max-vertical-offset="3672">
-          <caret line="55" column="120" selection-start-line="49" selection-start-column="8" selection-end-line="55" selection-end-column="120" />
-          <folding>
-            <element signature="e#39#61#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -918,33 +862,26 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="7.435626" vertical-offset="0" max-vertical-offset="5474">
           <caret line="124" column="35" selection-start-line="124" selection-start-column="35" selection-end-line="124" selection-end-column="35" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RecipientNumberController.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/Requests/CreateRecipientRequest.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9220339" vertical-offset="0" max-vertical-offset="3094">
-          <caret line="16" column="10" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="10" />
-          <folding>
-            <element signature="e#39#61#0#PHP" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.17931035" vertical-offset="576" max-vertical-offset="1156">
+          <caret line="20" column="7" selection-start-line="20" selection-start-column="7" selection-end-line="20" selection-end-column="7" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RecipientController.php">
+    <entry file="file://$PROJECT_DIR$/app/RecipientNumber.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.807693" vertical-offset="3783" max-vertical-offset="4454">
-          <caret line="118" column="10" selection-start-line="118" selection-start-column="10" selection-end-line="118" selection-end-column="10" />
-          <folding>
-            <element signature="e#39#61#0#PHP" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="1.4983051" vertical-offset="0" max-vertical-offset="1156">
+          <caret line="26" column="5" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Recipient.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.0" vertical-offset="0" max-vertical-offset="1734">
+        <state vertical-scroll-proportion="0.0" vertical-offset="442" max-vertical-offset="1734">
           <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="16" selection-end-column="38" />
           <folding>
             <element signature="e#22#44#0#PHP" expanded="true" />
@@ -952,44 +889,49 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Requests/CreateRecipientNumberRequest.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RecipientNumberController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.5" vertical-offset="621" max-vertical-offset="1224">
-          <caret line="24" column="77" selection-start-line="24" selection-start-column="77" selection-end-line="24" selection-end-column="77" />
-          <folding />
+        <state vertical-scroll-proportion="-10.923077" vertical-offset="2198" max-vertical-offset="3230">
+          <caret line="73" column="0" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RecipientController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.461538" vertical-offset="3332" max-vertical-offset="4522">
+          <caret line="106" column="81" selection-start-line="106" selection-start-column="81" selection-end-line="106" selection-end-column="81" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.0" vertical-offset="0" max-vertical-offset="3536">
-          <caret line="13" column="43" selection-start-line="13" selection-start-column="43" selection-end-line="13" selection-end-column="43" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1335" max-vertical-offset="3570">
+          <caret line="45" column="35" selection-start-line="45" selection-start-column="35" selection-end-line="45" selection-end-column="35" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/RecipientNumber.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RecipientTeamController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.384615" vertical-offset="0" max-vertical-offset="1156">
-          <caret line="11" column="33" selection-start-line="11" selection-start-column="33" selection-end-line="11" selection-end-column="33" />
-          <folding>
-            <element signature="e#22#73#0#PHP" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.0" vertical-offset="2407" max-vertical-offset="3400">
+          <caret line="87" column="33" selection-start-line="87" selection-start-column="33" selection-end-line="87" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Requests/CreateRecipientNumberRequest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="621" max-vertical-offset="1224">
+          <caret line="24" column="77" selection-start-line="24" selection-start-column="77" selection-end-line="24" selection-end-column="77" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/contacts/edit.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36610168" vertical-offset="1790" max-vertical-offset="11016">
-          <caret line="59" column="43" selection-start-line="59" selection-start-column="43" selection-end-line="59" selection-end-column="43" />
-          <folding>
-            <element signature="e#1609#1638#0#HTML" expanded="true" />
-            <element signature="e#1718#1752#0#HTML" expanded="true" />
-            <element signature="e#2359#2388#0#HTML" expanded="true" />
-            <element signature="e#2468#2502#0#HTML" expanded="true" />
-            <element signature="e#4031#4060#0#HTML" expanded="true" />
-            <element signature="e#9656#9685#0#HTML" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="-20.01017" vertical-offset="13234" max-vertical-offset="15538">
+          <caret line="42" column="236" selection-start-line="42" selection-start-column="236" selection-end-line="42" selection-end-column="236" />
+          <folding />
         </state>
       </provider>
     </entry>

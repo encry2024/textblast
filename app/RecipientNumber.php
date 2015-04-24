@@ -12,7 +12,7 @@ class RecipientNumber extends Eloquent {
 	protected $softDelete = true;
 	protected $dates = ['deleted_at'];
 
-	public function recipient(){
+	public function recipient() {
 		return $this->belongsTo('Recipient');
 	}
 

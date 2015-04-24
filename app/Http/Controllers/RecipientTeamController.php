@@ -81,12 +81,11 @@ class RecipientTeamController extends Controller {
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param  int  $id
+	 * @param  RecipientTeam $rcptTeam
 	 * @return Response
 	 */
-	public function update($id)
-	{
-		//
+	public function update(RecipientTeam $rcptTeam)  {
+		return Input::get('grp_id');
 	}
 
 	/**

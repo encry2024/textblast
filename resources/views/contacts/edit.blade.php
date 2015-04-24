@@ -28,7 +28,7 @@
 	</div>
 	<div class="col-lg-9">
 		<div class="panel panel-default col-lg-12">
-			<h3><a title="Edit Recipient's Name"><span class="glyphicon glyphicon-pencil"></span></a> {{ $recipient->name }}</h3>
+			<h3><a href="#" title="Edit Recipient's Name" data-toggle="modal" data-target="#editName"><span class="glyphicon glyphicon-pencil"></span></a> {{ $recipient->name }}</h3>
 			<br/>
 		</div>
 		<br><br><br><br><br>
@@ -40,7 +40,8 @@
 				<div class="form-group" style="margin-left: -1.5rem;">
 					<div class="col-lg-12">
 						<div class="alert alert-success col-lg-12" style="width: 105%; height: 5rem;" role="alert">
-							<button type="button" class="close" onclick="untagRecipient({{$recipientTeam->id }}, '{{ $recipientTeam->team->name }}')" data-toggle="modal" data-target="#dlt"> <span aria-hidden="true"> &times;</span></button>
+							<button type="button" class="close" onclick="untagRecipient({{$recipientTeam->id }}, '{{ $recipientTeam->team->name }}')" data-toggle="modal" data-target="#dlt"> <span class="glyphicon glyphicon-trash size-12" aria-hidden="true" style="margin-left: 0.5rem;"> </span></button>
+							<button type="button" class="close" onclick="editGroup({{$recipientTeam->id }}, '{{ $recipientTeam->team->name }}')" data-toggle="modal" data-target="#editGroup"> <span class="glyphicon glyphicon-pencil size-12" title="Edit Recipient's Group" aria-hidden="true"></span></button>
 							{{ $recipientTeam->team->name }}
 						</div>
 					</div>
@@ -59,7 +60,8 @@
 				<div class="form-group" style="margin-left: -1.5rem;">
 					<div class="col-lg-12">
 						<div class="alert alert-success col-lg-12" style="width: 105%; height: 5rem;" role="alert">
-							<button type="button" class="close" onclick="deleteNum({{$rpt_num->id }})"  data-toggle="modal" data-target="#deleteNumModal"> <span aria-hidden="true"> &times;</span></button>
+							<button type="button" class="close" onclick="deleteNum({{$rpt_num->id }})"  data-toggle="modal" data-target="#deleteNumModal"> <span class="glyphicon glyphicon-trash size-12" style="margin-left: 0.5rem;" title="Delete Recipient's Number" aria-hidden="true"  title="Delete Recipient's Number"></span></button>
+							<button type="button" class="close" onclick="editNum({{$rpt_num->id }}, '{{ $rpt_num->phone_number }}', '{{ $rpt_num->provider }}')" data-toggle="modal" data-target="#editNum"> <span class="glyphicon glyphicon-pencil size-12" title="Edit Recipient's Number" aria-hidden="true"></span></button>
 							{{ $rpt_num->phone_number }} - {{ $rpt_num->provider }}
 						</div>
 					</div>
@@ -287,10 +289,123 @@
 	</div>
 	{!! Form::close() !!}
 </div>
+
+
+<!-- Edit Name Modal -->
+<div class="modal fade" id="editName" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	{!! Form::open(['method'=>'PATCH', 'route'=>['recipient.update', $recipient->id]]) !!}
+	<div class="modal-dialog">
+		<div class="modal-content ">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Change Recipient Name</h4>
+			</div>
+			<div class="modal-body">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12 center col-lg-offset-1">
+							<div class="form-group" style=" margin-top: -1.5rem;">
+								<label class="col-md-4 control-label">Change Name</label>
+								<div class="col-md-6">
+									<input type="string" class="form-control" name="name" value="{{ $recipient->name }}">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br/>
+			<div class="modal-footer">
+				{!! Form::hidden('rcpt_id', $recipient->id) !!}
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary">Save changes</button>
+			</div>
+		</div>
+	</div>
+	{!! Form::close() !!}
+</div>
+
+<!-- Edit Number Modal -->
+<div class="modal fade" id="editNum" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	{!! Form::open(['method'=>'PATCH', 'route'=>['contact/update']]) !!}
+	<div class="modal-dialog">
+		<div class="modal-content ">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Edit Contact Number</h4>
+			</div>
+			<div class="modal-body">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12 center col-lg-offset-1">
+							<div class="form-group" style=" margin-top: -1.5rem;">
+								<label class="col-md-4 control-label">Change Contact</label>
+								<div class="col-md-6">
+									<input type="string" id="rcpt_num" class="form-control" name="phone_number" value="">
+								</div>
+							</div>
+							<br/><br/><br/>
+							<div class="form-group" style=" margin-top: -1.5rem;">
+								<label class="col-md-4 control-label">Change Provider</label>
+								<div class="col-md-6">
+									<input type="string" class="form-control" name="provider" id="rcpt_provider" value="">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br/>
+			<div class="modal-footer">
+				{!! Form::hidden('rcp_id', '', ['id'=>'rc_nm_id']) !!}
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary">Save changes</button>
+			</div>
+		</div>
+	</div>
+	{!! Form::close() !!}
+</div>
+
+<!-- Edit Group Modal -->
+<div class="modal fade" id="editGroup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	{!! Form::open(['method'=>'PATCH', 'route'=>['team/update']]) !!}
+	<div class="modal-dialog">
+		<div class="modal-content ">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Edit Tagged Group</h4>
+			</div>
+			<div class="modal-body">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12 center col-lg-offset-1">
+							<div class="form-group" style=" margin-top: -1.5rem;">
+								<label class="col-md-4 control-label">Change Group</label>
+								<div class="col-md-6">
+									<div id="ch_group_list" name="team_id"></div>
+								</div>
+							</div>
+							<br/><br/><br/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br/>
+			<div class="modal-footer">
+				{!! Form::hidden('grp_id', '', ['id'=>'grp_id']) !!}
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary">Save changes</button>
+			</div>
+		</div>
+	</div>
+	{!! Form::close() !!}
+</div>
 @stop
 
 @section('script')
 <script>
+	var grp_n;
+
 	function untagRecipient(id,name) {
 		document.getElementById("id_textbox").value = id;
 		document.getElementById('name_textbox').innerHTML = name;
@@ -298,6 +413,17 @@
 
 	function deleteNum(num_id) {
 		document.getElementById("num_id_textbox").value = num_id;
+	}
+
+	function editNum(n_id, number, provider) {
+		document.getElementById("rc_nm_id").value = n_id;
+		document.getElementById("rcpt_num").value = number;
+		document.getElementById("rcpt_provider").value = provider;
+	}
+
+	function editGroup(grp_id, grp_name) {
+		document.getElementById("grp_id").value = grp_id;
+		document.getElementById("grp_name").value = grp_name;
 	}
 
 	$.getJSON("{{ route('team') }}", function(data) {
@@ -311,6 +437,13 @@
 		$('#groupList').multilist({
 			single: true,
 			labelText: 'Select Group',
+			datalist: datalist,
+			enableSearch: true,
+		});
+
+		$('#ch_group_list').multilist({
+			single: true,
+			labelText: "Select Group",
 			datalist: datalist,
 			enableSearch: true,
 		});

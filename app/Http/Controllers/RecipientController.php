@@ -100,13 +100,15 @@ class RecipientController extends Controller {
 
 	/**
 	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
+	 * @param CreateRecipientRequest $crr
+	 * @param  Recipient $recipient
 	 * @return Response
 	 */
-	public function update($id)
-	{
-		//
+	public function update( Recipient $recipient, CreateRecipientRequest $crr ) {
+		$recipient->name = $crr->get('name');
+		$recipient->save();
+
+		return redirect()->back()->with('success_msg', "Recipient's name was successfully updated.");
 	}
 
 	/**
