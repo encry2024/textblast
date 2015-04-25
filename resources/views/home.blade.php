@@ -12,16 +12,73 @@
         <div class="panel panel-default col-lg-12">
          <h2>{{ count($inbox) }} Msgs</h2>
            <div class="page-header">
-                <h3><span class="glyphicon glyphicon-inbox"></span> Inbox <span class="right"><a href="#" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-pencil"></span> Compose SMS</a></span></h3>
+                <h3><span class="glyphicon glyphicon-inbox"></span> Inbox <span class="right"><a href="#" class="btn btn-primary" role="button" data-toggle="modal" data-target="#composeSms"><span class="glyphicon glyphicon-pencil"></span> Compose SMS</a></span></h3>
            </div>
            <table id="messages" class="table"></table>
         </div>
     </div>
 </div>
+
+
+<!-- Compose SMS Modal -->
+<div class="modal fade" id="composeSms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+{!! Form::open([ 'route'=>['sms.store'] ]) !!}
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="exampleModalLabel">Compose SMS</h4>
+			</div>
+			<div class="modal-body">
+
+				<form>
+					<div class="form-group">
+						<label for="recipient-name" class="control-label">Recipient:</label>
+						<ul id="myTags" name="itemName"></ul>
+					</div>
+					<div id="stts_tag" role="status"><span role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"><div></div></span></div>
+					<div class="form-group">
+						<label for="message-text" class="control-label">Message:</label>
+						<textarea name="message" rows="10" class="form-control" id="message-text"></textarea>
+					</div>
+				</form>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary">Send message <span class="glyphicon glyphicon-send size-12"></span> </button>
+			</div>
+
+		</div>
+	</div>
+	{!! Form::close() !!}
+</div>
 @endsection
 
 @section('script')
 <script type="text/javascript">
+
+	$(document).ready(function() {
+		var choices = [];
+		$("#myTags").tagit({
+			autocomplete: {
+			source: function(search, showChoices) {
+				$.getJSON("{{ route('team.index') }}", {q: search.term},
+					function (data) {
+						$.each(data, function (idx, tag) {
+							choices.push(tag.name, tag.id);
+							$("#myTags").data(tag.name, tag.id);
+						});
+						showChoices(choices);
+					});
+				}
+			},
+			showAutocompleteOnFocus: true,
+			allowSpaces: true,
+			removeConfirmation: true,
+			fieldName: "receiver[]"
+		});
+	});
 	$.getJSON("sms", function(data) {
 		$('#messages').dataTable({
 			"aaData": data,

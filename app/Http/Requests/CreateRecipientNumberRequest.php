@@ -43,7 +43,6 @@ class CreateRecipientNumberRequest extends Request {
 		$rcpt_id = RecipientNumber::where('phone_number', $recipient_pn)->first();
 		if ( $rcpt_id != NULL) {
 			$recipient = Recipient::find($rcpt_id->recipient_id);
-
 			return [
 				'phone_number.unique' => "Phone Number is already taken by: " .  $recipient->name,
 				'provider.required'	=> "You need to provide the Carrier/Provider",

@@ -15,6 +15,8 @@
     <link href="{{ asset('packages/css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ URL::to('/') }}/bootstrap/bootstrap-3.3.4/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="{{ URL::to('/') }}/packages/DataTables-1.10.4/media/css/jquery.dataTables.min.css"/>
+	<link rel="stylesheet" href="{{ URL::to('/') }}/packages/autocomplete/css/jquery.tagit.css"/>
+	<link rel="stylesheet" href="{{ URL::to('/') }}/packages/autocomplete/css/tagit.ui-zendesk.css"/>
 	<!-- Fonts -->
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -25,7 +27,7 @@
 </head>
 <body>
     <script src="{{ URL::to('/') }}/bootstrap/bootstrap-3.3.4/js/jquery-1.11.2.min.js"></script>
-
+	<script src="{{ URL::to('/') }}/jquery-ui-1.11.4/jquery-ui.min.js"></script>
     <script>
         $(document).off('.data-api');
     </script>
@@ -34,6 +36,7 @@
     <script src="{{ URL::to('/') }}/bootstrap/bootstrap-3.3.4/js/bootstrap.min.js"></script>
 	<script src="{{ URL::to('/') }}/packages/jquery-dropdown/demo/jquery.tmpl.min.js"></script>
 	<script src="{{ URL::to('/') }}/packages/jquery-dropdown/source/js/multilist.js"></script>
+	<script src="{{ URL::to('/') }}/packages/autocomplete/js/tag-it.min.js"></script>
 
 	@yield('header')
 	@yield('content')

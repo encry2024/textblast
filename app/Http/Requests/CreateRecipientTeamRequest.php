@@ -1,6 +1,7 @@
 <?php namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
+use App\Team;
 
 class CreateRecipientTeamRequest extends Request {
 
@@ -19,20 +20,20 @@ class CreateRecipientTeamRequest extends Request {
 	 *
 	 * @return array
 	 */
-	public function rules()
-	{
+	public function rules() {
+		$recipientTeam_id = ($this->recipient_id) ?: 'NULL';
 		return [
-			'team_id' => 'required|unique:recipient_teams,recipient_id',
-			'recipient_id'	=>	'required',
+			'team_id' => 'unique:recipient_teams,team_id,,,recipient_id,'.$recipientTeam_id
 			//
 		];
 	}
 
 	public function messages()
 	{
-		$recipientTeam_id = ($this->id) ?: 'NULL';
+		$recipientTeam_id = ($this->team_id) ?: 'NULL';
+		$tm = Team::find($recipientTeam_id);
 		return [
-			'team_id.unique' => 'The recipient is already in that group ' . $recipientTeam_id
+			'team_id.unique' => 'The recipient is already in the Group:' . $tm->name
 		];
 	}
 
