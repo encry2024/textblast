@@ -42,13 +42,11 @@
 						<textarea name="message" rows="10" class="form-control" id="message-text"></textarea>
 					</div>
 				</form>
-
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				<button type="submit" class="btn btn-primary">Send message <span class="glyphicon glyphicon-send size-12"></span> </button>
 			</div>
-
 		</div>
 	</div>
 	{!! Form::close() !!}
