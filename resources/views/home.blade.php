@@ -78,13 +78,14 @@
 			fieldName: "receiver[]"
 		});
 	});
+
 	$.getJSON("sms", function(data) {
 		$('#messages').dataTable({
 			"aaData": data,
 			"lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
 			"aaSorting": [[ 4, 'desc' ]],
 			"oLanguage": {
-			    "sEmptyTable":     "There are currently no messages...",
+			    "sEmptyTable": "There are currently no messages...",
 				"sLengthMenu": "per MSGS _MENU_",
 				"oPaginate": {
 				"sFirst": "First ", // This is the link to the first
@@ -98,11 +99,11 @@
 			//MDATAPROP - TBODY
 			"aoColumns":
 			[
-				{"sTitle": "Name", "sWidth": "20%", "mDataProp": "id"},
+				{"sTitle": "id", "sWidth": "0%", "mDataProp": "id"},
+				{"sTitle": "Recipient", "sWidth": "30%", "mDataProp": "name"},
 				{"sTitle": "Message", "sWidth": "20%", "mDataProp": "msg"},
-				{"sTitle": "Recipient Type", "sWidth": "15%", "mDataProp": "msg_type"},
-				{"sTitle": "SMS Type", "sWidth": "15%", "mDataProp": "type"},
-				{"sTitle": "Received/Sent", "sWidth": "15%", "mDataProp": "received"},
+				{"sTitle": "Recipient Type", "sWidth": "25%", "mDataProp": "msg_type"},
+				{"sTitle": "Received At", "sWidth": "20%", "mDataProp": "received"},
 			],
 			"aoColumnDefs":
 			[
@@ -116,12 +117,22 @@
 					    {{--url = url.replace(':slug', full["slug"]);--}}
 						// 'full' is the row's data object, and 'data' is this column's data
 						// e.g. 'full[0]' is the comic id, and 'data' is the comic title
-						return "<a href='#' class='size-14 text-left'>" + full["id"] + "</a>";
+						return "<a href='#' class='size-14 text-left'>" + data + "</a>";
+					}
+				},
+				{
+					"aTargets": [ 1 ], // Column to target
+					"mRender": function ( data, type, full ) {
+						{{--var url = '{{ route('category_path/show', ":slug") }}';--}}
+						{{--url = url.replace(':slug', full["slug"]);--}}
+						// 'full' is the row's data object, and 'data' is this column's data
+						// e.g. 'full[0]' is the comic id, and 'data' is the comic title
+						return "<a href='#' class='size-14 text-left'>" + full["name"] + "</a>";
 					}
 				},
                 //CATEGORY RECENT UPDATE
 				{
-					"aTargets": [ 1 ], // Column to target
+					"aTargets": [ 2 ], // Column to target
 					"mRender": function ( data, type, full ) {
 					// 'full' is the row's data object, and 'data' is this column's data
 					// e.g. 'full[0]' is the comic id, and 'data' is the comic title
@@ -129,19 +140,11 @@
 					}
 				},
 		        {
-                    "aTargets": [ 2 ], // Column to target
-                    "mRender": function ( data, type, full ) {
-                    // 'full' is the row's data object, and 'data' is this column's data
-                    // e.g. 'full[0]' is the comic id, and 'data' is the comic title
-                    return '<label class="text-center size-14"> ' + full["msg_type"] + ' </label>';
-                    }
-                },
-                {
                     "aTargets": [ 3 ], // Column to target
                     "mRender": function ( data, type, full ) {
                     // 'full' is the row's data object, and 'data' is this column's data
                     // e.g. 'full[0]' is the comic id, and 'data' is the comic title
-                    return '<label class="text-center size-14"> ' + full["type"] + ' </label>';
+                    return '<label class="text-center size-14"> ' + full["msg_type"] + ' </label>';
                     }
                 },
 				{
