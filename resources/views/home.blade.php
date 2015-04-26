@@ -57,9 +57,9 @@
 
 @section('script')
 <script type="text/javascript">
-
+	var choices = [];
 	$(document).ready(function() {
-		var choices = [];
+		$("#ui-id-1").empty();
 		$("#myTags").tagit({
 			autocomplete: {
 			source: function(search, showChoices) {
@@ -73,7 +73,6 @@
 					});
 				}
 			},
-			showAutocompleteOnFocus: true,
 			allowSpaces: true,
 			removeConfirmation: true,
 			fieldName: "receiver[]"

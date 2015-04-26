@@ -26,3 +26,17 @@ Route::get('contacts', ['as'  => 'pb', 'uses' => function() {
 Route::get('groups', ['as' => 'grp', 'uses' => function() {
 	return view('groups.show');
 }]);
+
+Route::get('getNum', function() {
+	$json = array();
+	$getNum = \App\RecipientNumber::all();
+
+	foreach ($getNum as $contact) {
+		$json[] = [
+			'number' => $contact->phone_number,
+			'id'	 => $contact->id
+		];
+	}
+
+	return json_encode($json);
+});
