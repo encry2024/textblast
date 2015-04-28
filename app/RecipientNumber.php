@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 class RecipientNumber extends Eloquent {
 
 	//
-
+	protected $fillable = array('phone_number');
 	public function recipient() {
 		return $this->belongsTo('Recipient');
 	}

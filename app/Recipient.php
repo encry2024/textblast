@@ -18,8 +18,8 @@ class Recipient extends Eloquent {
 
     protected $fillable = ['name'];
 
-    public function recipientNumber() {
-        return $this->hasMany('RecipientNumber');
+    public function phoneNumbers() {
+        return $this->hasMany('App\RecipientNumber');
     }
 
     public function recipientTeam() {

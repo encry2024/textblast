@@ -5,6 +5,12 @@
 @stop
 
 @section('content')
+@if (Session::has('success_msg'))
+	<div class="alert alert-success center" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		{{ Session::get('success_msg')  }}
+	</div>
+@endif
 <div class="container">
     @include('util.m-sidebar')
     <div class="col-lg-9 col-md-offset-center-2">
@@ -60,6 +66,8 @@
 		$("#ui-id-1").empty();
 		$("#myTags").tagit({
 			autocomplete: {
+			delay: 0,
+			minLength: 2,
 			source: function(search, showChoices) {
 				$.getJSON("{{ route('team.index') }}", {q: search.term},
 					function (data) {
@@ -70,10 +78,12 @@
 						showChoices(choices);
 					});
 				}
+
 			},
+			showAutocompleteOnFocus: true,
 			allowSpaces: true,
 			removeConfirmation: true,
-			fieldName: "receiver[]"
+			fieldName: "receivers[]"
 		});
 	});
 

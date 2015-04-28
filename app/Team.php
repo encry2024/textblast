@@ -8,12 +8,17 @@ class Team extends Eloquent {
 
 	use SoftDeletes;
 
+	protected $table = 'teams';
 	protected $softDelete = true;
 	protected $dates = ['deleted_at'];
 
 	protected $fillable = ['name', 'description'];
 	//
-	public function recipientTeam() {
+	public function recipient_team() {
 		return $this->hasMany('App\RecipientTeam');
+	}
+
+	public function recipients(){
+		return $this->belongsToMany('App\Recipient', 'recipient_teams');
 	}
 }

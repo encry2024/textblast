@@ -124,7 +124,7 @@ class RecipientController extends Controller {
 		return redirect( route('pb') )->with('success_msg', 'Recipient was successfully deleted');
 	}
 
-	public function number(){
+	public function number() {
 		
 	}
 
