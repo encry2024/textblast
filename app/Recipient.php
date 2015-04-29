@@ -4,9 +4,6 @@ use App\Http\Requests;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-# MODEL
-
-use App\RecipientNumber;
 
 class Recipient extends Eloquent {
 

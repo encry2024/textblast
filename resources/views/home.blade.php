@@ -5,22 +5,26 @@
 @stop
 
 @section('content')
-@if (Session::has('success_msg'))
-	<div class="alert alert-success center" role="alert">
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		{{ Session::get('success_msg')  }}
-	</div>
-@endif
+
 <div class="container">
+	@if (Session::has('success_msg'))
+		<div class="alert alert-success center" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('success_msg')  }}
+		</div>
+	@endif
     @include('util.m-sidebar')
     <div class="col-lg-9 col-md-offset-center-2">
     <br/>
         <div class="panel panel-default col-lg-12">
-         <h2>{{ count($inbox) }} Msgs</h2>
+         <h2 class="text-center">{{ count($inbox) }} Messages | {{ count($sent_msg) }} Sent SMS</h2>
+         <br/>
            <div class="page-header">
                 <h3><span class="glyphicon glyphicon-inbox"></span> Inbox <span class="right"><a href="#" class="btn btn-primary" role="button" data-toggle="modal" data-target="#composeSms"><span class="glyphicon glyphicon-pencil"></span> Compose SMS</a></span></h3>
            </div>
+           <br/>
            <table id="messages" class="table"></table>
+           <br/><br/>
         </div>
     </div>
 </div>

@@ -12,6 +12,11 @@ class RecipientNumberController extends Controller {
 	 *
 	 * @return Response
 	 */
+	public function ___construct(RecipientNumber $recipientNumber){
+		$this->recipientNumber = $recipientNumber;
+	}
+
+
 	public function index()
 	{
 		//
@@ -63,26 +68,22 @@ class RecipientNumberController extends Controller {
 	/**
 	 * Update the specified resource in storage.
 	 * @param RecipientNumber $rcp_num
-	 * @param  int  $id
 	 * @return Response
 	 */
 	public function update(RecipientNumber $rcp_num) {
-		$update = $rcp_num->find( Input::get('rcp_id') );
-		$update->phone_number = Input::get('phone_number');
-		$update->provider = Input::get('provider');
-		$update->save();
+		$update = RecipientNumber::update_RecipientNumber( $rcp_num);
 
-		return redirect()->back()->with('success_msg', "Recipient's contact was successfully updated.");
+		return $update;
 	}
 
 	/**
 	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
+	 * RecipientNumber
+	 * @param RecipientNumber $recipientNumber
 	 * @return Response
 	 */
-	public function destroy($id) {
-		$del_contact = App\RecipientNumber::find( Input::get('num_id') );
+	public function destroy(RecipientNumber $recipientNumber) {
+		$del_contact = $recipientNumber->find( Input::get('num_id') );
 		$del_contact->delete();
 
 		return redirect()->back()->with('success_msg', "Recipient's contact was successfully deleted.");

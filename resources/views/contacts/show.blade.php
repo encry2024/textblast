@@ -38,6 +38,7 @@
 		   </div>
 		   <br/><br/>
 		   <table id="contacts" class="table"></table>
+		   <br/>
 		</div>
 	</div>
 </div>
