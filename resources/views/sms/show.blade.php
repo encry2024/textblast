@@ -25,18 +25,22 @@
 	<div class="col-lg-3">
 		<div class="panel panel-default col-lg-12">
 			<div class="panel-body">
-				<button type="submit" class="btn btn-primary">Send message <span class="glyphicon glyphicon-send size-12"></span> </button>
+				<a href="#" class="col-lg-12"><span class="glyphicon glyphicon-share-alt" ></span> Sent Sms <span class="badge"> {{ count($sent_sms) }} </span></a>
+				<br/><br/>
+				<a href="#" class="col-lg-12"><span class="glyphicon glyphicon-exclamation-sign" ></span> Failed Sms <span class="badge"> {{ count($failed_sms) }} </span></a>
+				<br/><br/>
+				<a href="#" class="col-lg-12"><span class="glyphicon glyphicon-envelope" ></span> Unread Messages <span class="badge"> 0 </span></a>
 				<br/><br/><br/><br/><br/><br/><br/>
 				<a href="{{route('/home') }}" class="col-lg-12"><span class="glyphicon glyphicon-menu-left" ></span> Back to Home</a>
 			</div>
 		</div>
 	</div>
+	{!! Form::open([ 'route'=>['sms.store'] ]) !!}
 	<div class="col-lg-9 col-md-offset-center-2">
 		<div class="panel panel-default col-lg-12">
 		   <div class="page-header">
-				<h3><span class="glyphicon glyphicon-book"></span> Send Messages</h3>
+				<h3><span class="glyphicon glyphicon-comment"></span> Send Messages</h3>
 		   </div>
-		   <br/>
 			<div class="form-group">
 				<label for="recipient-name" class="control-label">Recipient:</label>
 				<input type="text" id="txt" name="tags[]"/>
@@ -47,9 +51,13 @@
 				<label for="message-text" class="control-label">Message:</label>
 				<textarea name="message" rows="10" class="form-control" id="message-text"></textarea>
 			</div>
-		   <br/>
+			<div class="right">
+			<button type="submit" class="btn btn-primary">Send message <span class="glyphicon glyphicon-send size-12"></span> </button>
+		   </div>
+		   <br/><br/>
 		</div>
 	</div>
+	{!! Form::close() !!}
 </div>
 
 @stop
@@ -61,7 +69,7 @@
 		var availableTags = [];
 		$.getJSON("{!! URL::to('/') !!}/retrieve/contacts", function(data) {
 			$.each(data, function(key, val) {
-				availableTags.push(val.dta + " <" + val.phne + ">+", val.id);
+				availableTags.push(val.dta, val.id);
 			});
 
 		});
@@ -83,7 +91,7 @@
 		//Initialize tagit
 		instance.tagit({
 			tagSource:availableTags,
-			fieldName: "items[]",
+			fieldName: "receivers[]",
 			allowSpaces: true,
 			removeConfirmation: true,
 			tagsChanged:function () {

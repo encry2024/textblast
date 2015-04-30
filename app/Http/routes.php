@@ -32,7 +32,11 @@ Route::get('test', function() {
 });
 
 Route::get('messaging', ['as' => 'msg', 'uses' => function() {
-	return view('sms.show');
+	$sent_sms = App\Sms::where('type','sent')->get();
+	$failed_sms = App\Sms::where('type','failed')->get();
+	$messages = App\Sms::where('type','received')->get();
+
+	return view('sms.show', compact('sent_sms','failed_sms','messages'));
 }]);
 
 Route::get('getNum', function() {
