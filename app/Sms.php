@@ -26,9 +26,8 @@ class Sms extends Eloquent {
 
 		# loop on all sender to check if existing recipients table or teams table, if not then create new
 		foreach($receivers as $receiver) {
-			if (preg_match('/(\+63|0)9+[0-9]{9}/', $receiver)) {
-				$recipient_number = RecipientNumber::where('phone_number', $receiver)->first();
-
+			if (preg_match('/(\+63|0)9+[0-9]{9}/', $receiver, $matched)) {
+				$recipient_number = RecipientNumber::where('phone_number', $matched[0])->first();
 				if(count($recipient_number) == 0) {
 					$recipient = new Recipient();
 					$recipient->name = "no name";
@@ -43,18 +42,17 @@ class Sms extends Eloquent {
 				$new_sms->message = $sms;
 				$new_sms->type = 'sent';
 				$new_sms->save();
-			} else if (preg_match('/[a-zA-Z]/', $receiver)) {
-				$team = Team::where('name', $receiver)->first();
-				$team_recipients = $team->recipients;
-				if (count($team) > 0 ) {
-					foreach($team_recipients as $recipient) {
-						$new_sms = new Sms();
-						$new_sms->recipient_id = $recipient->id;
-						$new_sms->team_id = $team->id;
-						$new_sms->message = $sms;
-						$new_sms->type = 'sent';
-						$new_sms->save();
-					}
+			}
+			$team = Team::where('name', $receiver)->first();
+			if (count($team) > 0 ) {
+			$team_recipients = $team->recipients;
+				foreach($team_recipients as $recipient) {
+					$new_sms = new Sms();
+					$new_sms->recipient_id = $recipient->id;
+					$new_sms->team_id = $team->id;
+					$new_sms->message = $sms;
+					$new_sms->type = 'sent';
+					$new_sms->save();
 				}
 			}
 		}

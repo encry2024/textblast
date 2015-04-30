@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ad8ff700-fbcd-4b1f-8104-4747135ffc9a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/database/migrations/2015_04_24_151716_create_sms_table.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Sms.php" afterPath="$PROJECT_DIR$/app/Sms.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="laravel.iws" />
@@ -48,16 +48,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.17555939" vertical-offset="0" max-vertical-offset="581">
-              <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="SmsController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SmsController.php">
           <provider selected="true" editor-type-id="text-editor">
@@ -88,11 +78,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Sms.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Sms.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Sms.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-55.807693" vertical-offset="521" max-vertical-offset="3978">
-              <caret line="58" column="13" selection-start-line="58" selection-start-column="13" selection-end-line="58" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.23985891" vertical-offset="850" max-vertical-offset="3910">
+              <caret line="29" column="97" selection-start-line="29" selection-start-column="97" selection-end-line="29" selection-end-column="97" />
               <folding />
             </state>
           </provider>
@@ -199,8 +189,8 @@
         <option value="$PROJECT_DIR$/public/packages/autocomplete/css/tagit.ui-zendesk.css" />
         <option value="$PROJECT_DIR$/resources/views/home.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/routes.php" />
-        <option value="$PROJECT_DIR$/app/Sms.php" />
         <option value="$PROJECT_DIR$/resources/views/sms/show.blade.php" />
+        <option value="$PROJECT_DIR$/app/Sms.php" />
       </list>
     </option>
   </component>
@@ -666,12 +656,24 @@
       <option name="project" value="LOCAL" />
       <updated>1430378765479</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Update #19 - Added create_sms_table migration">
+      <created>1430378945952</created>
+      <option name="number" value="00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1430378945952</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Update #20 - Added Sms model">
+      <created>1430378995361</created>
+      <option name="number" value="00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1430378995361</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -681,7 +683,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31259152" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31259152" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17656012" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -733,7 +735,9 @@
     <MESSAGE value="Fixed Issue - Update recipient's number / Provider." />
     <MESSAGE value="Update #17 - Added new page sms/show. Recipients w/ numbers are now shown in the recipients box." />
     <MESSAGE value="Update #18 - Regular expression update on Sms model (Searches digits on string)." />
-    <option name="LAST_COMMIT_MESSAGE" value="Update #18 - Regular expression update on Sms model (Searches digits on string)." />
+    <MESSAGE value="Update #19 - Added create_sms_table migration" />
+    <MESSAGE value="Update #20 - Added Sms model" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update #20 - Added Sms model" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.8172043" />
   </component>
   <component name="XDebuggerManager">
@@ -1066,26 +1070,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Recipient.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="8.269231" vertical-offset="487" max-vertical-offset="1564">
-          <caret line="10" column="20" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/packages/autocomplete/css/tagit.ui-zendesk.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2750" max-vertical-offset="4522">
           <caret line="84" column="26" selection-start-line="84" selection-start-column="26" selection-end-line="84" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SmsController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="40.884617" vertical-offset="1709" max-vertical-offset="3230">
-          <caret line="22" column="30" selection-start-line="22" selection-start-column="23" selection-end-line="22" selection-end-column="30" />
           <folding />
         </state>
       </provider>
@@ -1106,18 +1094,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Sms.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-55.807693" vertical-offset="521" max-vertical-offset="3978">
-          <caret line="58" column="13" selection-start-line="58" selection-start-column="13" selection-end-line="58" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/home.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-15.692307" vertical-offset="1428" max-vertical-offset="5304">
           <caret line="54" column="33" selection-start-line="54" selection-start-column="24" selection-end-line="54" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.17555939" vertical-offset="0" max-vertical-offset="581">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1130,10 +1118,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/app/Recipient.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.17555939" vertical-offset="0" max-vertical-offset="581">
-          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+        <state vertical-scroll-proportion="8.269231" vertical-offset="487" max-vertical-offset="1564">
+          <caret line="10" column="20" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SmsController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="40.884617" vertical-offset="1709" max-vertical-offset="3230">
+          <caret line="22" column="30" selection-start-line="22" selection-start-column="23" selection-end-line="22" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Sms.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.23985891" vertical-offset="850" max-vertical-offset="3910">
+          <caret line="29" column="97" selection-start-line="29" selection-start-column="97" selection-end-line="29" selection-end-column="97" />
           <folding />
         </state>
       </provider>
