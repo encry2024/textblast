@@ -17,8 +17,6 @@
     <div class="col-lg-9 col-md-offset-center-2">
     <br/>
         <div class="panel panel-default col-lg-12">
-         <h2 class="text-center">{{ count($inbox) }} Messages | {{ count($sent_msg) }} Sent SMS</h2>
-         <br/>
            <div class="page-header">
                 <h3><span class="glyphicon glyphicon-inbox"></span> Inbox <span class="right"><a href="#" class="btn btn-primary" role="button" data-toggle="modal" data-target="#composeSms"><span class="glyphicon glyphicon-pencil"></span> Compose SMS</a></span></h3>
            </div>
@@ -98,7 +96,7 @@
 			"aaSorting": [[ 4, 'desc' ]],
 			"oLanguage": {
 			    "sEmptyTable": "There are currently no messages...",
-				"sLengthMenu": "per MSGS _MENU_",
+				"sLengthMenu": "per Messages _MENU_",
 				"oPaginate": {
 				"sFirst": "First ", // This is the link to the first
 				"sPrevious": "&#8592; Previous", // This is the link to the previous

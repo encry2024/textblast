@@ -4,6 +4,7 @@ use App\Http\Requests;
 
 use App\RecipientTeam;
 use App\Team;
+use App\Recipient;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\CreateRecipientTeamRequest;
@@ -51,7 +52,7 @@ class RecipientTeamController extends Controller {
 		$team_id = $rt_id->team_id;
 
 		$tm = $team->find($team_id);
-
+		Recipient::find($crtp->get('recipient_id'))->touch();
 		return redirect()->back()->with('success_msg', 'Recipient was successfully tagged to the Group:'.$tm->name.'.');
 	}
 

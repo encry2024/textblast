@@ -11,7 +11,7 @@ class RecipientNumber extends Eloquent {
 
 
 	public function recipient() {
-		return $this->belongsTo('Recipient');
+		return $this->belongsTo('App\Recipient');
 	}
 
 
@@ -30,7 +30,7 @@ class RecipientNumber extends Eloquent {
 		$provider = Input::get('provider');
 
 		$rcp_num->find(Input::get('rcp_id'))->update(['phone_number' => $phone, 'provider' => $provider]);
-
+		Recipient::find(Input::get('rcp_id'))->touch();
 		return redirect()->back()->with('success_msg', "Recipient's contact was successfully updated.");
 	}
 }

@@ -27,6 +27,14 @@ Route::get('groups', ['as' => 'grp', 'uses' => function() {
 	return view('groups.show');
 }]);
 
+Route::get('test', function() {
+	return view('tests.testform');
+});
+
+Route::get('messaging', ['as' => 'msg', 'uses' => function() {
+	return view('sms.show');
+}]);
+
 Route::get('getNum', function() {
 	$json = array();
 	$getNum = \App\RecipientNumber::all();
@@ -39,4 +47,12 @@ Route::get('getNum', function() {
 	}
 
 	return json_encode($json);
+});
+
+
+
+Route::get('retrieve/contacts', function( ) {
+	$ret = \App\Sms::retrieving();
+
+	return $ret;
 });

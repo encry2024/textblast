@@ -4,7 +4,7 @@
         <div class="panel-body left">
             <a href="{{ route('pb')  }}"><span class="glyphicon glyphicon-book"></span> Contacts <span class="badge">{{ count($recipients) }}</span></a>
             <br/><br/>
-            <a href=""><span class="glyphicon glyphicon-share-alt"></span> Sent Messages <span class="badge"> {{ count($sent_msg) }} </span></a>
+            <a href="{{ route('msg') }}"><span class="glyphicon glyphicon-share-alt"></span> Messaging <span class="badge"> {{ count($msgs) }} </span></a>
             <br><br>
             <a href=""><span class="glyphicon glyphicon-user"></span> Manage Users <span class="badge">0</span></a>
             <br><br>

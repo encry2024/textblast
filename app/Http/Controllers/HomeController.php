@@ -39,9 +39,9 @@ class HomeController extends Controller {
         $recipients = $recipient->all();
         $inbox 		= $sms->where('type','receive')->get();
 		$team		= $team->all();
-		$sent_msg 	= $sms->where('type', 'sent')->get();
+		$msgs 		= $sms->all();
 
-		return view('home', compact('recipients', 'inbox', 'team', 'sent_msg'));
+		return view('home', compact('recipients', 'inbox', 'team', 'msgs'));
 	}
 
 }

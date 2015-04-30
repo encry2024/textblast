@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>NSI :: Text Blast v0.1</title>
     <link rel="stylesheet" href="{!! URL::to('/') !!}/packages/css/btn.css"/>
+    <link rel="stylesheet" href="{!! URL::to('/') !!}/packages/css/links.css"/>
     <link rel="stylesheet" href="{!! URL::to('/') !!}/packages/css/fonts.css"/>
     <link rel="stylesheet" href="{!! URL::to('/') !!}/packages/css/input.css"/>
     <link rel="stylesheet" href="{!! URL::to('/') !!}/packages/css/location.css"/>

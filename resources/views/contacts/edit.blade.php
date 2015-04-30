@@ -36,8 +36,7 @@
 	</div>
 	<div class="col-lg-9">
 		<div class="panel panel-default col-lg-12">
-			<h3><a href="#" title="Edit Recipient's Name" data-toggle="modal" data-target="#editName"><span class="glyphicon glyphicon-pencil"></span></a> {{ $recipient->name }}</h3>
-			<br/>
+			<h3>{{ $recipient->name }} <a href="#" title="Edit Recipient's Name" data-toggle="modal" data-target="#editName"><span class="glyphicon glyphicon-pencil size-12" style="top: -1.5rem;"></span></a></h3>
 		</div>
 		<br><br><br><br><br>
 		<div class="panel panel-default col-lg-12">
@@ -155,6 +154,7 @@
 				{!! Form::hidden('recipient_id', $recipient->id) !!}
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				<button type="submit" class="btn btn-primary">Save changes</button>
+				<a href="{{ URL('/')  }}/groups" class="btn btn-primary left" role="button"> Group not here? Click here.</a>
 			</div>
 		</div>
 	</div>
