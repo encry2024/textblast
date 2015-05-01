@@ -50,7 +50,7 @@ class GoipCommunicator extends UdpSocket
      */
     public function createSocketBindings($port = 48200)
     {
-        socket_bind($this->socket->socket, "0.0.0.0", $port);
+        socket_bind($this->socket->socket, "0.0.0.0", env('LOCAL_PORT', $port));
     }
 
 
