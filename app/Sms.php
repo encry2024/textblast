@@ -8,11 +8,15 @@ class Sms extends Eloquent {
 	protected $fillable = array('recipient_id', 'message', 'type', 'team_id');
 
 	public function recipient_number() {
-		return $this->belongsTo('RecipientNumber');
+		return $this->belongsTo('\App\RecipientNumber');
 	}
 
 	public function recipient_team() {
 		return $this->belongsTo('RecipientTeam');
+	}
+
+	public function recipient(){
+		return $this->hasOne('Recipient');
 	}
 
 	public static function send($request) {
@@ -41,22 +45,34 @@ class Sms extends Eloquent {
 				$new_sms->team_id = 0;
 				$new_sms->message = $sms;
 				$new_sms->type = 'sent';
+				$new_sms->recipient_number_id = $recipient_number->id;
 				$new_sms->save();
+
+				// invoke send sms to GoipCommunicator
+				$goipCommunicator = new GoipCommunicator(3);
+				$goipCommunicator->sendSMSRequest($new_sms);
 			}
 			$team = Team::where('name', $receiver)->first();
 			if (count($team) > 0 ) {
-			$team_recipients = $team->recipients;
-				foreach($team_recipients as $recipient) {
+				$recipientNumbers = $team->recipient_numbers;
+				//var_dump($recipientNumbers);
+				foreach($recipientNumbers as $recipientNumber) {
+					//var_dump($recipientNumber);
 					$new_sms = new Sms();
-					$new_sms->recipient_id = $recipient->id;
+					$new_sms->recipient_id = $recipientNumber->recipient_id;
 					$new_sms->team_id = $team->id;
 					$new_sms->message = $sms;
 					$new_sms->type = 'sent';
+					$new_sms->recipient_number_id = $recipientNumber->id;
 					$new_sms->save();
+
+					// invoke send sms to GoipCommunicator
+					$goipCommunicator = new GoipCommunicator(3);
+					$goipCommunicator->sendSMSRequest($new_sms);
 				}
 			}
 		}
-		return redirect()->back()->with('success_msg', 'Message has been sent');
+		//return redirect()->back()->with('success_msg', 'Message has been sent');
 	}
 
 	public static function retrieve_Sms(){
