@@ -33,4 +33,11 @@ class RecipientNumber extends Eloquent {
 		Recipient::find(Input::get('rcp_id'))->touch();
 		return redirect()->back()->with('success_msg', "Recipient's contact was successfully updated.");
 	}
+
+	public static function checkPhoneExist($phone) {
+		//get the first 10 digits from the right of the phone
+		$numbers = parent::whereRaw('right(phone_number, 10) = right("'.$phone.'", 10) limit 1')->get();
+
+		foreach($numbers as $number) return $number;
+	}
 }

@@ -48,15 +48,6 @@ class GoipCommunicator extends UdpSocket
     /**
      * @param
      */
-    public function createSocketBindings($port = 48200)
-    {
-        socket_bind($this->socket->socket, "0.0.0.0", $port);
-    }
-
-
-    /**
-     * @param
-     */
     public function sendSMSRequest(Sms $sms)
     {
         //check first if socket is active
@@ -138,8 +129,7 @@ class GoipCommunicator extends UdpSocket
     /**
      * @param 
      */
-    public function receiveSMSRequest($smsData){
-        //return var_dump($smsData);
+    public static function receiveSMSRequest($smsData){
         //disect each information
         $data = explode(';', $smsData);
 
@@ -150,6 +140,11 @@ class GoipCommunicator extends UdpSocket
         //get the source goip
         $smsGoipTemp = explode(':', $data[1]);
         $smsGoip = $smsGoipTemp[1];
+        // respond to GoIP that we received the text
+        $goip = Goip::where('name', $smsGoip)->first();
+        $goipCommunicator = new GoipCommunicator($goip->id);
+        $goipCommunicator->socket->write("RECEIVE " . $smsDate . " OK\n");
+        $goipCommunicator->socket->close();
 
         //get the goip password
         $smsPasswordTemp = explode(':', $data[2]);
@@ -163,21 +158,32 @@ class GoipCommunicator extends UdpSocket
         $smsContentTemp = explode(':', $data[4]);
         $smsContent = $smsContentTemp[1];
 
+        //search if sender was already added in recipient_numbers table. if not then add new
+        $recipientNumber = RecipientNumber::checkPhoneExist($smsNumber);
+
+        if(count($recipientNumber) == 0) {
+            $recipient = new Recipient();
+            $recipient->name = "NO NAME";
+            $recipient->save();
+            $recipient->phoneNumbers()->save($recipientNumber = new RecipientNumber(['recipient_id' => $recipient->id, 'phone_number' => $smsNumber]));
+        }
+
         // Create new SMS instance
-        $sms = new Sms();
-        $sms->phone_number = $smsNumber;
-        $sms->message = $smsContent;
-        //Insert to database
-        $sms->save();
+        $new_sms = new Sms();
+        $new_sms->recipient_id = $recipientNumber->recipient_id;
+        $new_sms->team_id = 0;
+        $new_sms->message = $smsContent;
+        $new_sms->type = 'RECEIVED';
+        $new_sms->recipient_number_id = $recipientNumber->id;
+        $new_sms->save();
+    }
 
-        //insert new activity
-        $sms->insertSMSActivity('RECEIVE', 'MANUAL');
-
-        // respond to GoIP that we received the text
-        $goip = Goip::where('name', $smsGoip)->first();
-        $goipCommunicator = new GoipCommunicator($goip->id);
-        $goipCommunicator->socket->write("RECEIVE " . $smsDate . " OK");
-        $goipCommunicator->socket->close();
+    /**
+     * @param
+     */
+    public static function createSocketBindings($socket, $port = 48200)
+    {
+        socket_bind($socket, "0.0.0.0", env('LOCAL_PORT', $port));
     }
 
     /**
