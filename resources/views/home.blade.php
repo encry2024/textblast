@@ -1,11 +1,10 @@
 @extends('app')
 
 @section('header')
-    @include('util.m-topbar')
+	@include('util.m-topbar')
 @stop
 
 @section('content')
-
 <div class="container">
 	@if (Session::has('success_msg'))
 		<div class="alert alert-success center" role="alert">

@@ -11,10 +11,10 @@ class ReceiveSmsCommand extends Command implements ShouldBeQueued {
 
 	public $smsData;
 	public $goipCommunicator;
+
+
 	/**
-	 * Create a new command instance.
-	 *
-	 * @return void
+	 * @param $smsData
 	 */
 	public function __construct($smsData)
 	{

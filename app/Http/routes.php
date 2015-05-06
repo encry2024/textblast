@@ -10,14 +10,14 @@ Route::bind('recipientNumber', function( $id ) 	{ return App\RecipientNumber::fi
 Route::resource('recipient', 'RecipientController', [ 'except' => ['edit','create'] ]);
 Route::resource('recipientNumber', 'RecipientNumberController', [ 'only' => ['store','update','destroy'] ]);
 Route::resource('sms', 'SmsController', [ 'only'  =>  ['index', 'store'], ]);
-Route::resource('team', 'TeamController', [ 'only' => ['index', 'store', 'show'] ]);
-Route::resource('recipientTeam', 'RecipientTeamController', [ 'only' => ['store', 'destroy', 'update', 'untag'] ]);
+Route::resource('team', 'TeamController');
+Route::resource('recipientTeam', 'RecipientTeamController', [ 'only' => ['store', 'destroy', 'update'] ]);
 #------------------------------------------------------------ CONTROLLERS
 Route::controllers(array(
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ));
-#---------------------------------------------------------------- GET
+#------------------------------------------------------------ GET
 Route::get('/', ['as' => '/home', 'uses' => 'HomeController@index']);
 Route::get('contacts', ['as'  => 'pb', 'uses' => function() {
 	    return view('contacts.show');
@@ -38,7 +38,7 @@ Route::get('messaging', ['as' => 'msg', 'uses' => function() {
 
 	return view('sms.show', compact('sent_sms','failed_sms','messages'));
 }]);
-
+#------------------------------------------------------------ JSON
 Route::get('getNum', function() {
 	$json = array();
 	$getNum = \App\RecipientNumber::all();
@@ -53,10 +53,14 @@ Route::get('getNum', function() {
 	return json_encode($json);
 });
 
-
-
 Route::get('retrieve/contacts', function( ) {
 	$ret = \App\Sms::retrieving();
+
+	return $ret;
+});
+
+Route::get('retrieve/recipients', function( ) {
+	$ret = \App\Sms::retrieve_recipients();
 
 	return $ret;
 });

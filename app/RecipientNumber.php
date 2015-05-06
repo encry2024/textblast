@@ -10,11 +10,19 @@ class RecipientNumber extends Eloquent {
 	protected $fillable = array('phone_number');
 
 
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 */
 	public function recipient() {
 		return $this->belongsTo('App\Recipient');
 	}
 
 
+	/**
+	 * @param $get_num_req
+	 * @param $id
+	 * @return \Illuminate\Http\RedirectResponse
+	 */
 	public static function register_RecipientNumber( $get_num_req, $id ){
 		$reg_rec_num = new RecipientNumber();
 		$reg_rec_num->phone_number 	= $get_num_req["phone_number"];
@@ -25,8 +33,12 @@ class RecipientNumber extends Eloquent {
 		return redirect()->back()->with('success_msg', 'Additional Contact Number has been proccessed successfully');
 	}
 
+	/**
+	 * @param $rcp_num
+	 * @return \Illuminate\Http\RedirectResponse
+	 */
 	public static function update_RecipientNumber($rcp_num){
-		$phone = Input::get('phone_number');
+		$phone	= Input::get('phone_number');
 		$provider = Input::get('provider');
 
 		$rcp_num->find(Input::get('rcp_id'))->update(['phone_number' => $phone, 'provider' => $provider]);
@@ -34,6 +46,10 @@ class RecipientNumber extends Eloquent {
 		return redirect()->back()->with('success_msg', "Recipient's contact was successfully updated.");
 	}
 
+	/**
+	 * @param $phone
+	 * @return mixed
+	 */
 	public static function checkPhoneExist($phone) {
 		//get the first 10 digits from the right of the phone
 		$numbers = parent::whereRaw('right(phone_number, 10) = right("'.$phone.'", 10) limit 1')->get();

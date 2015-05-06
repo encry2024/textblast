@@ -18,7 +18,7 @@ class Team extends Eloquent {
 		return $this->hasMany('App\RecipientTeam');
 	}
 
-	public function recipients(){
+	public function recipients() {
 		return $this->belongsToMany('App\Recipient', 'recipient_teams');
 	}
 

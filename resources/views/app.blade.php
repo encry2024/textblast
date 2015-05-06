@@ -31,7 +31,7 @@
     <script src="{{ URL::to('/') }}/bootstrap/bootstrap-3.3.4/js/bootstrap.min.js"></script>
 	<script src="{{ URL::to('/') }}/packages/jquery-dropdown/demo/jquery.tmpl.min.js"></script>
 	<script src="{{ URL::to('/') }}/packages/jquery-dropdown/source/js/multilist.js"></script>
-	<script src="{{ URL::to('/') }}/packages/autocomplete/js/tag-it.min.js"></script>
+	<script src="{{ URL::to('/') }}/packages/autocomplete/js/tag-it.js"></script>
 
 	@yield('header')
 	@yield('content')

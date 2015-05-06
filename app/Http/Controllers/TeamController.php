@@ -1,12 +1,12 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
-
 # MODEL
 use App\Team;
-
 # REQUESTS
 use App\Http\Requests\CreateTeamRequest;
+# INPUT
+use Illuminate\Support\Facades\Input;
 
 class TeamController extends Controller {
 
@@ -76,7 +76,7 @@ class TeamController extends Controller {
 	 * @return Response
 	 */
 	public function edit($id) {
-		//
+		return view('groups.edit', compact('id'));
 	}
 
 	/**
@@ -86,7 +86,7 @@ class TeamController extends Controller {
 	 * @return Response
 	 */
 	public function update($id) {
-		//
+		return Input::get('receivers');
 	}
 
 	/**

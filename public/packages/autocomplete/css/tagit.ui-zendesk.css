@@ -83,16 +83,12 @@ ul.tagit input[type="text"] {
 }
 .tagit-autocomplete.ui-menu .ui-menu-item {
     margin: 0 0 0.55rem 0;
-    padding: 1rem 1rem 1rem 1rem;
+    padding: 0.25rem 0.25rem 0.25rem 0.25rem;
     zoom: 1;
     float: none;
     clear: left;
     width: 100%;
-    border-bottom-style: solid;
-    border-bottom-color: #ddd;
-    border-bottom-width: 1px;
 }
-
 .tagit-autocomplete.ui-menu .ui-menu-item:last-child {
     border-bottom-style: none;
 }

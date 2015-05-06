@@ -5,7 +5,7 @@
 	<div class="row">
 		<div class="col-md-7 center">
 		    <br><br><br><br>
-		    <p class="size-30 text-center">NORTHSTAR SOLUTIONS INC.</p>
+		    <p class="size-44 text-center">northstar solutions inc.</p>
 		    <br/>
 			<div class="panel panel-default">
 				<div class="panel-heading white-bg">

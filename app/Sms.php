@@ -34,10 +34,14 @@ class Sms extends Eloquent {
 				$recipient_number = RecipientNumber::where('phone_number', $matched[0])->first();
 				if(count($recipient_number) == 0) {
 					$recipient = new Recipient();
-					$recipient->name = "NO NAME";
+					$recipient->name = "no name";
 					$recipient->save();
 
-					$recipient_number = $recipient->phoneNumbers()->save(new RecipientNumber(['recipient_id' => $recipient->id, 'phone_number' => $receiver]));
+					$recipient_number = $recipient->phoneNumbers()
+						->save(new RecipientNumber([
+							'recipient_id' => $recipient->id,
+							'phone_number' => $receiver
+						]));
 				}
 
 				$new_sms = new Sms();
@@ -97,7 +101,7 @@ class Sms extends Eloquent {
 		return json_encode($json);
 	}
 
-	public static function retrieving(){
+	public static function retrieving() {
 		$json = array();
 			$recipient_number = RecipientNumber::all();
 
@@ -118,6 +122,20 @@ class Sms extends Eloquent {
 					'id'	=> $r->id
 				];
 			}
+		}
+
+		return json_encode($json);
+	}
+
+	public static function retrieve_recipients() {
+		$json = array();
+		$recipient = Recipient::all();
+
+		foreach ($recipient as $r) {
+			$json[] = [
+				'dta' 	=> $r->name,
+				'id'	=> $r->id
+			];
 		}
 
 		return json_encode($json);
