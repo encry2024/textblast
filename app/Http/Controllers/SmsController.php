@@ -30,8 +30,7 @@ class SmsController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function create()
-	{
+	public function create() {
 		//
 	}
 
@@ -52,8 +51,7 @@ class SmsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
-	{
+	public function show($id) {
 		//
 	}
 
@@ -63,8 +61,7 @@ class SmsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
-	{
+	public function edit($id) {
 		//
 	}
 
@@ -74,8 +71,7 @@ class SmsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
-	{
+	public function update($id) {
 		//
 	}
 
@@ -85,9 +81,28 @@ class SmsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
-	{
+	public function destroy($id) {
 		//
+	}
+
+	public function retSmsCount() {
+		$sent_sms = Sms::where('type','sent')->get();
+		$failed_sms = Sms::where('type','failed')->get();
+		$messages = Sms::where('type','received')->get();
+
+		return view('sms.show', compact('sent_sms','failed_sms','messages'));
+	}
+
+	public function retrieveSms (){
+		$ret = Sms::retrieving();
+
+		return $ret;
+	}
+
+	public function retrieveRecipient (){
+		$ret = \App\Sms::retrieve_recipients();
+
+		return $ret;
 	}
 
 }

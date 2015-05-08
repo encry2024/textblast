@@ -25,8 +25,7 @@ class Team extends Eloquent {
 	/**
 	 *
 	 */
-	public function recipient_numbers()
-	{
+	public function recipient_numbers() {
 		return $this->hasManyThrough('App\RecipientNumber', 'App\RecipientTeam', 'team_id', 'recipient_id');
 	}
 }

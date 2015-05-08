@@ -8,6 +8,7 @@ use App\Recipient;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\CreateRecipientTeamRequest;
+use App\Http\Requests\CreateTagRecipientRequest;
 
 class RecipientTeamController extends Controller {
 
@@ -22,8 +23,7 @@ class RecipientTeamController extends Controller {
 		$this->team = $team;
 	}
 
-	public function index()
-	{
+	public function index() {
 		//
 	}
 
@@ -32,8 +32,7 @@ class RecipientTeamController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function create()
-	{
+	public function create() {
 		//
 	}
 
@@ -48,10 +47,10 @@ class RecipientTeamController extends Controller {
 						   RecipientTeam $recipientTeam, Team $team ) {
 
 		$rt_id = $recipientTeam->create( $crtp->request->all() );
-
 		$team_id = $rt_id->team_id;
 
 		$tm = $team->find($team_id);
+
 		Recipient::find($crtp->get('recipient_id'))->touch();
 		return redirect()->back()->with('success_msg', 'Recipient was successfully tagged to the Group:'.$tm->name.'.');
 	}
@@ -62,8 +61,7 @@ class RecipientTeamController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
-	{
+	public function show($id) {
 		//
 	}
 
@@ -73,8 +71,7 @@ class RecipientTeamController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
-	{
+	public function edit($id) {
 		//
 	}
 
@@ -95,6 +92,23 @@ class RecipientTeamController extends Controller {
 	 */
 	public function destroy( Request $request ) {
 		$untag_rcptTeam = RecipientTeam::find( $request->get('team_id') );
+		$untag_rcptTeam->delete();
+
+		return redirect()->back()->with('success_msg', 'Recipient was successfully untagged.');
+	}
+
+	/**
+	 * @param Request $request
+	 * @return array
+	 */
+	public function tag(CreateTagRecipientRequest $request) {
+		$tag_recipient = RecipientTeam::tagRecipient($request);
+
+		return $tag_recipient;
+	}
+
+	public function deleteRecipient(Request $request) {
+		$untag_rcptTeam = RecipientTeam::where('recipient_id', $request->get('recipient_id') )->first();
 		$untag_rcptTeam->delete();
 
 		return redirect()->back()->with('success_msg', 'Recipient was successfully untagged.');

@@ -6,12 +6,13 @@
 
 @section('content')
 <div class="container">
-    @if (Session::has('success_msg'))
-        <div class="alert alert-success center" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            {{ Session::get('success_msg')  }}
-        </div>
-    @endif
+	@if (Session::has('success_msg'))
+		<div class="alert alert-success center" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('success_msg')  }}
+		</div>
+	@endif
+
 	@if (count($errors) > 0)
 		<div class="alert alert-danger" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -22,7 +23,8 @@
 			</ul>
 		</div>
 	@endif
-	{!! Form::open(['method'=>'PATCH', 'route'=>['team.update', $id->id]]) !!}
+
+	{!! Form::open(array('url'=>'tag/recipient')) !!}
 	<div class="col-lg-3">
 		<div class="panel panel-default col-lg-12">
 			<div class="panel-body">
@@ -58,7 +60,8 @@
 				<label class="col-md-4 control-label" style="margin-left: -1.5rem;">Search Recipient to Tag</label>
 				<input type="text" id="txt" name="tags"/>
 			</div>
-			{!! Form::close() !!}
+			{!! Form::hidden('team_id', $id->id) !!}
+	{!! Form::close() !!}
 			<br/>
 			<label for="" class="col-md-4 control-label" >Tagged Recipient</label>
 			<div class="col-lg-12">
@@ -68,7 +71,7 @@
 					<div class="form-group" style="margin-left: -1.5rem;">
 						<div class="col-lg-12">
 							<div class="alert alert-success col-lg-12" style="width: 105%; height: 5rem;" role="alert">
-								<button type="button" class="close" onclick="untagRecipient( {{$recipientTeam->id }}, {{ $id->id }} )" data-toggle="untagRecipient" data-target="#dlt" title="Untag recipient from the group"> <span class="glyphicon glyphicon-trash size-12" aria-hidden="true" style="margin-left: 0.5rem;"> </span></button>
+								<button type="button" class="close" onclick="untagRecipient( {{ $recipientTeam->id }}, '{{ $recipientTeam->name }}' )" data-toggle="modal" data-target="#untagRecipient" title="Untag recipient from the group"> <span class="glyphicon glyphicon-trash size-12" aria-hidden="true" style="margin-left: 0.5rem;"> </span></button>
 								{{ $recipientTeam->name }}
 							</div>
 						</div>
@@ -78,11 +81,48 @@
 			</div>
 		</div>
 	</div>
+	
 </div>
+	<!-- Untag Modal -->
+	<div class="modal fade" name="untagRecipient" id="untagRecipient" tabindex="-1" role="dialog" aria-labelledby="myModalLabels" aria-hidden="true">
+		{!! Form::open(array('url'=>'delete/recipient')) !!}
+		<div class="modal-dialog">
+			<div class="modal-content ">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabels">Untag to Group</h4>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-12 center">
+								<div class="form-group">
+									<label class="col-md-12 control-label">Are you sure you want to untag <label id="rn_textbox"></label> to {{$id->name}}?</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br/>
+				<div class="modal-footer">
+					{!! Form::hidden('team_id', $id->id) !!}
+					{!! Form::hidden('recipient_id','' ,['id'=>'recipient_Id'])     !!}
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Untag</button>
+				</div>
+			</div>
+		</div>
+		{!! Form::close() !!}
+	</div>
 @stop
 
 @section('script')
 <script type="text/javascript">
+	function untagRecipient(id,r) {
+		document.getElementById('recipient_Id').value = id;
+		document.getElementById('rn_textbox').innerHTML = r;
+	}
+
 	$(document).ready(function() {
 		//The demo tag array
 		var availableTags = [];
@@ -112,21 +152,8 @@
 			fieldName: "receivers[]",
 			allowSpaces: true,
 			removeConfirmation: true,
-			tagsChanged:function () {
-
-			//Get the tags
-				var tags = instance.tagit('tags');
-				var tagString = [];
-
-			//Pull out only value.toString
-				for (var i in tags) {
-					tagString.push(tags[i].val);
-
-				}
-
-			//Put the tags into the input, joint by a ','
-			input.val(tagString.join(','));
-			}
+			select: true,
+			triggerKey: ['tab']
 		});
 	});
 </script>

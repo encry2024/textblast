@@ -56,4 +56,18 @@ class RecipientNumber extends Eloquent {
 
 		foreach($numbers as $number) return $number;
 	}
+
+	public static function getNumFnc(){
+		$json = array();
+		$getNum = \App\RecipientNumber::all();
+
+		foreach ($getNum as $contact) {
+			$json[] = [
+				'number' => $contact->phone_number,
+				'id'	 => $contact->id
+			];
+		}
+
+		return json_encode($json);
+	}
 }
