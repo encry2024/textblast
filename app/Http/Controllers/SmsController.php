@@ -105,4 +105,10 @@ class SmsController extends Controller {
 		return $ret;
 	}
 
+	public function getSent(){
+		$get_sent = \App\Sms::retrieve_Sent();
+
+		return $get_sent;
+	}
+
 }

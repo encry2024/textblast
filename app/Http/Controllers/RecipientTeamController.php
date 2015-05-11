@@ -43,6 +43,7 @@ class RecipientTeamController extends Controller {
 	 * @param RecipientTeam $recipientTeam
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
+
 	public function store( CreateRecipientTeamRequest $crtp,
 						   RecipientTeam $recipientTeam, Team $team ) {
 

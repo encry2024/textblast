@@ -40,3 +40,4 @@ Route::get('messaging', ['as' => 'msg', 'uses' => 'SmsController@retSmsCount']);
 Route::get('getNum', 'RecipientNumberController@getNumber');
 Route::get('retrieve/contacts', 'SmsController@retrieveSms');
 Route::get('retrieve/recipients','SmsController@retrieveRecipient');
+Route::get('sent_sms', 'SmsController@getSent');
