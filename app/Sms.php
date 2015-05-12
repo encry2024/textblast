@@ -29,7 +29,7 @@ class Sms extends Eloquent {
 		}
 
 		# loop on all sender to check if existing recipients table or teams table, if not then create new
-		$sms_activty = new SmsActivity();
+		$sms_activity = new SmsActivity();
 		foreach($receivers as $receiver) {
 			if (preg_match('/(\+63|0)9+[0-9]{9}/', $receiver, $matched)) {
 				$recipient_number = RecipientNumber::where('phone_number', $matched[0])->first();
@@ -46,17 +46,15 @@ class Sms extends Eloquent {
 				}
 
 				$new_sms = new Sms();
-				$new_sms->recipient_id = $recipient_number->recipient_id;
-				// $new_sms->team_id = 0;
 				$new_sms->message = $sms;
 				$new_sms->type = 'sent';
-				//$new_sms->recipient_number_id = $recipient_number->id;
 				$new_sms->save();
 
 				# Save the activity to sms_activity
-				$sms_activty->sms_id = $new_sms->id;
-				$sms_activty->recipient_number_id = $recipient_number->id;
-				$sms_activty->save();
+				$sms_activity->sms_id = $new_sms->id;
+				$sms_activity->recipient_number_id = $recipient_number->id;
+				$sms_activity->status = 'SENT';
+				$sms_activity->save();
 
 				# invoke send sms to GoipCommunicator
 				$goipCommunicator = new GoipCommunicator(3);
@@ -70,16 +68,14 @@ class Sms extends Eloquent {
 				foreach($recipientNumbers as $recipientNumber) {
 					//var_dump($recipientNumber);
 					$new_sms = new Sms();
-					$new_sms->recipient_id = $recipientNumber->recipient_id;
-					$new_sms->team_id = $team->id;
 					$new_sms->message = $sms;
 					$new_sms->type = 'SEND';
-					$new_sms->recipient_number_id = $recipientNumber->id;
 					$new_sms->save();
 
 					# Save action taken to Sms_activity
-					$sms_activty->team_id = $team->id;
-					$sms_activty->save();
+					$sms_activity->team_id = $team->id;
+					$sms_activity->status = 'SENT';
+					$sms_activity->save();
 
 					// invoke send sms to GoipCommunicator
 					$goipCommunicator = new GoipCommunicator(3);

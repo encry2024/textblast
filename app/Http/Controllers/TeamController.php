@@ -86,7 +86,7 @@ class TeamController extends Controller {
 	 * @return Response
 	 */
 	public function update($id) {
-		return Input::get('receivers');
+		//$affectedRows = User::where('votes', '>', 100)->update(['status' => 2]);
 	}
 
 	/**
