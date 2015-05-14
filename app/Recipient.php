@@ -23,6 +23,10 @@ class Recipient extends Eloquent {
         return $this->hasManyThrough('App\Team', 'App\RecipientTeam', 'recipient_id', 'id');
     }
 
+	public function teams() {
+		return $this->belongsToMany('App\Team', 'recipient_teams');
+	}
+
     public static function register_Recipient($rcp_request, $rcp_n_request) {
         $store_recipient        = new Recipient();
         $store_recipient->name  = $rcp_request->get('name');

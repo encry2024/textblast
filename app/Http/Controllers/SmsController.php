@@ -20,9 +20,19 @@ class SmsController extends Controller {
 	 * @return json
 	 */
 	public function index() {
-		$getSms = Sms::retrieve_Sms();
+		$json = array();
+		$getSms = Sms::all();
 
-		return $getSms;
+		foreach ($getSms as $sms) {
+			$json[] = [
+				'id' => $sms->id,
+				'msg' => $sms->message,
+				'type' => $sms->type,
+				'created_at' => date('m/d/Y h:i A', strtotime($sms->created_at))
+			];
+		}
+
+		return json_encode($json);
 	}
 
 	/**
@@ -61,8 +71,9 @@ class SmsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id) {
+	public function edit($sms) {
 		//
+		return view('sms.edit', compact('sms'));
 	}
 
 	/**

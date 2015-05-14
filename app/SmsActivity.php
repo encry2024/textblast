@@ -6,7 +6,14 @@ class SmsActivity extends Model {
 
 	//
 	public function sms() {
-		return $this->hasOne('Sms');
+		return $this->belongsTo('App\Sms');
 	}
 
+	public function recipientTeam() {
+		return $this->belongsTo('App\RecipientTeam');
+	}
+
+	public function recipient_number() {
+		return $this->belongsTo('App\RecipientNumber');
+	}
 }

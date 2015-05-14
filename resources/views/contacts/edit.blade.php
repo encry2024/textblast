@@ -46,13 +46,13 @@
 				<h4><span class="glyphicon glyphicon-tag"></span> Tagged Groups</h4>
 				<br/>
 				<form class="form-inline">
-				@foreach ($recipientTeams as $recipientTeam)
+				@foreach ($recipient->teams as $recipientTeam)
 					<div class="form-group" style="margin-left: -1.5rem;">
 						<div class="col-lg-12">
 							<div class="alert alert-success col-lg-12" style="width: 105%; height: 5rem;" role="alert">
-								<button type="button" class="close" onclick="untagRecipient({{$recipientTeam->id }}, '{{ $recipientTeam->team->name }}')" data-toggle="modal" data-target="#dlt"> <span class="glyphicon glyphicon-trash size-12" aria-hidden="true" style="margin-left: 0.5rem;"> </span></button>
-								<button type="button" class="close" onclick="editGroup({{$recipientTeam->id }}, '{{ $recipientTeam->team->name }}')" data-toggle="modal" data-target="#editGroup"> <span class="glyphicon glyphicon-pencil size-12" title="Edit Recipient's Group" aria-hidden="true"></span></button>
-								{{ $recipientTeam->team->name }}
+								<button type="button" class="close" onclick="untagRecipient({{$recipient->id }}, '{{ $recipientTeam->name }}')" data-toggle="modal" data-target="#dlt"> <span class="glyphicon glyphicon-trash size-12" aria-hidden="true" style="margin-left: 0.5rem;"> </span></button>
+								<button type="button" class="close" onclick="editGroup({{$recipient->id }}, '{{ $recipientTeam->name }}')" data-toggle="modal" data-target="#editGroup"> <span class="glyphicon glyphicon-pencil size-12" title="Edit Recipient's Group" aria-hidden="true"></span></button>
+								{{ $recipientTeam->name }}
 							</div>
 						</div>
 					</div>
@@ -66,7 +66,7 @@
 				<h4><span class="glyphicon glyphicon-book"></span> Recipient's Contacts</h4>
 				<br/>
 				<form class="form-inline">
-				@foreach ($rpt_nums as $rpt_num)
+				@foreach ($recipient->phoneNumbers as $rpt_num)
 					<div class="form-group" style="margin-left: -1.5rem;">
 						<div class="col-lg-12">
 							<div class="alert alert-success col-lg-12" style="width: 105%; height: 5rem;" role="alert">

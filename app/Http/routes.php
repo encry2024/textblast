@@ -3,14 +3,14 @@
 # BIND
 Route::bind('recipient', function( $id ) 		{ return App\Recipient::find($id); });
 Route::bind('team', function( $id ) 			{ return App\Team::find($id); });
-Route::bind('sms', function()		 			{ return App\Sms::all(); });
+Route::bind('sms', function( $id )		 		{ return App\Sms::find($id); });
 Route::bind('recipientTeam', function( $id ) 	{ return App\RecipientTeam::find($id); });
 Route::bind('recipientNumber', function( $id ) 	{ return App\RecipientNumber::find($id); });
 
 # RESOURCES
-Route::resource('recipient', 'RecipientController', [ 'except' => ['edit','create'] ]);
+Route::resource('recipient', 'RecipientController', [ 'except' => ['create'] ]);
 Route::resource('recipientNumber', 'RecipientNumberController', [ 'only' => ['store','update','destroy'] ]);
-Route::resource('sms', 'SmsController', [ 'only'  =>  ['index', 'store'], ]);
+Route::resource('sms', 'SmsController', [ 'only'  =>  ['index', 'edit', 'store'], ]);
 Route::resource('team', 'TeamController');
 Route::post('tag/recipient', ['as' => 'tr', 'uses' => 'RecipientTeamController@tag']);
 Route::post('delete/recipient', ['as' => 'dr', 'uses' => 'RecipientTeamController@deleteRecipient']);

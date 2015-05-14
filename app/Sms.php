@@ -8,15 +8,19 @@ class Sms extends Eloquent {
 	protected $fillable = array('recipient_id', 'message', 'type', 'team_id');
 
 	public function recipient_number() {
-		return $this->belongsTo('\App\RecipientNumber');
+		return $this->belongsTo('App\RecipientNumber');
 	}
 
 	public function recipient_team() {
-		return $this->belongsTo('RecipientTeam');
+		return $this->belongsTo('App\RecipientTeam');
 	}
 
 	public function recipient(){
-		return $this->hasOne('Recipient');
+		return $this->hasOne('App\Recipient');
+	}
+
+	public function sms_activity() {
+		return $this->hasMany('App\SmsActivity');
 	}
 
 	public static function send($request) {
@@ -146,23 +150,5 @@ class Sms extends Eloquent {
 		}
 
 		return json_encode($json);
-	}
-
-	public static function retrieve_Sent() {
-		$json = array();
-		$sent_sms = Sms::where('type', 'SENT')->get();
-
-		return $sent_sms;
-
-		foreach ($sent_sms as $s_m) {
-			$json[] = [
-				'id' => $s_m->id,
-				'msg' => $s_m->message,
-				'date_sent'	=> $s_m->created_at,
-			];
-		}
-
-		return json_encode($json);
-
 	}
 }
