@@ -36,11 +36,9 @@ class CreateTagRecipientRequest extends Request {
 					$validations[] = ['team_id'=>'unique:recipient_teams,team_id,NULL,id,recipient_id,'.$r_id];
 					$fields = array('team_id' => $team_id); */
 
-				$validations[] = array('team_id' => 'unique:recipient_teams,team_id,NULL,NULL,recipient_id,'.$r_id);
+				return ['team_id' => 'unique:recipient_teams,team_id,NULL,NULL,recipient_id,'.$r_id];
 			}
 		}
-		dd([$validations]);
-		//return $validations;
 	}
 
 	public function messages()
