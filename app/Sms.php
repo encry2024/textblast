@@ -65,26 +65,33 @@ class Sms extends Eloquent {
 				$goipCommunicator->sendSMSRequest($new_sms);
 
 			}
+
 			$team = Team::where('name', $receiver)->first();
 			if (count($team) > 0 ) {
-				$recipientNumbers = $team->recipient_numbers;
+				$recipients = $team->recipients;
 				//var_dump($recipientNumbers);
-				foreach($recipientNumbers as $recipientNumber) {
-					//var_dump($recipientNumber);
-					$new_sms = new Sms();
-					$new_sms->message = $sms;
-					$new_sms->type = 'SEND';
-					$new_sms->save();
 
+				$new_sms = new Sms();
+				$new_sms->message = $sms;
+				$new_sms->type = 'SEND';
+				$new_sms->save();
+
+				foreach($recipients as $recipient) {
+					$recipient_number = RecipientNumber::where('recipient_id', $recipient->id)->first();
 					# Save action taken to Sms_activity
-					$sms_activity->team_id = $team->id;
+					$sms_activity->sms_id = $new_sms->id;
+					$sms_activity->recipient_team_id = $team->id;
+					$sms_activity->recipient_number_id = $recipient_number->id;
 					$sms_activity->status = 'SENT';
 					$sms_activity->save();
+
+
 
 					// invoke send sms to GoipCommunicator
 					$goipCommunicator = new GoipCommunicator(3);
 					$goipCommunicator->sendSMSRequest($new_sms);
 				}
+				return $sms_activity;
 			}
 		}
 		//return redirect()->back()->with('success_msg', 'Message has been sent');

@@ -22,9 +22,6 @@ class Team extends Eloquent {
 		return $this->belongsToMany('App\Recipient', 'recipient_teams');
 	}
 
-	/**
-	 *
-	 */
 	public function recipient_numbers() {
 		return $this->hasManyThrough('App\RecipientNumber', 'App\RecipientTeam', 'team_id', 'recipient_id');
 	}

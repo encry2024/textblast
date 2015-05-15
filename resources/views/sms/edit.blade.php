@@ -25,7 +25,9 @@
 			@foreach ($sms->sms_activity as $smsAct)
                 @if($smsAct->recipient_number_id != 0)
                     <a href="{{ route('recipient.edit', $smsAct->recipient_number->recipient->id) }}"  data-popover="true" data-html="true" title="<label>Recipient Information</label>" data-trigger="hover" data-content="
+                    <label>Sent Status (SENT/FAILED): <a>{{ $smsAct->status }}</a></label>
                     <label>Receiving Number: <a>{{ $smsAct->recipient_number->phone_number }}</a></label>
+                    <div class='sep-1'></div>
                     <label>Groups: @foreach($smsAct->recipient_number->recipient->teams as $recipient_team) <a href='{{ route('team.edit', $recipient_team->id) }}'>{{ $recipient_team->name }}</a>, @endforeach</label>
                     <label>Recipient's Contacts: @foreach($smsAct->recipient_number->recipient->phoneNumbers as $phoneNumber)<a>{{ $phoneNumber->phone_number }}</a>, @endforeach
                     ">
