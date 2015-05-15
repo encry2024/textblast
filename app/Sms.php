@@ -8,15 +8,19 @@ class Sms extends Eloquent {
 	protected $fillable = array('recipient_id', 'message', 'type', 'team_id');
 
 	public function recipient_number() {
-		return $this->belongsTo('\App\RecipientNumber');
+		return $this->belongsTo('App\RecipientNumber');
 	}
 
 	public function recipient_team() {
-		return $this->belongsTo('RecipientTeam');
+		return $this->belongsTo('App\RecipientTeam');
 	}
 
 	public function recipient(){
-		return $this->hasOne('Recipient');
+		return $this->hasOne('App\Recipient');
+	}
+
+	public function sms_activity() {
+		return $this->hasMany('App\SmsActivity');
 	}
 
 	public static function send($request) {
@@ -29,47 +33,65 @@ class Sms extends Eloquent {
 		}
 
 		# loop on all sender to check if existing recipients table or teams table, if not then create new
+		$sms_activity = new SmsActivity();
 		foreach($receivers as $receiver) {
 			if (preg_match('/(\+63|0)9+[0-9]{9}/', $receiver, $matched)) {
 				$recipient_number = RecipientNumber::where('phone_number', $matched[0])->first();
 				if(count($recipient_number) == 0) {
 					$recipient = new Recipient();
-					$recipient->name = "NO NAME";
+					$recipient->name = "no name";
 					$recipient->save();
 
-					$recipient_number = $recipient->phoneNumbers()->save(new RecipientNumber(['recipient_id' => $recipient->id, 'phone_number' => $receiver]));
+					$recipient_number = $recipient->phoneNumbers()
+						->save(new RecipientNumber([
+							'recipient_id' => $recipient->id,
+							'phone_number' => $receiver
+						]));
 				}
 
 				$new_sms = new Sms();
-				$new_sms->recipient_id = $recipient_number->recipient_id;
-				$new_sms->team_id = 0;
 				$new_sms->message = $sms;
 				$new_sms->type = 'sent';
-				$new_sms->recipient_number_id = $recipient_number->id;
 				$new_sms->save();
 
-				// invoke send sms to GoipCommunicator
+				# Save the activity to sms_activity
+				$sms_activity->sms_id = $new_sms->id;
+				$sms_activity->recipient_number_id = $recipient_number->id;
+				$sms_activity->status = 'SENT';
+				$sms_activity->save();
+
+				# invoke send sms to GoipCommunicator
 				$goipCommunicator = new GoipCommunicator(3);
 				$goipCommunicator->sendSMSRequest($new_sms);
+
 			}
+
 			$team = Team::where('name', $receiver)->first();
 			if (count($team) > 0 ) {
-				$recipientNumbers = $team->recipient_numbers;
+				$recipients = $team->recipients;
 				//var_dump($recipientNumbers);
-				foreach($recipientNumbers as $recipientNumber) {
-					//var_dump($recipientNumber);
-					$new_sms = new Sms();
-					$new_sms->recipient_id = $recipientNumber->recipient_id;
-					$new_sms->team_id = $team->id;
-					$new_sms->message = $sms;
-					$new_sms->type = 'SEND';
-					$new_sms->recipient_number_id = $recipientNumber->id;
-					$new_sms->save();
+
+				$new_sms = new Sms();
+				$new_sms->message = $sms;
+				$new_sms->type = 'SEND';
+				$new_sms->save();
+
+				foreach($recipients as $recipient) {
+					$recipient_number = RecipientNumber::where('recipient_id', $recipient->id)->first();
+					# Save action taken to Sms_activity
+					$sms_activity->sms_id = $new_sms->id;
+					$sms_activity->recipient_team_id = $team->id;
+					$sms_activity->recipient_number_id = $recipient_number->id;
+					$sms_activity->status = 'SENT';
+					$sms_activity->save();
+
+
 
 					// invoke send sms to GoipCommunicator
 					$goipCommunicator = new GoipCommunicator(3);
 					$goipCommunicator->sendSMSRequest($new_sms);
 				}
+				return $sms_activity;
 			}
 		}
 		//return redirect()->back()->with('success_msg', 'Message has been sent');
@@ -97,7 +119,7 @@ class Sms extends Eloquent {
 		return json_encode($json);
 	}
 
-	public static function retrieving(){
+	public static function retrieving() {
 		$json = array();
 			$recipient_number = RecipientNumber::all();
 
@@ -118,6 +140,20 @@ class Sms extends Eloquent {
 					'id'	=> $r->id
 				];
 			}
+		}
+
+		return json_encode($json);
+	}
+
+	public static function retrieve_recipients() {
+		$json = array();
+		$recipient = Recipient::all();
+
+		foreach ($recipient as $r) {
+			$json[] = [
+				'dta' 	=> $r->name,
+				'id'	=> $r->id
+			];
 		}
 
 		return json_encode($json);

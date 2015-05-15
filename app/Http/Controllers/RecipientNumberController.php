@@ -89,4 +89,10 @@ class RecipientNumberController extends Controller {
 		return redirect()->back()->with('success_msg', "Recipient's contact was successfully deleted.");
 	}
 
+	public function getNumber(){
+		$return_nums = RecipientNumber::getNumFnc();
+
+		return $return_nums;
+	}
+
 }

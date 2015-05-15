@@ -93,9 +93,10 @@ class RecipientController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit($recipient)
 	{
 		//
+		return view('contacts.edit', compact('recipient'));
 	}
 
 	/**

@@ -1,11 +1,10 @@
 @extends('app')
 
 @section('header')
-    @include('util.m-topbar')
+	@include('util.m-topbar')
 @stop
 
 @section('content')
-
 <div class="container">
 	@if (Session::has('success_msg'))
 		<div class="alert alert-success center" role="alert">
@@ -60,7 +59,6 @@
 		$('#messages').dataTable({
 			"aaData": data,
 			"lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
-			"aaSorting": [[ 4, 'desc' ]],
 			"oLanguage": {
 			    "sEmptyTable": "There are currently no messages...",
 				"sLengthMenu": "per Messages _MENU_",
@@ -76,11 +74,10 @@
 			//MDATAPROP - TBODY
 			"aoColumns":
 			[
-				{"sTitle": "id", "sWidth": "0%", "mDataProp": "id"},
-				{"sTitle": "Recipient", "sWidth": "30%", "mDataProp": "name"},
-				{"sTitle": "Message", "sWidth": "20%", "mDataProp": "msg"},
-				{"sTitle": "Recipient Type", "sWidth": "25%", "mDataProp": "msg_type"},
-				{"sTitle": "Received At", "sWidth": "20%", "mDataProp": "received"},
+				{"sTitle": "#", "mDataProp": "id"},
+				{"sTitle": "Message", "mDataProp": "msg"},
+				{"sTitle": "Type (Sent/Received)", "mDataProp": "type"},
+				{"sTitle": "Date Sent/Received", "mDataProp": "created_at"},
 			],
 			"aoColumnDefs":
 			[
@@ -94,17 +91,17 @@
 					    {{--url = url.replace(':slug', full["slug"]);--}}
 						// 'full' is the row's data object, and 'data' is this column's data
 						// e.g. 'full[0]' is the comic id, and 'data' is the comic title
-						return "<a href='#' class='size-14 text-left'>" + data + "</a>";
+						return "<label>" + data + "</label>";
 					}
 				},
 				{
 					"aTargets": [ 1 ], // Column to target
 					"mRender": function ( data, type, full ) {
-						{{--var url = '{{ route('category_path/show', ":slug") }}';--}}
-						{{--url = url.replace(':slug', full["slug"]);--}}
+						var url = '{{ route('sms.edit', ":id") }}';
+						url = url.replace(':id', full["id"]);
 						// 'full' is the row's data object, and 'data' is this column's data
 						// e.g. 'full[0]' is the comic id, and 'data' is the comic title
-						return "<a href='#' class='size-14 text-left'>" + full["name"] + "</a>";
+						return "<a href='"+ url +"' class='size-14 text-left'>" + data + "</a>";
 					}
 				},
                 //CATEGORY RECENT UPDATE
@@ -113,7 +110,7 @@
 					"mRender": function ( data, type, full ) {
 					// 'full' is the row's data object, and 'data' is this column's data
 					// e.g. 'full[0]' is the comic id, and 'data' is the comic title
-					return '<label class="text-center size-14"> ' + full["msg"] + ' </label>';
+					return '<label class="text-center size-14"> ' + data + ' </label>';
 					}
 				},
 		        {
@@ -121,21 +118,13 @@
                     "mRender": function ( data, type, full ) {
                     // 'full' is the row's data object, and 'data' is this column's data
                     // e.g. 'full[0]' is the comic id, and 'data' is the comic title
-                    return '<label class="text-center size-14"> ' + full["msg_type"] + ' </label>';
+                    return '<label class="text-center size-14"> ' + data + ' </label>';
                     }
-                },
-				{
-                    "aTargets": [ 4 ], // Column to target
-                    "mRender": function ( data, type, full ) {
-                    // 'full' is the row's data object, and 'data' is this column's data
-                    // e.g. 'full[0]' is the comic id, and 'data' is the comic title
-                    return '<label class="text-center size-14"> ' + full["received"] + ' </label>';
-                    }
-                },
+                }
 			],
 
-			/*"fnDrawCallback": function( oSettings ) {
-				*//* Need to redo the counters if filtered or sorted *//*
+			"fnDrawCallback": function( oSettings ) {
+				 //Need to redo the counters if filtered or sorted
 				if ( oSettings.bSorted || oSettings.bFiltered )
 				{
 					for ( var i=0, iLen=oSettings.aiDisplay.length ; i<iLen ; i++ )
@@ -143,7 +132,7 @@
 						$('td:eq(0)', oSettings.aoData[ oSettings.aiDisplay[i] ].nTr ).html( "<label>" + (i+1) + "</label>" );
 					}
 				}
-			}*/
+			}
 		});
 	$('div.dataTables_filter input').attr('placeholder', 'Filter Date');
 });
