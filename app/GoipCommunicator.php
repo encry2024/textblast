@@ -3,7 +3,6 @@
 
 namespace App;
 
-
 use Monolog\Handler\SyslogUdp\UdpSocket;
 
 class GoipCommunicator extends UdpSocket
@@ -48,54 +47,55 @@ class GoipCommunicator extends UdpSocket
     /**
      * @param
      */
-    public function sendSMSRequest(Sms $sms)
+    public static function sendSMSRequest($mobileNumber, $message, $sessionID = NULL)
     {
+        echo "SENDING MESSAGE TO: $mobileNumber";
+        $goipCommunicator = new GoipCommunicator(3);
+
         //check first if socket is active
-        if (!$this->socket) {echo "No socket connection."; return FALSE;}
+        if (!$goipCommunicator->socket) {echo "No socket connection."; return FALSE;}
 
         //check if goip was passed
-        if (!$this->goip) {echo "No GoIP information to communicate."; return FALSE;}
+        if (!$goipCommunicator->goip) {echo "No GoIP information to communicate."; return FALSE;}
 
         //check if SMS was passed
-        if (!$sms) {echo "No SMS information to send."; return FALSE;}
+        if (!$mobileNumber OR !$message) {echo "No SMS information to send."; return FALSE;}
 
         /* Send Message */
-        $this->socket->write("MSG " . $sms->id . " " . strlen($sms->message) . " " . $sms->message . "\n");
-        $response = $this->getResponse();
+        $goipCommunicator->socket->write("MSG " . $sessionID . " " . strlen($message) . " " . $message . "\n");
 
         /* Send Password */
-        if (strpos($response, "PASSWORD") !== FALSE) {
-            $this->socket->write("PASSWORD " . $sms->id . " " . $this->goip->password . "\n");
-            $response = $this->getResponse();
+        if (strpos($goipCommunicator->getResponse(), "PASSWORD") !== FALSE) {
+            $goipCommunicator->socket->write("PASSWORD " . $sessionID . " " . $goipCommunicator->goip->password . "\n");
+            $response = $goipCommunicator->getResponse();
         } else {
             //something went wrong. exiting the sms sending..
-            echo "Something went wrong upon sending password: " . $this->goip->password . "\n";
-            $response = $this->getResponse();
-            return false;
+            echo "Something went wrong upon sending password: " . $goipCommunicator->goip->password . "\n";
+            return FALSE;
         }
-
         /* Send recipient number */
-        $telID = rand(); //generate unique telID
+        echo "Sending message.....\n";
         if (strpos($response, "SEND") !== FALSE) {
-            //echo "Sending recipient number: " . "SEND " . $sms->id . " " . $telID . " " . $sms->phone_number . "\n" . "\n";
-            $this->socket->write("SEND " . $sms->id . " " . $telID . " " . $sms->recipient_number->phone_number . "\n");
-            $response = $this->getResponse();
+            $goipCommunicator->socket->write("SEND " . $sessionID . " 1 " . $mobileNumber . "\n");
         }
 
         /* Wait for GoIP reply */
         $retry = 0;
-        while ($retry < 4) {
+        while ($retry < 6) {
             // run loop in 5 seconds limit
-            $timeLimit = ($currentTime = time()) + 5;
+            $timeLimit = time() + 5;
             echo "Waiting for sending status.....\n";
-            while (strpos($response, "WAIT") !== FALSE AND $currentTime < $timeLimit) {
-                $response = $this->getResponse();
-                //echo "$remote_ip : $remote_port -- " . $response . "\n";
-                $currentTime = time();
+            while (strpos($response = $goipCommunicator->getResponse(), "OK") == FALSE) {
+                //return var_dump($currentTime . '/' . $timeLimit);
+                $goipCommunicator->socket->write("SEND " . $sessionID . " 1 " . $mobileNumber . "\n");
+                if($timeLimit < time()) break;
+                usleep(800000);
             }
-            if ($currentTime >= $timeLimit) {
-                $this->socket->write("SEND " . $sms->id . " " . $telID . " " . $sms->recipient_number->phone_number . "\n");
-                $response = $this->getResponse();
+
+            // Check if will retry again
+            $willRetry = is_numeric(strpos($response, "OK"))?FALSE:TRUE;
+            if ($willRetry == TRUE) {
+                $goipCommunicator->socket->write("SEND " . $sessionID . " 1 " . $mobileNumber . "\n");
                 $retry++;
                 echo "Retrying($retry)....";
             } else {
@@ -104,39 +104,42 @@ class GoipCommunicator extends UdpSocket
         }
 
         /* Check if the response is OK */
-        if (strpos($response, "OK") !== FALSE) {
-            echo "Message sent! Replying DONE.....\n";
-            $this->socket->write("DONE " . $sms->id . "\n");
-            $response = $this->getResponse();
-            $this->socket->close();
+        if (strpos($goipCommunicator->getResponse(), "OK") !== FALSE) {
+            echo "Message sent! Replying DONE.....\n\n";
+            $goipCommunicator->socket->write("DONE " . $sessionID . "\n");
 
-            //update sms status
-            $sms->status="OK";
-            $sms->save();
+            // Update smsActivity
+            $smsActivity = SmsActivity::find($sessionID);
+            $smsActivity->status = 'SENT';
+            $smsActivity->save();
+        } else {
+            echo "Message not sent! Exiting.....\n\n";
 
-            return TRUE;
+            // Update smsActivity
+            $smsActivity = SmsActivity::find($sessionID);
+            $smsActivity->status = 'FAILED';
+            $smsActivity->save();
         }
 
-        $this->socket->close();
-        //update sms status
-        $sms->status="FAILED";
-        $sms->save();
+        $goipCommunicator->socket->close();
 
-        echo "Message not sent! Exiting.....\n";
-        return FALSE;
+        return;
     }
 
     /**
      * @param 
      */
     public static function receiveSMSRequest($smsData){
+        echo "Message received! \n";
         //disect each information
         $data = explode(';', $smsData);
 
+        echo "Getting the date \n";
         //get the date
         $smsDateTemp = explode(':', $data[0]);
         $smsDate = $smsDateTemp[1];
 
+        echo "Getting the source goip \n";
         //get the source goip
         $smsGoipTemp = explode(':', $data[1]);
         $smsGoip = $smsGoipTemp[1];
@@ -146,18 +149,22 @@ class GoipCommunicator extends UdpSocket
         $goipCommunicator->socket->write("RECEIVE " . $smsDate . " OK\n");
         $goipCommunicator->socket->close();
 
+        echo "Getting the goip password \n";
         //get the goip password
         $smsPasswordTemp = explode(':', $data[2]);
         $smsPassword = $smsPasswordTemp[1];
 
+        echo "Getting the source sms number \n";
         //get the source sms number
         $smsNumberTemp = explode(':', $data[3]);
         $smsNumber = $smsNumberTemp[1];
 
+        echo "Getting the sms content \n";
         //get the sms content
         $smsContentTemp = explode(':', $data[4]);
         $smsContent = $smsContentTemp[1];
 
+        echo "Search if sender was already added in recipient_numbers table. if not then add new \n";
         //search if sender was already added in recipient_numbers table. if not then add new
         $recipientNumber = RecipientNumber::checkPhoneExist($smsNumber);
 
@@ -168,14 +175,23 @@ class GoipCommunicator extends UdpSocket
             $recipient->phoneNumbers()->save($recipientNumber = new RecipientNumber(['recipient_id' => $recipient->id, 'phone_number' => $smsNumber]));
         }
 
+        echo "Create new SMS instance \n";
         // Create new SMS instance
-        $new_sms = new Sms();
-        $new_sms->recipient_id = $recipientNumber->recipient_id;
-        $new_sms->team_id = 0;
-        $new_sms->message = $smsContent;
-        $new_sms->type = 'RECEIVED';
-        $new_sms->recipient_number_id = $recipientNumber->id;
-        $new_sms->save();
+        $sms = new Sms();
+        $sms->message = $smsContent;
+        $sms->type = 'receive';
+        $sms->save();
+
+        echo "Create new SMS activity instance\n\n";
+        // Create new SMS activity instance;
+        $smsActivity = new SmsActivity();
+        $smsActivity->sms_id = $sms->id;
+        $smsActivity->recipient_number_id = $recipientNumber->id;
+        $smsActivity->recipient_team_id = 0;
+        $smsActivity->status = 'RECEIVED';
+        $smsActivity->save();
+
+        return;
     }
 
     /**
@@ -190,9 +206,11 @@ class GoipCommunicator extends UdpSocket
      * @param 
      */
     public function getResponse(){
-        socket_recvfrom($this->socket->socket, $buf, 512, 0, $this->socket->ip, $this->socket->port);
-
-        echo $buf;
+       // socket_recvfrom($this->socket->socket, $buf, 2048, MSG_WAITALL, $this->socket->ip, $this->socket->port);
+        if (false !== ($bytes = socket_recv($this->socket->socket, $buf, 4096, 0))) {
+            $buf = $buf;
+        }
+        echo $buf . "\n";
         return $buf;
     }
 }
