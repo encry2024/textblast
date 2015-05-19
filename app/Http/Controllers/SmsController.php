@@ -111,7 +111,7 @@ class SmsController extends Controller {
 	}
 
 	public function retrieveRecipient (){
-		$ret = \App\Sms::retrieve_recipients();
+		$ret = Sms::retrieve_recipients();
 
 		return $ret;
 	}

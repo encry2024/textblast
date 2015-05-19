@@ -4,6 +4,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class SmsActivity extends Model {
 
+	protected $table = 'sms_activities';
+	protected $fillable = ['sms_id', 'recipient_team_id', 'recipient_number_id', 'status'];
+
 	//
 	public function sms() {
 		return $this->belongsTo('App\Sms');
