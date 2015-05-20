@@ -44,13 +44,13 @@ class SmsController extends Controller {
 		//
 	}
 
-
 	/**
 	 * @param CreateSmsRequest $request
 	 * @return string
 	 */
 	public function store(CreateSmsRequest $request)  {
-		$send_sms = Sms::send($request);
+		$sms = new Sms();
+		$send_sms = $sms->send($request);
 
 		return $send_sms;
 	}
@@ -111,7 +111,7 @@ class SmsController extends Controller {
 	}
 
 	public function retrieveRecipient (){
-		$ret = \App\Sms::retrieve_recipients();
+		$ret = Sms::retrieve_recipients();
 
 		return $ret;
 	}

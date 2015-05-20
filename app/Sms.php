@@ -1,9 +1,11 @@
 <?php namespace App;
 
+use App\Commands\SendSmsCommand;
 use Illuminate\Database\Eloquent\Model as Eloquent;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 class Sms extends Eloquent {
-
+	use DispatchesCommands;
 	//
 	protected $fillable = array('recipient_id', 'message', 'type', 'team_id');
 
@@ -23,9 +25,9 @@ class Sms extends Eloquent {
 		return $this->hasMany('App\SmsActivity');
 	}
 
-	public static function send($request) {
+	public function send($request) {
 		$receivers = $request->get('receivers');
-		$sms = $request->get('message');
+		$message = $request->get('message');
 
 		# check if recipients is empty
 		if (count($receivers) == 0) {
@@ -33,13 +35,17 @@ class Sms extends Eloquent {
 		}
 
 		# loop on all sender to check if existing recipients table or teams table, if not then create new
-		$sms_activity = new SmsActivity();
+		$this->message = $message;
+		$this->type = 'sent';
+		$this->save();
+
+		// phone_numbers array
 		foreach($receivers as $receiver) {
 			if (preg_match('/(\+63|0)9+[0-9]{9}/', $receiver, $matched)) {
 				$recipient_number = RecipientNumber::where('phone_number', $matched[0])->first();
-				if(count($recipient_number) == 0) {
+				if (count($recipient_number) == 0) {
 					$recipient = new Recipient();
-					$recipient->name = "no name";
+					$recipient->name = "NO NAME";
 					$recipient->save();
 
 					$recipient_number = $recipient->phoneNumbers()
@@ -49,52 +55,39 @@ class Sms extends Eloquent {
 						]));
 				}
 
-				$new_sms = new Sms();
-				$new_sms->message = $sms;
-				$new_sms->type = 'sent';
-				$new_sms->save();
+				// Create SMSActivity object
+				$smsActivity = new SmsActivity();
+				$smsActivity->sms_id = $this->id;
+				$smsActivity->recipient_number_id = $recipient_number->id;
+				$smsActivity->recipient_team_id = 0;
+				$smsActivity->status = 'PENDING';
+				$smsActivity->save();
 
-				# Save the activity to sms_activity
-				$sms_activity->sms_id = $new_sms->id;
-				$sms_activity->recipient_number_id = $recipient_number->id;
-				$sms_activity->status = 'SENT';
-				$sms_activity->save();
-
-				# invoke send sms to GoipCommunicator
-				$goipCommunicator = new GoipCommunicator(3);
-				$goipCommunicator->sendSMSRequest($new_sms);
-
+				// Send to queue
+				$this->dispatch(new SendSmsCommand($recipient_number->phone_number, $message, $smsActivity->id));
 			}
 
 			$team = Team::where('name', $receiver)->first();
 			if (count($team) > 0 ) {
 				$recipients = $team->recipients;
-				//var_dump($recipientNumbers);
-
-				$new_sms = new Sms();
-				$new_sms->message = $sms;
-				$new_sms->type = 'SEND';
-				$new_sms->save();
 
 				foreach($recipients as $recipient) {
 					$recipient_number = RecipientNumber::where('recipient_id', $recipient->id)->first();
-					# Save action taken to Sms_activity
-					$sms_activity->sms_id = $new_sms->id;
-					$sms_activity->recipient_team_id = $team->id;
-					$sms_activity->recipient_number_id = $recipient_number->id;
-					$sms_activity->status = 'SENT';
-					$sms_activity->save();
 
+					// Create SMSActivity object
+					$smsActivity = new SmsActivity();
+					$smsActivity->sms_id = $this->id;
+					$smsActivity->recipient_number_id = $recipient_number->id;
+					$smsActivity->recipient_team_id = 0;
+					$smsActivity->status = 'PENDING';
+					$smsActivity->save();
 
-
-					// invoke send sms to GoipCommunicator
-					$goipCommunicator = new GoipCommunicator(3);
-					$goipCommunicator->sendSMSRequest($new_sms);
+					// Send to queue
+					$this->dispatch(new SendSmsCommand($recipient_number->phone_number, $message, $smsActivity->id));
 				}
-				return $sms_activity;
 			}
 		}
-		//return redirect()->back()->with('success_msg', 'Message has been sent');
+		return redirect()->back()->with('success_msg', 'Message has been sent to queue.');
 	}
 
 	public static function retrieve_Sms(){
