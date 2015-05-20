@@ -3,6 +3,7 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\DB;
 use Monolog\Handler\SyslogUdp\UdpSocket;
 
 class GoipCommunicator extends UdpSocket
@@ -49,8 +50,10 @@ class GoipCommunicator extends UdpSocket
      */
     public static function sendSMSRequest($mobileNumber, $message, $sessionID = NULL)
     {
-        echo "SENDING MESSAGE TO: $mobileNumber";
-        $goipCommunicator = new GoipCommunicator(3);
+        echo "SENDING MESSAGE TO: $mobileNumber \n";
+        $network = GoipCommunicator::networkGetter($mobileNumber);
+        $goip = Goip::where('network', $network)->first();
+        $goipCommunicator = new GoipCommunicator($goip->id);
 
         //check first if socket is active
         if (!$goipCommunicator->socket) {echo "No socket connection."; return FALSE;}
@@ -111,6 +114,7 @@ class GoipCommunicator extends UdpSocket
             // Update smsActivity
             $smsActivity = SmsActivity::find($sessionID);
             $smsActivity->status = 'SENT';
+            $smsActivity->goip_name = $goip->name;
             $smsActivity->save();
         } else {
             echo "Message not sent! Exiting.....\n\n";
@@ -118,6 +122,7 @@ class GoipCommunicator extends UdpSocket
             // Update smsActivity
             $smsActivity = SmsActivity::find($sessionID);
             $smsActivity->status = 'FAILED';
+            $smsActivity->goip_name = $goip->name;
             $smsActivity->save();
         }
 
@@ -210,7 +215,25 @@ class GoipCommunicator extends UdpSocket
         if (false !== ($bytes = socket_recv($this->socket->socket, $buf, 4096, 0))) {
             $buf = $buf;
         }
-        echo $buf . "\n";
+        echo $buf;
         return $buf;
+    }
+
+
+    /**
+     * @param
+     */
+    public static function networkGetter($phone){
+        if(strlen($phone) == 3) {
+            $network = DB::table('mobile_prefix')->where('prefix', $phone)->pluck('network_name');
+
+            return $network;
+        } elseif(strlen($phone) >= 10) {
+            $network = DB::table('mobile_prefix')->where('prefix', substr($phone, -10, 3))->pluck('network_name');
+
+            return $network;
+        }
+
+        return false;
     }
 }

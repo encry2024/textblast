@@ -45,7 +45,7 @@ class Sms extends Eloquent {
 				$recipient_number = RecipientNumber::where('phone_number', $matched[0])->first();
 				if (count($recipient_number) == 0) {
 					$recipient = new Recipient();
-					$recipient->name = "no name";
+					$recipient->name = "NO NAME";
 					$recipient->save();
 
 					$recipient_number = $recipient->phoneNumbers()
