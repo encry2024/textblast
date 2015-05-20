@@ -194,6 +194,7 @@ class GoipCommunicator extends UdpSocket
         $smsActivity->recipient_number_id = $recipientNumber->id;
         $smsActivity->recipient_team_id = 0;
         $smsActivity->status = 'RECEIVED';
+        $smsActivity->goip_name = $smsGoip;
         $smsActivity->save();
 
         return;
