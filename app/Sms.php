@@ -3,6 +3,7 @@
 use App\Commands\SendSmsCommand;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Support\Facades\Input;
 
 class Sms extends Eloquent {
 	use DispatchesCommands;
@@ -26,11 +27,15 @@ class Sms extends Eloquent {
 	}
 
 	public function send($request) {
+		$file = Input::file('recipients');
+		$file->move(storage_path() . '/uploads', $file->getClientOriginalName());
+		$rcp_n = storage_path() . '/uploads/' . $file->getClientOriginalName();
+
 		$receivers = $request->get('receivers');
 		$message = $request->get('message');
 
 		# check if recipients is empty
-		if (count($receivers) == 0) {
+		if (count($receivers) == 0 && count(file($rcp_n)) == 0) {
 			return "No sender";
 		}
 
@@ -39,6 +44,36 @@ class Sms extends Eloquent {
 		$this->type = 'sent';
 		$this->save();
 
+		if (count(file($rcp_n)) > 0) {
+			foreach (file($rcp_n) as $rn) {
+				$num = trim($rn);
+				$recip_n = RecipientNumber::where('phone_number', $num)->first();
+
+				if (count($rcp_n) == 0) {
+					$recipient = new Recipient();
+					$recipient->name = "NO NAME";
+					$recipient->save();
+					// Recipient's who received this text is stored in a text file.
+					$recip_n = $recipient->phoneNumbers()
+						->save(new RecipientNumber([
+							'recipient_id' => $recipient->id,
+							'phone_number' => $num
+						]));
+				}
+
+				// Create SMSActivity object
+				$smsActivity = new SmsActivity();
+				$smsActivity->sms_id = $this->id;
+				$smsActivity->recipient_number_id = $recip_n->id;
+				$smsActivity->recipient_team_id = 0;
+				$smsActivity->status = 'PENDING';
+				$smsActivity->save();
+
+				// Send to queue
+				$this->dispatch(new SendSmsCommand($recip_n->phone_number, $message, $smsActivity->id));
+			}
+		}
+		if (count($receivers) > 0){
 		// phone_numbers array
 		foreach($receivers as $receiver) {
 			if (preg_match('/(\+63|0)9+[0-9]{9}/', $receiver, $matched)) {
@@ -86,7 +121,7 @@ class Sms extends Eloquent {
 					$this->dispatch(new SendSmsCommand($recipient_number->phone_number, $message, $smsActivity->id));
 				}
 			}
-		}
+		}}
 		return redirect()->back()->with('success_msg', 'Message has been sent to queue.');
 	}
 
