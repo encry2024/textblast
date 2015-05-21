@@ -58,6 +58,7 @@
 	$.getJSON("sms", function(data) {
 		$('#messages').dataTable({
 			"aaData": data,
+			"aaSorting": [],
 			"lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
 			"oLanguage": {
 			    "sEmptyTable": "There are currently no messages...",
@@ -121,18 +122,7 @@
                     return '<label class="text-center size-14"> ' + data + ' </label>';
                     }
                 }
-			],
-
-			"fnDrawCallback": function( oSettings ) {
-				 //Need to redo the counters if filtered or sorted
-				if ( oSettings.bSorted || oSettings.bFiltered )
-				{
-					for ( var i=0, iLen=oSettings.aiDisplay.length ; i<iLen ; i++ )
-					{
-						$('td:eq(0)', oSettings.aoData[ oSettings.aiDisplay[i] ].nTr ).html( "<label>" + (i+1) + "</label>" );
-					}
-				}
-			}
+			]
 		});
 	$('div.dataTables_filter input').attr('placeholder', 'Filter Date');
 });

@@ -21,7 +21,7 @@ class SmsController extends Controller {
 	 */
 	public function index() {
 		$json = array();
-		$getSms = Sms::all();
+		$getSms = Sms::orderBy('created_at', 'DESC')->get();
 
 		foreach ($getSms as $sms) {
 			$json[] = [
