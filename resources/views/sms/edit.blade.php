@@ -24,16 +24,15 @@
 			<label for="">
 			@foreach ($sms->sms_activity as $smsAct)
                 @if($smsAct->recipient_team_id == 0)
-					<a href="{{ route('recipient.edit', $smsAct->recipient_number->recipient->id) }}"  data-popover="true" data-html="true" title="<label>Recipient Information</label>" data-trigger="hover" data-content="
-				<label>Sent Status (SENT/FAILED): <a>{{ $smsAct->status }}</a></label>
+					<li><a href="{{ route('recipient.edit', $smsAct->recipient_number->recipient->id) }}"  data-popover="true" data-html="true" title="<label>Recipient Information</label>" data-trigger="hover" data-content="
+				<label>SMS Status: <a>{{ $smsAct->status }}</a></label>
 				<label>Receiving Number: <a>{{ $smsAct->recipient_number->phone_number }}</a></label>
 				<div class='sep-1'></div>
 				<label>Groups: @foreach($smsAct->recipient_number->recipient->teams as $recipient_team) <a href='{{ route('team.edit', $recipient_team->id) }}'>{{ $recipient_team->name }}</a>, @endforeach</label>
 				<label>Recipient's Contacts: @foreach($smsAct->recipient_number->recipient->phoneNumbers as $phoneNumber)<a>{{ $phoneNumber->phone_number }}</a>, @endforeach
 							">
 						{{ $smsAct->recipient_number->recipient->name }}
-					</a>
-					<br>
+					</a></li>
 				@endif
 			@endforeach
 			</label>
@@ -44,11 +43,10 @@
 			<?php $smsActivities = $sms->getRelatedTeams() ?>
 			@foreach ($smsActivities as $smsActivity)
 				@if($smsActivity->team)
-					<a href="#" id="groupLink" data-popover="true" data-html="true" data-placement="right" title="<label>Group Members</label>" data-trigger="hover" data-content="
-				    @foreach( $smsActivity->team->recipients as $recipient )
-				    	<label><a href='{{ route('recipient.edit', $recipient->id) }}'>{!! $recipient->name !!}</a></label><br>
-				    @endforeach">{{ $smsActivity->team->name }}
-			    	</a>
+					<a href="#" id="groupLink">{{ $smsActivity->team->name }}</a>
+					 @foreach( $smsActivity->team->recipients as $recipient )
+						 {!! "<li><a href='" . route('recipient.edit', $recipient->id) . "'>" . $recipient->name ."</a></li>" !!}
+					@endforeach
 					<br>
 				@endif
 			@endforeach
