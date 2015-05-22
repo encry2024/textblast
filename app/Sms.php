@@ -117,7 +117,7 @@ class Sms extends Eloquent {
 					$smsActivity = new SmsActivity();
 					$smsActivity->sms_id = $this->id;
 					$smsActivity->recipient_number_id = $recipient_number->id;
-					$smsActivity->recipient_team_id = 0;
+					$smsActivity->recipient_team_id = $team->id;
 					$smsActivity->status = 'PENDING';
 					$smsActivity->save();
 
