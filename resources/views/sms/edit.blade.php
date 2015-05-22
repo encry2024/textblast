@@ -49,6 +49,7 @@
 				    	<label><a href='{{ route('recipient.edit', $recipient->id) }}'>{!! $recipient->name !!}</a></label><br>
 				    @endforeach">{{ $smsActivity->team->name }}
 			    	</a>
+					<br>
 				@endif
 			@endforeach
             </label>
