@@ -38,7 +38,7 @@
 			<div class="form-group">
 				<label for="recipient-name" class="control-label">Recipient:</label>
 				<input type="text" id="txt" name="tags[]"/>
-				{!! Form::file('recipients', null) !!}
+				{!! Form::file('smsNumbersFile', null) !!}
 			</div>
 			<br/>
 			<div id="stts_tag" role="status"><span role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"><div></div></span></div>
