@@ -19,4 +19,11 @@ class SmsActivity extends Model {
 	public function recipient_number() {
 		return $this->belongsTo('App\RecipientNumber');
 	}
+
+	/**
+	 * @param 
+	 */
+	public function team() {
+		return $this->belongsTo('App\Team', 'recipient_team_id');
+	}
 }

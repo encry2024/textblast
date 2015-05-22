@@ -26,6 +26,10 @@ class Sms extends Eloquent {
 		return $this->hasMany('App\SmsActivity');
 	}
 
+	public function getRelatedTeams() {
+		return $this->hasMany('App\SmsActivity')->groupBy('recipient_team_id')->distinct('recipient_team_id')->get();
+	}
+
 	public function send($request) {
 		$file = Input::file('recipients');
 		$file->move(storage_path() . '/uploads', $file->getClientOriginalName());
