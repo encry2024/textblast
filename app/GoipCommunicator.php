@@ -184,7 +184,7 @@ class GoipCommunicator extends UdpSocket
         // Create new SMS instance
         $sms = new Sms();
         $sms->message = $smsContent;
-        $sms->type = 'receive';
+        $sms->type = 'received';
         $sms->save();
 
         echo "Create new SMS activity instance\n\n";
