@@ -18,6 +18,9 @@ class TeamController extends Controller {
 	protected $team;
 
     public function __construct(Team $team) {
+		// Add auth filter
+		$this->middleware('auth');
+
         $this->team = $team;
     }
 

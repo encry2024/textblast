@@ -24,11 +24,14 @@ class RecipientController extends Controller {
 	*/
 	public function __construct(Recipient $recipient, RecipientNumber $recipient_number,
                                 RecipientTeam $recipient_team, Team $team) {
-        $this->recipient = $recipient;
-        $this->recipient_number = $recipient_number;
-        $this->recipient_team = $recipient_team;
-        $this->team = $team;
-    }
+		// Add auth filter
+		$this->middleware('auth');
+
+		$this->recipient = $recipient;
+		$this->recipient_number = $recipient_number;
+		$this->recipient_team = $recipient_team;
+		$this->team = $team;
+	}
 
 	/**
 	 * @return string

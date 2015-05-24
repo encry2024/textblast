@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 class SmsActivityController extends Controller {
 
 	/**
+	 * New controller instance
+	 */
+	public function __construct(){
+		// Add auth filter
+		$this->middleware('auth');
+	}
+	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
