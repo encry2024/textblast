@@ -19,6 +19,9 @@ class RecipientTeamController extends Controller {
 	 */
 	public function __constructor( RecipientTeam $recipientTeam,
 								   Team $team) {
+		// Add auth filter
+		$this->middleware('auth');
+
 		$this->recipientTeam = $recipientTeam;
 		$this->team = $team;
 	}

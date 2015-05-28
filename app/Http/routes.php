@@ -2,7 +2,7 @@
 
 # BIND
 Route::bind('recipient', function( $id ) 		{ return App\Recipient::find($id); });
-Route::bind('team', function( $id ) 			{ return App\Team::find($id); });
+//Route::bind('team', function( $id ) 			{ return App\Team::find($id); });
 Route::bind('sms', function( $id )		 		{ return App\Sms::find($id); });
 Route::bind('recipientTeam', function( $id ) 	{ return App\RecipientTeam::find($id); });
 Route::bind('recipientNumber', function( $id ) 	{ return App\RecipientNumber::find($id); });
@@ -25,9 +25,12 @@ Route::get('contacts', ['as'  => 'pb', 'uses' => function() {return view('contac
 Route::get('groups', ['as' => 'grp', 'uses' => function() {return view('groups.show');}]);
 Route::get('test', function() {return view('tests.testform');});
 Route::get('messaging', ['as' => 'msg', 'uses' => 'SmsController@retSmsCount']);
+Route::post('team/{id}/untag', ['as' => 'untag', 'uses' => 'TeamController@untagRecipient']);
 
 # JSON
 Route::get('getNum', 'RecipientNumberController@getNumber');
 Route::get('retrieve/contacts', 'SmsController@retrieveSms');
 Route::get('retrieve/recipients','SmsController@retrieveRecipient');
 Route::get('sent_sms', 'SmsController@getSent');
+
+Route::get('recipients/json', 'RecipientController@getAllRecipientsJSON');

@@ -37,7 +37,7 @@ class HomeController extends Controller {
 	public function index( Recipient $recipient, Sms $sms, Team $team )
 	{
         $recipients = $recipient->all();
-        $inbox 		= $sms->where('type','receive')->get();
+        $inbox 		= $sms->where('type','received')->get();
 		$team		= $team->all();
 		$msgs 		= $sms->all();
 

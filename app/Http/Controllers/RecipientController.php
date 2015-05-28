@@ -24,11 +24,14 @@ class RecipientController extends Controller {
 	*/
 	public function __construct(Recipient $recipient, RecipientNumber $recipient_number,
                                 RecipientTeam $recipient_team, Team $team) {
-        $this->recipient = $recipient;
-        $this->recipient_number = $recipient_number;
-        $this->recipient_team = $recipient_team;
-        $this->team = $team;
-    }
+		// Add auth filter
+		$this->middleware('auth');
+
+		$this->recipient = $recipient;
+		$this->recipient_number = $recipient_number;
+		$this->recipient_team = $recipient_team;
+		$this->team = $team;
+	}
 
 	/**
 	 * @return string
@@ -126,8 +129,11 @@ class RecipientController extends Controller {
 		return redirect( route('pb') )->with('success_msg', 'Recipient was successfully deleted');
 	}
 
-	public function number() {
-		
+	/**
+	 * @param
+	 */
+	public function getAllRecipientsJSON(){
+		return Recipient::where('name', '!=', 'NO NAME')->lists('name', 'id');
 	}
 
 }

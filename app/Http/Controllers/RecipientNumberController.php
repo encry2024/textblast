@@ -13,6 +13,9 @@ class RecipientNumberController extends Controller {
 	 * @return Response
 	 */
 	public function ___construct(RecipientNumber $recipientNumber){
+		// Add auth filter
+		$this->middleware('auth');
+
 		$this->recipientNumber = $recipientNumber;
 	}
 

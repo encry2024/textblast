@@ -13,6 +13,9 @@ class SmsController extends Controller {
 	 * @param Sms $sms
 	 */
 	public function __construct( Sms $sms ) {
+		// Add auth filter
+		$this->middleware('auth');
+
 		$this->sms = $sms;
 	}
 
