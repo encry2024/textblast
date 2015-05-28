@@ -1,10 +1,13 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Recipient;
+use Illuminate\Http\Request;
 # MODEL
 use App\Team;
 # REQUESTS
 use App\Http\Requests\CreateTeamRequest;
+use App\Http\Requests\UpdateTeamRequest;
 # INPUT
 use Illuminate\Support\Facades\Input;
 
@@ -68,8 +71,8 @@ class TeamController extends Controller {
 	 * Display the specified resource.
 	 * @return Response
 	 */
-	public function show() {
-		return view('groups.edit');
+	public function show(Team $team) {
+		return view('groups.edit', compact('team'));
 	}
 
 	/**
@@ -78,8 +81,8 @@ class TeamController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id) {
-		return view('groups.edit', compact('id'));
+	public function edit(Team $team) {
+		return view('groups.edit', compact('team'));
 	}
 
 	/**
@@ -88,8 +91,14 @@ class TeamController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id) {
-		//$affectedRows = User::where('votes', '>', 100)->update(['status' => 2]);
+	public function update(Team $team, UpdateTeamRequest $requests) {
+		//update description
+		$team->description = $requests->description;
+		$team->save();
+
+		if($requests->receivers) $team->recipients()->sync($requests->receivers, false);
+
+		return redirect()->back()->with('success_msg', 'Success.');
 	}
 
 	/**
@@ -102,4 +111,21 @@ class TeamController extends Controller {
 		//
 	}
 
+
+	/**
+	 * @param
+	 */
+	public function untagRecipient($teamID, Request $request){
+		// detach the given recipient id from the team
+		Team::find($teamID)->recipients()->detach([$request->get('recipient_id')]);
+
+		return redirect()->back()->with('success_msg', 'Success.');
+	}
+
+	/**
+	 * @param
+	 */
+	public function getAllTeamsJSON(){
+		return Team::all()->lists('name', 'id');
+	}
 }

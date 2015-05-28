@@ -129,8 +129,11 @@ class RecipientController extends Controller {
 		return redirect( route('pb') )->with('success_msg', 'Recipient was successfully deleted');
 	}
 
-	public function number() {
-		
+	/**
+	 * @param
+	 */
+	public function getAllRecipientsJSON(){
+		return Recipient::where('name', '!=', 'NO NAME')->lists('name', 'id');
 	}
 
 }
