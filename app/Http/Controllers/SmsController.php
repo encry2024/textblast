@@ -3,6 +3,7 @@
 use App\Http\Requests;
 // Models
 use App\Sms;
+use App\Template;
 use App\Http\Requests\CreateSmsRequest;
 
 
@@ -100,11 +101,8 @@ class SmsController extends Controller {
 	}
 
 	public function retSmsCount() {
-		$sent_sms = Sms::where('type','sent')->get();
-		$failed_sms = Sms::where('type','failed')->get();
-		$messages = Sms::where('type','received')->get();
-
-		return view('sms.show', compact('sent_sms','failed_sms','messages'));
+		$templates = Template::all();
+		return view('sms.show', compact('templates'));
 	}
 
 	public function retrieveSms (){
