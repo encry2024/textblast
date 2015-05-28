@@ -2,13 +2,15 @@
     <br/>
     <div class="panel panel-default col-lg-12">
         <div class="panel-body left">
+            <a href="{{ route('msg') }}"><span class="glyphicon glyphicon-comment"></span> Send SMS </a>
+            <br/><br/>
+            <a href="{{ route('/home') }}"><span class="glyphicon glyphicon-share-alt"></span> Inbox <span class="badge"> {{ count($msgs) }} </span></a>
+            <br/><br/>
             <a href="{{ route('pb')  }}"><span class="glyphicon glyphicon-book"></span> Contacts <span class="badge">{{ count($recipients) }}</span></a>
             <br/><br/>
-            <a href="{{ route('msg') }}"><span class="glyphicon glyphicon-share-alt"></span> Messaging <span class="badge"> {{ count($msgs) }} </span></a>
             {{--<br><br>
             <a href=""><span class="glyphicon glyphicon-user"></span> Manage Users <span class="badge">0</span></a>--}}
-            <br><br>
-            <a href="{{ route('grp') }}"><span class="glyphicon glyphicon-list-alt"></span> Manage Groups <span class="badge">{{ count($team) }}</span></a>
+            <a href="{{ route('grp') }}"><span class="glyphicon glyphicon-list-alt"></span> Groups <span class="badge">{{ count($team) }}</span></a>
             <div></div>
            {{-- <br/>
             <div class="sprtr"></div>
