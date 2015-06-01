@@ -32,7 +32,7 @@ class Sms extends Eloquent {
 
 	public function send($request) {
 		// update and assign values
-		$receivers = $request->get('receivers');
+		$receivers= is_null($request->get('receivers'))?array():$request->get('receivers');
 		$message = $request->get('message');
 		$file = Input::file('smsNumbersFile');
 
@@ -40,87 +40,57 @@ class Sms extends Eloquent {
 		$this->type = 'sent';
 		$this->save();
 
-		// Process file and get numbers per line
 		if(file_exists($file) AND count(file($file)) > 0) {
-			foreach (file($file) as $mobileNumber) {
-				$mobileNumber = trim($mobileNumber);
-				$recipientNumber = RecipientNumber::where('phone_number', $mobileNumber)->first();
-
-				if (count($recipientNumber) == 0) {
-					$recipient = new Recipient();
-					$recipient->name = "NO NAME";
-					$recipient->save();
-
-					// Recipient's who received this text is stored in a text file.
-					$recipientNumber = $recipient->phoneNumbers()
-						->save(new RecipientNumber([
-							'recipient_id' => $recipient->id,
-							'phone_number' => $mobileNumber
-						]));
-				}
-
-				// Create SMSActivity object
-				$smsActivity = new SmsActivity();
-				$smsActivity->sms_id = $this->id;
-				$smsActivity->recipient_number_id = $recipientNumber->id;
-				$smsActivity->recipient_team_id = 0;
-				$smsActivity->status = 'PENDING';
-				$smsActivity->save();
-
-				// Send to queue
-				$this->dispatch(new SendSmsCommand($recipientNumber->phone_number, $message, $smsActivity->id));
-			}
+			$receivers = array_merge(file($file), $receivers);
 		}
 
 		# loop on all sender to check if existing recipients table or teams table, if not then create new
 		if (count($receivers) > 0) {
-			// phone_numbers array
 			foreach($receivers as $receiver) {
-				if (preg_match('/(\+63|0)9+[0-9]{9}/', $receiver, $matched)) {
-					$recipient_number = RecipientNumber::where('phone_number', $matched[0])->first();
-					if (count($recipient_number) == 0) {
-						$recipient = new Recipient();
-						$recipient->name = "NO NAME";
-						$recipient->save();
+				// get id and type
+				$info = explode('-', $receiver);
+				$id = $info[0];
+				$type = isset($info[1])?$info[1]:'R';
 
-						$recipient_number = $recipient->phoneNumbers()
-							->save(new RecipientNumber([
-								'recipient_id' => $recipient->id,
-								'phone_number' => $receiver
-							]));
-					}
+				switch ($type) {
+					case 'R':
+						if (preg_match('/(\+63|0)9+[0-9]{9}/', $id, $matched)) {
+							$mobileNumber = trim($matched[0]);
+							$recipientNumber = RecipientNumber::where('phone_number', $mobileNumber)->first();
 
-					// Create SMSActivity object
-					$smsActivity = new SmsActivity();
-					$smsActivity->sms_id = $this->id;
-					$smsActivity->recipient_number_id = $recipient_number->id;
-					$smsActivity->recipient_team_id = 0;
-					$smsActivity->status = 'PENDING';
-					$smsActivity->save();
+							if (count($recipientNumber) == 0) {
+								$recipient = new Recipient();
+								$recipient->name = "NO NAME";
+								$recipient->save();
 
-					// Send to queue
-					$this->dispatch(new SendSmsCommand($recipient_number->phone_number, $message, $smsActivity->id));
-				}
+								// Recipient's who received this text is stored in a text file.
+								$recipientNumber = $recipient->phoneNumbers()
+									->save(new RecipientNumber([
+										'recipient_id' => $recipient->id,
+										'phone_number' => $mobileNumber
+									]));
+							}
+							$this->createActivityAndDispatch($recipientNumber, NULL, $message);
+						} elseif($recipientNumber = RecipientNumber::find($id)) {
+							$this->createActivityAndDispatch($recipientNumber, NULL, $message);
+						}
+						break;
+					case 'T':
+						if ($team = Team::find($id)) {
+							$recipients = $team->recipients;
+							foreach ($recipients as $recipient) {
+								if (count($recipientNumbers = $recipient->phoneNumbers) > 0) {
+									foreach ($recipientNumbers as $recipientNumber) {
+										$this->createActivityAndDispatch($recipientNumber, $team, $message);
+									}
+								}
+							}
+						}
+						break;
+					default:
+						break;
 
-				$team = Team::where('name', $receiver)->first();
-				if (count($team) > 0 ) {
-					$recipients = $team->recipients;
-
-					foreach($recipients as $recipient) {
-						$recipient_number = RecipientNumber::where('recipient_id', $recipient->id)->first();
-
-						// Create SMSActivity object
-						$smsActivity = new SmsActivity();
-						$smsActivity->sms_id = $this->id;
-						$smsActivity->recipient_number_id = $recipient_number->id;
-						$smsActivity->recipient_team_id = $team->id;
-						$smsActivity->status = 'PENDING';
-						$smsActivity->save();
-
-						// Send to queue
-						$this->dispatch(new SendSmsCommand($recipient_number->phone_number, $message, $smsActivity->id));
-					}
-				}
+				};
 			}
 		}
 		return redirect()->back()->with('success_msg', 'Message has been sent to queue.');
@@ -186,5 +156,16 @@ class Sms extends Eloquent {
 		}
 
 		return json_encode($json);
+	}
+
+	/**
+	 * @param
+	 */
+	private function createActivityAndDispatch(RecipientNumber $recipientNumber, $team, $message){
+		// Create SMSActivity object
+		$smsActivity = $this->sms_activity()->save(new SmsActivity(['recipient_number_id' => $recipientNumber->id, 'recipient_team_id' => isset($team)?$team->id:0, 'status' => 'PENDING']));
+
+		// Send to queue
+		$this->dispatch(new SendSmsCommand($recipientNumber->phone_number, $message, $smsActivity->id));
 	}
 }

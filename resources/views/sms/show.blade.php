@@ -33,8 +33,7 @@
 			</div>
 		</div>
 	</div>
-
-	{!! Form::open([ 'route'=>['sms.store'], 'files' => true ]) !!}
+	{!! Form::open([ 'url' => 'sms/send', 'files' => true ]) !!}
 	<div class="col-lg-9 col-md-offset-center-2">
 		<div class="panel panel-default col-lg-12">
 		   <div class="page-header">
@@ -132,17 +131,23 @@
 
 		//The demo tag array
 		var availableTags = [];
-		$.getJSON("{!! URL::to('/') !!}/retrieve/contacts", function(data) {
+		$.getJSON("{!! URL::to('/') !!}/mobile-numbers/json", function(data) {
 			$.each(data, function(key, val) {
-				availableTags.push(val.dta, val.id);
+				availableTags.push({label:val, id:key+'-R'});
 			});
 		});
+
+		$.getJSON("{!! URL::to('/') !!}/teams/json", function(data) {
+			$.each(data, function(key, val) {
+				availableTags.push({label:val, id:key+'-T'});
+			});
+		});
+
 		//The text input
 		var input = $("input#txt");
 
 		//The tagit list
-		var instance = $("<ul class=\"tags\"></ul>");
-		console.log(instance);
+		var instance = $("<ul class=\"tags\" id=\"recipients\"></ul>");
 
 		//Store the current tags
 		//Note: the tags here can be split by any of the trigger keys
@@ -158,20 +163,10 @@
 			fieldName: "receivers[]",
 			allowSpaces: true,
 			removeConfirmation: true,
-			tagsChanged:function () {
-
-			//Get the tags
-				var tags = instance.tagit('tags[]');
-				var tagString = [];
-
-			//Pull out only value.toString
-				for (var i in tags) {
-					tagString.push(tags[i].value);
-					console.log(tags[i].value);
-				}
-
-			//Put the tags into the input, joint by a ','
-			input.val(tagString.join(',').replace(/ Phone: /g, ''));
+			afterTagAdded: function(event, ui) {
+				// do something special
+				result = $.grep(availableTags, function(e){ return e.label == ui.tagLabel; });
+				$("input[value*='"+ui.tagLabel+"']").val(result[0].id);
 			}
 		});
 	});

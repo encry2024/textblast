@@ -8,7 +8,6 @@ use App\Recipient;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\CreateRecipientTeamRequest;
-use App\Http\Requests\CreateTagRecipientRequest;
 
 class RecipientTeamController extends Controller {
 
