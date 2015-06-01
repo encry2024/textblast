@@ -31,6 +31,7 @@ class SmsController extends Controller {
 				'id' => $sms->id,
 				'msg' => $sms->message,
 				'type' => $sms->type,
+				'recipients' => count($sms->sms_activity),
 				'created_at' => date('m/d/Y h:i A', strtotime($sms->created_at))
 			];
 		}
