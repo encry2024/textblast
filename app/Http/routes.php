@@ -1,11 +1,12 @@
 <?php
 
 # BIND
-Route::bind('recipient', function( $id ) 		{ return App\Recipient::find($id); });
-//Route::bind('team', function( $id ) 			{ return App\Team::find($id); });
-Route::bind('sms', function( $id )		 		{ return App\Sms::find($id); });
-Route::bind('recipientTeam', function( $id ) 	{ return App\RecipientTeam::find($id); });
-Route::bind('recipientNumber', function( $id ) 	{ return App\RecipientNumber::find($id); });
+Route::bind('recipient', 		function( $id ) 	{ return App\Recipient::find($id); });
+//Route::bind('team', 			function( $id ) 	{ return App\Team::find($id); });
+Route::bind('sms', 				function( $id )		{ return App\Sms::find($id); });
+Route::bind('recipientTeam', 	function( $id ) 	{ return App\RecipientTeam::find($id); });
+Route::bind('recipientNumber', 	function( $id ) 	{ return App\RecipientNumber::find($id); });
+Route::bind('template', 		function( $id )		{ return App\Template::find($id); });
 
 # RESOURCES
 Route::resource('recipient', 'RecipientController', [ 'except' => ['create'] ]);
@@ -15,6 +16,7 @@ Route::resource('team', 'TeamController');
 //Route::post('tag/recipient', ['as' => 'tr', 'uses' => 'RecipientTeamController@tag']);
 Route::post('delete/recipient', ['as' => 'dr', 'uses' => 'RecipientTeamController@deleteRecipient']);
 Route::resource('recipientTeam', 'RecipientTeamController');
+Route::resource('template', 'TemplateController', ['only' => ['store', 'update', 'show']]);
 
 # POST
 Route::post('sms/send', ['as' => 'sendsms', 'uses' => 'SmsController@send']);
@@ -28,7 +30,11 @@ Route::get('contacts', ['as'  => 'pb', 'uses' => function() {return view('contac
 Route::get('groups', ['as' => 'grp', 'uses' => function() {return view('groups.show');}]);
 Route::get('test', function() {return view('tests.testform');});
 Route::get('messaging', ['as' => 'msg', 'uses' => 'SmsController@retSmsCount']);
+Route::get('template/{template_id}', ['as' => 'req_temp', 'uses' => 'TemplateController@show']);
+# POST
 Route::post('team/{id}/untag', ['as' => 'untag', 'uses' => 'TeamController@untagRecipient']);
+
+//Route::post('retrieve/{template}',);
 
 # JSON
 Route::get('getNum', 'RecipientNumberController@getNumber');

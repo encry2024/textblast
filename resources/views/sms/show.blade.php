@@ -8,10 +8,11 @@
 <div class="container">
     @if (Session::has('success_msg'))
         <div class="alert alert-success center" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             {{ Session::get('success_msg')  }}
         </div>
     @endif
+
 	@if (count($errors) > 0)
 		<div class="alert alert-danger" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -22,9 +23,12 @@
 			</ul>
 		</div>
 	@endif
+
 	<div class="col-lg-3">
 		<div class="panel panel-default col-lg-12">
 			<div class="panel-body">
+				<a href="#" class="col-lg-12" data-toggle="modal" data-target="#templateModal"><span class="glyphicon glyphicon-plus" ></span> Create Template</a>
+				<br><br><br><br>
 				<a href="{{route('/home') }}" class="col-lg-12"><span class="glyphicon glyphicon-menu-left" ></span> Back to Home</a>
 			</div>
 		</div>
@@ -43,8 +47,17 @@
 			<br/>
 			<div id="stts_tag" role="status"><span role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"><div></div></span></div>
 			<div class="form-group">
+				<label for="message-text" class="control-label">Templates:</label>
+				<select name="template" id="template">
+				<option value="" class="form-control">Select a Template</option>
+				@foreach ($templates as $template)
+					<option value="{{ $template->id }}" class="form-control">{{ $template->name }}</option>
+				@endforeach
+				</select>
+			</div>
+			<div class="form-group">
 				<label for="message-text" class="control-label">Message:</label>
-				<textarea name="message" rows="10" class="form-control" id="message-text"></textarea>
+				<textarea name="message" rows="10" class="form-control" id="message_text"></textarea>
 			</div>
 			<div class="right">
 			<button type="submit" class="btn btn-primary">Send message <span class="glyphicon glyphicon-send size-12"></span> </button>
@@ -55,11 +68,67 @@
 	{!! Form::close() !!}
 </div>
 
+<!-- CREATE TEMPLATE MODAL -->
+<div class="modal fade large" id="templateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content ">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Add Template</h4>
+			</div>
+			{!! Form::open(['route' => 'template.store']) !!}
+			<div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12 center col-lg-offset-1">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Template Name</label>
+                                <div class="col-md-6">
+                                    <input type="string" class="form-control" id="template" name="name" value="{{ old('name') }}">
+                                </div>
+                            </div>
+                            <br/><br/>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Template</label>
+                                <div class="col-md-6">
+                                    <textarea rows="10" type="string" class="form-control" name="view" value="{{ old('view') }}"></textarea>
+                                </div>
+                            </div>
+                            <br/><br/>
+                        </div>
+                    </div>
+                </div>
+			</div>
+			<br/>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary">Save changes</button>
+			</div>
+		</div>
+	</div>
+	{!! Form::close() !!}
+</div>
 @stop
 
 @section('script')
 <script type="text/javascript">
 	$(document).ready(function() {
+		$("body").on('change', '#template', function() {
+            //get the selected value
+            var selectedValue = $(this).val();
+
+            //make the ajax call
+            $.ajax({
+                url: "{!! URL::to('/') !!}/template/"+selectedValue,
+                type: 'GET',
+                data: {option : selectedValue},
+                success: function(data) {
+                    document.getElementById("message_text").value = data.view;
+                }
+            });
+        });
+
+
 		//The demo tag array
 		var availableTags = [];
 		$.getJSON("{!! URL::to('/') !!}/mobile-numbers/json", function(data) {
