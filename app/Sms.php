@@ -23,11 +23,7 @@ class Sms extends Eloquent {
 	}
 
 	public function sms_activity() {
-		return $this->hasMany('App\SmsActivity');
-	}
-
-	public function getRelatedTeams() {
-		return $this->hasMany('App\SmsActivity')->groupBy('recipient_team_id')->distinct('recipient_team_id')->get();
+		return $this->hasMany('App\SmsActivity')->orderBy('recipient_team_id');
 	}
 
 	public function send($request) {
