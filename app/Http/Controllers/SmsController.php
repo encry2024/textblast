@@ -3,7 +3,7 @@
 use App\Http\Requests;
 // Models
 use App\Sms;
-use App\Http\Requests\CreateSmsRequest;
+use App\Http\Requests\SendSmsRequest;
 
 
 class SmsController extends Controller {
@@ -45,17 +45,6 @@ class SmsController extends Controller {
 	 */
 	public function create() {
 		//
-	}
-
-	/**
-	 * @param CreateSmsRequest $request
-	 * @return string
-	 */
-	public function store(CreateSmsRequest $request)  {
-		$sms = new Sms();
-		$send_sms = $sms->send($request);
-
-		return $send_sms;
 	}
 
 	/**
@@ -123,6 +112,16 @@ class SmsController extends Controller {
 		$get_sent = \App\Sms::retrieve_Sent();
 
 		return $get_sent;
+	}
+
+	/**
+	 * @param
+	 */
+	public function send(SendSmsRequest $request){
+		$sms = new Sms();
+		$send_sms = $sms->send($request);
+
+		return $send_sms;
 	}
 
 }

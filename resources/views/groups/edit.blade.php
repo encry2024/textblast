@@ -153,14 +153,6 @@
 				removeConfirmation: true,
 				select: true,
 				triggerKey: ['tab'],
-				/*preprocessTag: function(val) {
-					//alert(availableTags.id);
-					result = $.grep(availableTags, function(e){ return e.label == val; });
-					alert(result[0].id);
-
-					if (!val) { return ''; }
-					return result[0].id	;
-				},*/
 				afterTagAdded: function(event, ui) {
 					// do something special
 					result = $.grep(availableTags, function(e){ return e.label == ui.tagLabel; });

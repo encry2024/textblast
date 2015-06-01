@@ -12,9 +12,12 @@ Route::resource('recipient', 'RecipientController', [ 'except' => ['create'] ]);
 Route::resource('recipientNumber', 'RecipientNumberController', [ 'only' => ['store','update','destroy'] ]);
 Route::resource('sms', 'SmsController', [ 'only'  =>  ['index', 'edit', 'store'], ]);
 Route::resource('team', 'TeamController');
-Route::post('tag/recipient', ['as' => 'tr', 'uses' => 'RecipientTeamController@tag']);
+//Route::post('tag/recipient', ['as' => 'tr', 'uses' => 'RecipientTeamController@tag']);
 Route::post('delete/recipient', ['as' => 'dr', 'uses' => 'RecipientTeamController@deleteRecipient']);
 Route::resource('recipientTeam', 'RecipientTeamController');
+
+# POST
+Route::post('sms/send', ['as' => 'sendsms', 'uses' => 'SmsController@send']);
 
 # CONTROLLERS
 Route::controllers(array('auth' => 'Auth\AuthController','password' => 'Auth\PasswordController', ));
@@ -34,3 +37,5 @@ Route::get('retrieve/recipients','SmsController@retrieveRecipient');
 Route::get('sent_sms', 'SmsController@getSent');
 
 Route::get('recipients/json', 'RecipientController@getAllRecipientsJSON');
+Route::get('mobile-numbers/json', 'RecipientNumberController@getAllRecipientNumbersJSON');
+Route::get('teams/json', 'TeamController@getAllTeamsJSON');
