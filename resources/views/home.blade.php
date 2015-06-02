@@ -74,9 +74,10 @@
 			[
 				{"sTitle": "#", "mDataProp": "id"},
 				{"sTitle": "Message", "mDataProp": "msg"},
-				{"sTitle": "Type (Sent/Received)", "mDataProp": "type"},
+				{"sTitle": "Sender", "mDataProp": "sender"},
+				{"sTitle": "Type", "mDataProp": "type"},
 				{"sTitle": "Recipients", "mDataProp": "recipients"},
-				{"sTitle": "Date Sent/Received", "mDataProp": "created_at"},
+				{"sTitle": "Date", "mDataProp": "created_at"},
 			],
 			"aoColumnDefs":
 			[
@@ -111,8 +112,14 @@
 						return '<label class="text-center size-14"> ' + data + ' </label>';
 					}
 				},
+				{
+					"aTargets": [ 4 ], // Column to target
+					"mRender": function ( data, type, full ) {
+						return '<label class="text-center size-14"> ' + data + ' </label>';
+					}
+				},
 		        {
-                    "aTargets": [ 4 ], // Column to target
+                    "aTargets": [ 5 ], // Column to target
                     "mRender": function ( data, type, full ) {
                     return '<label class="text-center size-14"> ' + data + ' </label>';
                     }

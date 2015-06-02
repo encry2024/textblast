@@ -75,6 +75,8 @@
 			<br/>
 			{!! Form::textarea('message', $sms->message, ['class'=>'form-control', 'disabled']) !!}
 			<br/>
+			<label for="">Sender: {{ isset($sms->user->name)?$sms->user->name:'No sender information' }}</label>
+			<br/>
 		</div>
     </div>
 
