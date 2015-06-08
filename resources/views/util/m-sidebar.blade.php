@@ -11,6 +11,8 @@
             {{--<br><br>
             <a href=""><span class="glyphicon glyphicon-user"></span> Manage Users <span class="badge">0</span></a>--}}
             <a href="{{ route('grp') }}"><span class="glyphicon glyphicon-list-alt"></span> Groups <span class="badge">{{ count($team) }}</span></a>
+            <br/><br/>
+            <a href="{{ url('stats/sms')  }}"><span class="glyphicon glyphicon-stats"></span> Stats </span></a>
             <div></div>
            {{-- <br/>
             <div class="sprtr"></div>
