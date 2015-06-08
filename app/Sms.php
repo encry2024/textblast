@@ -4,6 +4,7 @@ use App\Commands\SendSmsCommand;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Auth;
 
 class Sms extends Eloquent {
 	use DispatchesCommands;
@@ -23,11 +24,11 @@ class Sms extends Eloquent {
 	}
 
 	public function sms_activity() {
-		return $this->hasMany('App\SmsActivity');
+		return $this->hasMany('App\SmsActivity')->orderBy('recipient_team_id');
 	}
 
-	public function getRelatedTeams() {
-		return $this->hasMany('App\SmsActivity')->groupBy('recipient_team_id')->distinct('recipient_team_id')->get();
+	public function user() {
+		return $this->belongsTo('App\User');
 	}
 
 	public function send($request) {
@@ -38,6 +39,7 @@ class Sms extends Eloquent {
 
 		$this->message = $message;
 		$this->type = 'sent';
+		$this->user_id = Auth::user()->id;
 		$this->save();
 
 		if(file_exists($file) AND count(file($file)) > 0) {
@@ -161,10 +163,11 @@ class Sms extends Eloquent {
 	/**
 	 * @param
 	 */
-	private function createActivityAndDispatch(RecipientNumber $recipientNumber, $team, $message){
+	public function createActivityAndDispatch(RecipientNumber $recipientNumber, $team, $message){
 		// Create SMSActivity object
 		$smsActivity = $this->sms_activity()->save(new SmsActivity(['recipient_number_id' => $recipientNumber->id, 'recipient_team_id' => isset($team)?$team->id:0, 'status' => 'PENDING']));
-
+		$smsActivity->user_id = Auth::user()->id;
+		$smsActivity->save();
 		// Send to queue
 		$this->dispatch(new SendSmsCommand($recipientNumber->phone_number, $message, $smsActivity->id));
 	}

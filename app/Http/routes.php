@@ -31,6 +31,7 @@ Route::get('groups', ['as' => 'grp', 'uses' => function() {return view('groups.s
 Route::get('test', function() {return view('tests.testform');});
 Route::get('messaging', ['as' => 'msg', 'uses' => 'SmsController@retSmsCount']);
 Route::get('template/{template_id}', ['as' => 'req_temp', 'uses' => 'TemplateController@show']);
+Route::any('stats/sms', ['uses' => 'StatsController@dailySms']);
 # POST
 Route::post('team/{id}/untag', ['as' => 'untag', 'uses' => 'TeamController@untagRecipient']);
 

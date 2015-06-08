@@ -59,7 +59,6 @@
 		$('#messages').dataTable({
 			"aaData": data,
 			"aaSorting": [],
-			"lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
 			"oLanguage": {
 			    "sEmptyTable": "There are currently no messages...",
 				"sLengthMenu": "per Messages _MENU_",
@@ -71,54 +70,57 @@
 				}
 			},
 			//DISPLAYS THE VALUE
-			//sTITLE - HEADER
-			//MDATAPROP - TBODY
 			"aoColumns":
 			[
 				{"sTitle": "#", "mDataProp": "id"},
 				{"sTitle": "Message", "mDataProp": "msg"},
-				{"sTitle": "Type (Sent/Received)", "mDataProp": "type"},
-				{"sTitle": "Date Sent/Received", "mDataProp": "created_at"},
+				{"sTitle": "Sender", "mDataProp": "sender"},
+				{"sTitle": "Type", "mDataProp": "type"},
+				{"sTitle": "Recipients", "mDataProp": "recipients"},
+				{"sTitle": "Date", "mDataProp": "created_at"},
 			],
 			"aoColumnDefs":
 			[
 				//FORMAT THE VALUES THAT IS DISPLAYED ON mDataProp
-				//ID
-				//CATEGORY SLUG
 				{
 					"aTargets": [ 0 ], // Column to target
 					"mRender": function ( data, type, full ) {
-					    {{--var url = '{{ route('category_path/show', ":slug") }}';--}}
-					    {{--url = url.replace(':slug', full["slug"]);--}}
-						// 'full' is the row's data object, and 'data' is this column's data
-						// e.g. 'full[0]' is the comic id, and 'data' is the comic title
-						return "<label>" + data + "</label>";
+						return "<label>SMS" + data + "</label>";
 					}
 				},
 				{
 					"aTargets": [ 1 ], // Column to target
+					"width": "40%",
 					"mRender": function ( data, type, full ) {
 						var url = '{{ route('sms.edit', ":id") }}';
 						url = url.replace(':id', full["id"]);
-						// 'full' is the row's data object, and 'data' is this column's data
-						// e.g. 'full[0]' is the comic id, and 'data' is the comic title
+						if(data.length > 50) {
+							data = data.substr(0, 50) + '...';
+						}
 						return "<a href='"+ url +"' class='size-14 text-left'>" + data + "</a>";
 					}
 				},
-                //CATEGORY RECENT UPDATE
 				{
 					"aTargets": [ 2 ], // Column to target
 					"mRender": function ( data, type, full ) {
-					// 'full' is the row's data object, and 'data' is this column's data
-					// e.g. 'full[0]' is the comic id, and 'data' is the comic title
 					return '<label class="text-center size-14"> ' + data + ' </label>';
 					}
 				},
+				{
+					"aTargets": [ 3 ], // Column to target
+					"mRender": function ( data, type, full ) {
+						return '<label class="text-center size-14"> ' + data + ' </label>';
+					}
+				},
+				{
+					"aTargets": [ 4 ], // Column to target
+					"mRender": function ( data, type, full ) {
+						return '<label class="text-center size-14"> ' + data + ' </label>';
+					}
+				},
 		        {
-                    "aTargets": [ 3 ], // Column to target
+                    "aTargets": [ 5 ], // Column to target
                     "mRender": function ( data, type, full ) {
-                    // 'full' is the row's data object, and 'data' is this column's data
-                    // e.g. 'full[0]' is the comic id, and 'data' is the comic title
                     return '<label class="text-center size-14"> ' + data + ' </label>';
                     }
                 }

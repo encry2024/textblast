@@ -30,7 +30,9 @@ class SmsController extends Controller {
 			$json[] = [
 				'id' => $sms->id,
 				'msg' => $sms->message,
+				'sender' => isset($sms->user->name)?$sms->user->name:'',
 				'type' => $sms->type,
+				'recipients' => count($sms->sms_activity),
 				'created_at' => date('m/d/Y h:i A', strtotime($sms->created_at))
 			];
 		}
