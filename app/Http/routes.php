@@ -20,6 +20,7 @@ Route::resource('template', 'TemplateController', ['only' => ['store', 'update',
 
 # POST
 Route::post('sms/send', ['as' => 'sendsms', 'uses' => 'SmsController@send']);
+Route::get('sms/resend/{smsactivity}', ['as' => 'resendsms', 'uses' => 'SmsActivityController@resend']);
 
 # CONTROLLERS
 Route::controllers(array('auth' => 'Auth\AuthController','password' => 'Auth\PasswordController', ));

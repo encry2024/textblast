@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\SmsActivity;
 use Illuminate\Http\Request;
 
 class SmsActivityController extends Controller {
@@ -85,6 +86,15 @@ class SmsActivityController extends Controller {
 	public function destroy($id)
 	{
 		//
+	}
+
+	/**
+	 * @param
+	 */
+	public function resend(SmsActivity $smsActivity){
+		$smsActivity->resend();
+
+		return "DONE";
 	}
 
 }
