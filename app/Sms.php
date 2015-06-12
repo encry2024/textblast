@@ -31,6 +31,10 @@ class Sms extends Eloquent {
 		return $this->belongsTo('App\User');
 	}
 
+	public function views(){
+		return $this->hasMany('App\SmsView');
+	}
+
 	public function send($request) {
 		// update and assign values
 		$receivers= is_null($request->get('receivers'))?array():$request->get('receivers');
@@ -38,7 +42,7 @@ class Sms extends Eloquent {
 		$file = Input::file('smsNumbersFile');
 
 		$this->message = $message;
-		$this->type = 'sent';
+		$this->type = 'SEND';
 		$this->user_id = Auth::user()->id;
 		$this->save();
 
@@ -100,7 +104,7 @@ class Sms extends Eloquent {
 
 	public static function retrieve_Sms(){
 		$json = array();
-		$sms = Sms::where('type', '!=', 'sent')->get();
+		$sms = Sms::where('type', '!=', 'SEND')->get();
 		foreach ($sms as $msg) {
 			$recipient = Recipient::where('id', $msg->related_id)->get();
 			foreach ($recipient as $r) {
@@ -170,5 +174,23 @@ class Sms extends Eloquent {
 		$smsActivity->save();
 		// Send to queue
 		$this->dispatch(new SendSmsCommand($recipientNumber->phone_number, $message, $smsActivity->id));
+	}
+
+
+	/**
+	 * @param
+	 */
+	public function seen(){
+		// only applicable to RECEIVED sms
+		if($this->type != 'RECEIVED') return;
+
+		$smsView = SmsView::where('sms_id', $this->id) ->where('user_id', Auth::user()->id)->count();
+
+		if($smsView == 0) {
+			$smsView = new SmsView;
+			$smsView->sms_id = $this->id;
+			$smsView->user_id = Auth::user()->id;
+			$smsView->save();
+		}
 	}
 }

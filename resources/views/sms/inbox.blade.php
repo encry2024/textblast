@@ -17,7 +17,7 @@
     <br/>
         <div class="panel panel-default col-lg-12">
            <div class="page-header">
-                <h3><span class="glyphicon glyphicon-share-alt"></span> Sent SMS</h3>
+                <h3><span class="glyphicon glyphicon-inbox"></span> Inbox</h3>
            </div>
            <br/>
            <table id="messages" class="table"></table>
@@ -29,7 +29,7 @@
 
 @section('script')
 <script type="text/javascript">
-	$.getJSON("{{ url() }}/sms/status/SENT", function(data) {
+	$.getJSON("{{ url() }}/sms/status/RECEIVED", function(data) {
 		$('#messages').dataTable({
 			"aaData": data,
 			"aaSorting": [],
@@ -71,7 +71,7 @@
 								if(data.length > 50) {
 									data = data.substr(0, 50) + '...';
 								}
-								return "<a href='"+ url +"' class='size-14 text-left'>" + data + "</a>";
+								return "<a href='"+ url +"' class='size-14 text-left'>" + data + "</a><br><hr><h6>Seen by: " + full['seen_by'] + "</h6>";
 							}
 						},
 						{

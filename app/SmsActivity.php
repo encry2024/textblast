@@ -1,15 +1,23 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Commands\SendSmsCommand;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 class SmsActivity extends Model {
 
+	use DispatchesCommands;
+
 	protected $table = 'sms_activities';
-	protected $fillable = ['sms_id', 'recipient_team_id', 'recipient_number_id', 'status'];
+	protected $fillable = ['sms_id', 'recipient_team_id', 'recipient_number_id', 'status', 'goip_name'];
 
 	//
 	public function sms() {
 		return $this->belongsTo('App\Sms');
+	}
+
+	public function user() {
+		return $this->belongsTo('App\User');
 	}
 
 	public function recipientTeam() {
@@ -25,5 +33,19 @@ class SmsActivity extends Model {
 	 */
 	public function team() {
 		return $this->belongsTo('App\Team', 'recipient_team_id');
+	}
+
+	/**
+	 * @param
+	 */
+	public function resend(){
+		// update smsactivity status to PENDING
+		$this->status = 'PENDING';
+		$this->save();
+
+		// Send to queue
+		$this->dispatch(new SendSmsCommand($this->recipient_number->phone_number, $this->sms->message, $this->id));
+
+		return true;
 	}
 }
