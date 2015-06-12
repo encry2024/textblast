@@ -9,11 +9,15 @@ class SmsActivity extends Model {
 	use DispatchesCommands;
 
 	protected $table = 'sms_activities';
-	protected $fillable = ['sms_id', 'recipient_team_id', 'recipient_number_id', 'status'];
+	protected $fillable = ['sms_id', 'recipient_team_id', 'recipient_number_id', 'status', 'goip_name'];
 
 	//
 	public function sms() {
 		return $this->belongsTo('App\Sms');
+	}
+
+	public function user() {
+		return $this->belongsTo('App\User');
 	}
 
 	public function recipientTeam() {

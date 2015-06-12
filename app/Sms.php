@@ -42,7 +42,7 @@ class Sms extends Eloquent {
 		$file = Input::file('smsNumbersFile');
 
 		$this->message = $message;
-		$this->type = 'sent';
+		$this->type = 'SEND';
 		$this->user_id = Auth::user()->id;
 		$this->save();
 
@@ -104,7 +104,7 @@ class Sms extends Eloquent {
 
 	public static function retrieve_Sms(){
 		$json = array();
-		$sms = Sms::where('type', '!=', 'sent')->get();
+		$sms = Sms::where('type', '!=', 'SEND')->get();
 		foreach ($sms as $msg) {
 			$recipient = Recipient::where('id', $msg->related_id)->get();
 			foreach ($recipient as $r) {

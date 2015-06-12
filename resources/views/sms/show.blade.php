@@ -29,7 +29,7 @@
 			<div class="panel-body">
 				<a href="#" class="col-lg-12" data-toggle="modal" data-target="#templateModal"><span class="glyphicon glyphicon-plus" ></span> Create Template</a>
 				<br><br><br><br>
-				<a href="{{route('/home') }}" class="col-lg-12"><span class="glyphicon glyphicon-menu-left" ></span> Back to Home</a>
+				<a href="{{ url('/') }}" class="col-lg-12"><span class="glyphicon glyphicon-menu-left" ></span> Back to Inbox</a>
 			</div>
 		</div>
 	</div>

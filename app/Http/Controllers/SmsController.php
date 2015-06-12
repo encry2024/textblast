@@ -49,6 +49,27 @@ class SmsController extends Controller {
 	}
 
 	/**
+	 * @return
+	 */
+	public function inbox() {
+		return view('sms.inbox');
+	}
+
+	/**
+	 * @return
+	 */
+	public function outbox() {
+		return view('sms.outbox');
+	}
+
+	/**
+	 * @return
+	 */
+	public function sent() {
+		return view('sms.sent');
+	}
+
+	/**
 	 * Show the form for creating a new resource.
 	 *
 	 * @return Response
@@ -134,4 +155,42 @@ class SmsController extends Controller {
 		return $send_sms;
 	}
 
+	/**
+	 * @param
+	 */
+	public function views(Sms $sms){
+		$users = [];
+		foreach($sms->views as $view) {
+			$users[] = $view->user->name;
+		}
+
+		dd($users);
+	}
+
+	/**
+	 * @param
+	 */
+	public function getSmsByStatusJSON($status){
+		$json = array();
+		$getSmsActivity = SmsActivity::whereStatus($status)->orderBy('created_at', 'DESC')->get();
+
+		foreach ($getSmsActivity as $smsActivity) {
+			//generate user views
+			$seenByUsers = $smsActivity->sms->views()->lists('user_id');
+			$users = \App\User::whereIn('id', $seenByUsers)->lists('name');
+			$users = implode(',', $users);
+
+			$json[] = [
+				'id' => $smsActivity->sms->id,
+				'msg' => $smsActivity->sms->message,
+				'sender' => $smsActivity->status!='RECEIVED'?($smsActivity->user->name):($smsActivity->recipient_number->recipient->name . " (" . $smsActivity->recipient_number->phone_number . ")"),
+				'recipient' => $smsActivity->status!='RECEIVED'?($smsActivity->recipient_number->recipient->name . " (" . $smsActivity->recipient_number->phone_number . ")"):($smsActivity->goip_name),
+				'origin' => $smsActivity->goip_name,
+				'created_at' => date('m/d/Y h:i A', strtotime($smsActivity->created_at)),
+				'seen_by' => $users
+			];
+		}
+
+		return json_encode($json);
+	}
 }
