@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Sms;
 use App\Http\Requests\SendSmsRequest;
+use App\SmsActivity;
 use App\Template;
 use App\Http\Requests\CreateSmsRequest;
 
@@ -20,20 +21,27 @@ class SmsController extends Controller {
 	}
 
 	/**
-	 * @return json
+	 * @param 
 	 */
-	public function index() {
+	public function index(){
 		$json = array();
 		$getSms = Sms::orderBy('created_at', 'DESC')->get();
 
 		foreach ($getSms as $sms) {
+			//generate user views
+			$users = [];
+			foreach($sms->views as $view) {
+				$users[] = $view->user->name;
+			}
+
 			$json[] = [
 				'id' => $sms->id,
 				'msg' => $sms->message,
 				'sender' => isset($sms->user->name)?$sms->user->name:'',
 				'type' => $sms->type,
 				'recipients' => count($sms->sms_activity),
-				'created_at' => date('m/d/Y h:i A', strtotime($sms->created_at))
+				'created_at' => date('m/d/Y h:i A', strtotime($sms->created_at)),
+				'views' => json_encode($users)
 			];
 		}
 
@@ -65,8 +73,11 @@ class SmsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($sms) {
-		//
+	public function edit(Sms $sms) {
+
+		// insert sms views if applicable
+		$sms->seen();
+
 		return view('sms.edit', compact('sms'));
 	}
 
@@ -108,7 +119,7 @@ class SmsController extends Controller {
 	}
 
 	public function getSent(){
-		$get_sent = \App\Sms::retrieve_Sent();
+		$get_sent = Sms::retrieve_Sent();
 
 		return $get_sent;
 	}
