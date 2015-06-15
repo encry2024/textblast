@@ -37,6 +37,7 @@ Route::any('sms/{sms}/views', ['uses' => 'SmsController@views']);
 Route::get('sms/inbox', ['uses' => 'SmsController@inbox']);
 Route::get('sms/outbox', ['uses' => 'SmsController@outbox']);
 Route::get('sms/sent', ['uses' => 'SmsController@sent']);
+Route::get('sms/failed', ['uses' => 'SmsController@failed']);
 
 # POST
 Route::post('team/{id}/untag', ['as' => 'untag', 'uses' => 'TeamController@untagRecipient']);

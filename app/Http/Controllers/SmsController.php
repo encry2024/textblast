@@ -70,6 +70,13 @@ class SmsController extends Controller {
 	}
 
 	/**
+	 * @return
+	 */
+	public function failed() {
+		return view('sms.failed');
+	}
+
+	/**
 	 * Show the form for creating a new resource.
 	 *
 	 * @return Response

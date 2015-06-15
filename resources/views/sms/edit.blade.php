@@ -43,7 +43,7 @@
 						<label>Recipient's Contacts: @foreach($smsAct->recipient_number->recipient->phoneNumbers as $phoneNumber)<a>{{ $phoneNumber->phone_number }}</a>, @endforeach
 					">
 						{{ $smsAct->recipient_number->recipient->name . " (" . $smsAct->recipient_number->phone_number . ")" }}
-					</a>
+					</a> {!! $smsAct->status=="FAILED"?"<button class='btn btn-info btn-xs button-refresh' id='".$smsAct->id." data-loading-text='Resending...'>Resend</button>":"" !!}
 				</li>
 				@endif
 			@endforeach

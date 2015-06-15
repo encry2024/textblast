@@ -84,7 +84,7 @@ class GoipCommunicator extends UdpSocket
 
         /* Wait for GoIP reply */
         $retry = 0;
-        while ($retry < 6) {
+        while ($retry < 12) {
             // run loop in 5 seconds limit
             $timeLimit = time() + 5;
             echo "Waiting for sending status.....\n";

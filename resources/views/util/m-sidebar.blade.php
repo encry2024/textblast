@@ -11,6 +11,8 @@
             <a href="{{ url('sms/outbox') }}"><span class="glyphicon glyphicon-tasks"></span> Outbox </a>
             <br/><br/>
             <a href="{{ url('sms/sent') }}"><span class="glyphicon glyphicon-share-alt"></span> Sent Items </a>
+            <br/><br/>
+            <a href="{{ url('sms/failed') }}"><span class="glyphicon glyphicon-exclamation-sign"></span> Failed Items </a>
             <hr>
             <a href="{{ route('pb')  }}"><span class="glyphicon glyphicon-book"></span> Contacts </a>
             <br/><br/>
