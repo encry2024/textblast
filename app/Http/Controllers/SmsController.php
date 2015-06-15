@@ -102,11 +102,21 @@ class SmsController extends Controller {
 	 * @return Response
 	 */
 	public function edit(Sms $sms) {
+		return view('sms.edit', compact('sms'));
+	}
+
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function received(Sms $sms) {
 
 		// insert sms views if applicable
 		$sms->seen();
 
-		return view('sms.edit', compact('sms'));
+		return view('sms.received', compact('sms'));
 	}
 
 	/**
