@@ -17,7 +17,7 @@
     <br/>
         <div class="panel panel-default col-lg-12">
            <div class="page-header">
-                <h3><span class="glyphicon glyphicon-share-alt"></span> Sent SMS</h3>
+                <h3><span class="glyphicon glyphicon-exclamation-sign"></span> Failed SMS</h3>
            </div>
            <br/>
            <table id="messages" class="table"></table>
@@ -29,7 +29,7 @@
 
 @section('script')
 <script type="text/javascript">
-	$.getJSON("{{ url() }}/sms/status/SENT", function(data) {
+	$.getJSON("{{ url() }}/sms/status/FAILED", function(data) {
 		$('#messages').dataTable({
 			"aaData": data,
 			"aaSorting": [],

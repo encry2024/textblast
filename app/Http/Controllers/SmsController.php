@@ -1,10 +1,11 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
-// Models
 use App\Sms;
+use App\Http\Requests\SendSmsRequest;
+use App\SmsActivity;
+use App\Template;
 use App\Http\Requests\CreateSmsRequest;
-
 
 class SmsController extends Controller {
 
@@ -13,26 +14,66 @@ class SmsController extends Controller {
 	 * @param Sms $sms
 	 */
 	public function __construct( Sms $sms ) {
+		// Add auth filter
+		$this->middleware('auth');
+
 		$this->sms = $sms;
 	}
 
 	/**
-	 * @return json
+	 * @param 
 	 */
-	public function index() {
+	public function index(){
 		$json = array();
-		$getSms = Sms::all();
+		$getSms = Sms::orderBy('created_at', 'DESC')->get();
 
 		foreach ($getSms as $sms) {
+			//generate user views
+			$users = [];
+			foreach($sms->views as $view) {
+				$users[] = $view->user->name;
+			}
+
 			$json[] = [
 				'id' => $sms->id,
 				'msg' => $sms->message,
+				'sender' => isset($sms->user->name)?$sms->user->name:'',
 				'type' => $sms->type,
-				'created_at' => date('m/d/Y h:i A', strtotime($sms->created_at))
+				'recipients' => count($sms->sms_activity),
+				'created_at' => date('m/d/Y h:i A', strtotime($sms->created_at)),
+				'views' => json_encode($users)
 			];
 		}
 
 		return json_encode($json);
+	}
+
+	/**
+	 * @return
+	 */
+	public function inbox() {
+		return view('sms.inbox');
+	}
+
+	/**
+	 * @return
+	 */
+	public function outbox() {
+		return view('sms.outbox');
+	}
+
+	/**
+	 * @return
+	 */
+	public function sent() {
+		return view('sms.sent');
+	}
+
+	/**
+	 * @return
+	 */
+	public function failed() {
+		return view('sms.failed');
 	}
 
 	/**
@@ -42,17 +83,6 @@ class SmsController extends Controller {
 	 */
 	public function create() {
 		//
-	}
-
-	/**
-	 * @param CreateSmsRequest $request
-	 * @return string
-	 */
-	public function store(CreateSmsRequest $request)  {
-		$sms = new Sms();
-		$send_sms = $sms->send($request);
-
-		return $send_sms;
 	}
 
 	/**
@@ -71,8 +101,11 @@ class SmsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($sms) {
-		//
+	public function edit(Sms $sms) {
+
+		// insert sms views if applicable
+		$sms->seen();
+
 		return view('sms.edit', compact('sms'));
 	}
 
@@ -97,11 +130,8 @@ class SmsController extends Controller {
 	}
 
 	public function retSmsCount() {
-		$sent_sms = Sms::where('type','sent')->get();
-		$failed_sms = Sms::where('type','failed')->get();
-		$messages = Sms::where('type','received')->get();
-
-		return view('sms.show', compact('sent_sms','failed_sms','messages'));
+		$templates = Template::all();
+		return view('sms.show', compact('templates'));
 	}
 
 	public function retrieveSms (){
@@ -117,9 +147,57 @@ class SmsController extends Controller {
 	}
 
 	public function getSent(){
-		$get_sent = \App\Sms::retrieve_Sent();
+		$get_sent = Sms::retrieve_Sent();
 
 		return $get_sent;
 	}
 
+	/**
+	 * @param
+	 */
+	public function send(SendSmsRequest $request){
+		$sms = new Sms();
+		$send_sms = $sms->send($request);
+
+		return $send_sms;
+	}
+
+	/**
+	 * @param
+	 */
+	public function views(Sms $sms){
+		$users = [];
+		foreach($sms->views as $view) {
+			$users[] = $view->user->name;
+		}
+
+		dd($users);
+	}
+
+	/**
+	 * @param
+	 */
+	public function getSmsByStatusJSON($status){
+		$json = array();
+		$getSmsActivity = SmsActivity::whereStatus($status)->orderBy('created_at', 'DESC')->get();
+
+		foreach ($getSmsActivity as $smsActivity) {
+			//generate user views
+			$seenByUsers = $smsActivity->sms->views()->lists('user_id');
+			$users = \App\User::whereIn('id', $seenByUsers)->lists('name');
+			$users = implode(',', $users);
+
+			$json[] = [
+				'id' => $smsActivity->sms->id,
+				'msg' => $smsActivity->sms->message,
+				'sender' => $smsActivity->status!='RECEIVED'?($smsActivity->user->name):($smsActivity->recipient_number->recipient->name . " (" . $smsActivity->recipient_number->phone_number . ")"),
+				'recipient' => $smsActivity->status!='RECEIVED'?($smsActivity->recipient_number->recipient->name . " (" . $smsActivity->recipient_number->phone_number . ")"):($smsActivity->goip_name),
+				'origin' => $smsActivity->goip_name,
+				'created_at' => date('m/d/Y h:i A', strtotime($smsActivity->created_at)),
+				'seen_by' => $users
+			];
+		}
+
+		return json_encode($json);
+	}
 }

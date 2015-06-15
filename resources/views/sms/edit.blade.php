@@ -19,20 +19,32 @@
 				<h3><span class="glyphicon glyphicon-send"></span> Sent To <span class="right"><label class="size-14">Date Sent: {{ date('M d, Y h:i A', strtotime($sms->created_at)) }}</label></span></h3>
 				<h5></h5>
 			</div>
+			<div class="offset1 span8 pull-right">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						Legends:<br>
+						<span class="label label-primary">PENDING</span>
+						<span class="label label-success">SUCCESS</span>
+						<span class="label label-danger">FAILED</span>
+					</div>
+				</div>
+			</div>
 			<label for="">Recipients: </label>
 			<br/>
 			<label for="">
 			@foreach ($sms->sms_activity as $smsAct)
-                @if($smsAct->recipient_number_id != 0)
-                    <a href="{{ route('recipient.edit', $smsAct->recipient_number->recipient->id) }}"  data-popover="true" data-html="true" title="<label>Recipient Information</label>" data-trigger="hover" data-content="
-                    <label>Sent Status (SENT/FAILED): <a>{{ $smsAct->status }}</a></label>
-                    <label>Receiving Number: <a>{{ $smsAct->recipient_number->phone_number }}</a></label>
-                    <div class='sep-1'></div>
-                    <label>Groups: @foreach($smsAct->recipient_number->recipient->teams as $recipient_team) <a href='{{ route('team.edit', $recipient_team->id) }}'>{{ $recipient_team->name }}</a>, @endforeach</label>
-                    <label>Recipient's Contacts: @foreach($smsAct->recipient_number->recipient->phoneNumbers as $phoneNumber)<a>{{ $phoneNumber->phone_number }}</a>, @endforeach
-                    ">
-						{{ $smsAct->recipient_number->recipient->name }}
-					</a>
+                @if($smsAct->recipient_team_id == 0)
+				<li>
+					<a href="{{ route('recipient.edit', $smsAct->recipient_number->recipient->id) }}" {{ $smsAct->status=='SENT'?'style=color:#5cb85c':($smsAct->status=='FAILED'?'style=color:#d9534f':'') }} data-popover="true" data-html="true" title="<label>Recipient Information</label>" data-trigger="hover" data-content="
+						<label>SMS Status: <a>{{ $smsAct->status }}</a> </label>
+						<label>Receiving Number: <a>{{ $smsAct->recipient_number->phone_number }}</a></label>
+						<div class='sep-1'></div>
+						<label>Groups: @foreach($smsAct->recipient_number->recipient->teams as $recipient_team) <a href='{{ route('team.edit', $recipient_team->id) }}'>{{ $recipient_team->name }}</a>, @endforeach</label>
+						<label>Recipient's Contacts: @foreach($smsAct->recipient_number->recipient->phoneNumbers as $phoneNumber)<a>{{ $phoneNumber->phone_number }}</a>, @endforeach
+					">
+						{{ $smsAct->recipient_number->recipient->name . " (" . $smsAct->recipient_number->phone_number . ")" }}
+					</a> {!! $smsAct->status=="FAILED"?"<button class='btn btn-info btn-xs button-refresh' id='".$smsAct->id." data-loading-text='Resending...'>Resend</button>":"" !!}
+				</li>
 				@endif
 			@endforeach
 			</label>
@@ -40,21 +52,34 @@
 			<label for="">Groups: </label>
 			<br/>
             <label for="">
-            @foreach ($sms->sms_activity as $smsAct)
-                @if ($smsAct->recipient_team_id != 0)
-	            <a href="#" id="groupLink" data-popover="true" data-html="true" data-placement="right" title="<label>Associated Recipients</label>" data-trigger="hover" data-content="
-	            @foreach( $smsAct->recipientTeam->team->recipients as $recipient )
-	                <label><a href='{{ route('recipient.edit', $recipient->id) }}'>{!! $recipient->name !!}</a></label> <br>
-	            @endforeach">
-					{{ $smsAct->recipientTeam->team->name }}
-	            </a>
-	            @endif
-            @endforeach
+			<?php $currentTeam = 0 ?>
+			@foreach ($sms->sms_activity as $smsAct)
+				@if($smsAct->recipient_team_id != 0)
+					@if($currentTeam != $smsAct->recipient_team_id)
+						<?php $currentTeam = $smsAct->recipient_team_id ?>
+						<br>
+						<a href="#" id="groupLink">{{ $smsAct->team->name }}</a>
+					@endif
+						<li>
+							<a href="{{ route('recipient.edit', $smsAct->recipient_number->recipient->id) }}" {{ $smsAct->status=='SENT'?'style=color:#5cb85c':($smsAct->status=='FAILED'?'style=color:#d9534f':'') }} data-popover="true" data-html="true" title="<label>Recipient Information</label>" data-trigger="hover" data-content="
+								<label>SMS Status: <a>{{ $smsAct->status }}</a> </label>
+								<label>Receiving Number: <a>{{ $smsAct->recipient_number->phone_number }}</a></label>
+								<div class='sep-1'></div>
+								<label>Groups: @foreach($smsAct->recipient_number->recipient->teams as $recipient_team) <a href='{{ route('team.edit', $recipient_team->id) }}'>{{ $recipient_team->name }}</a>, @endforeach</label>
+								<label>Recipient's Contacts: @foreach($smsAct->recipient_number->recipient->phoneNumbers as $phoneNumber)<a>{{ $phoneNumber->phone_number }}</a>, @endforeach
+							">
+								{{ $smsAct->recipient_number->recipient->name . " (" . $smsAct->recipient_number->phone_number . ")" }}
+							</a> {!! $smsAct->status=="FAILED"?"<button class='btn btn-info btn-xs button-refresh' id='".$smsAct->id." data-loading-text='Resending...'>Resend</button>":"" !!}
+						</li>
+				@endif
+			@endforeach
             </label>
 			<br/><br/><br/>
 			<label for="message">Message:</label>
 			<br/>
 			{!! Form::textarea('message', $sms->message, ['class'=>'form-control', 'disabled']) !!}
+			<br/>
+			<label for="">Sender: {{ isset($sms->user->name)?$sms->user->name:'No sender information' }}</label>
 			<br/>
 		</div>
     </div>
@@ -89,6 +114,19 @@
 
     $('body').popover({ selector: '[data-popover]', trigger: 'click hover', placement: 'right', delay: {show: 50, hide: 50}});
 
-	//$('#groupLink').tooltip('toggle')
+	$('.button-refresh').click(function(){
+		var id = $(this).attr('id');
+		var $btn = $(this).button('loading');
+		var button = $(this);
+
+		$.get( "{{ url().'/sms/resend/' }}" + id).done(function( data ) {
+			console.log(data);
+			if(data=='DONE') {
+				// change hyperlink color to blue
+				button.siblings('a').attr('style', 'color:#337ab7');
+				button.hide();
+			}
+		});
+	});
 </script>
 @stop

@@ -2,19 +2,11 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
-use App\SmsActivity;
+use App\Template;
 use Illuminate\Http\Request;
 
-class SmsActivityController extends Controller {
+class TemplateController extends Controller {
 
-	/**
-	 * New controller instance
-	 */
-	public function __construct(){
-		// Add auth filter
-		$this->middleware('auth');
-	}
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -40,9 +32,10 @@ class SmsActivityController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
-	{
+	public function store(Requests\CreateTemplateRequest $template_request, Template $template) {
 		//
+		$template->create($template_request->request->all());
+		return redirect()->back();
 	}
 
 	/**
@@ -51,9 +44,9 @@ class SmsActivityController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
-	{
+	public function show($id) {
 		//
+		return $id;
 	}
 
 	/**
@@ -62,8 +55,9 @@ class SmsActivityController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id) {
-		return view('smsactivity.edit', compact('id'));
+	public function edit($id)
+	{
+		//
 	}
 
 	/**
@@ -83,18 +77,8 @@ class SmsActivityController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
-	{
+	public function destroy($id) {
 		//
-	}
-
-	/**
-	 * @param
-	 */
-	public function resend(SmsActivity $smsActivity){
-		$smsActivity->resend();
-
-		return "DONE";
 	}
 
 }

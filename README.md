@@ -12,6 +12,7 @@
   - DB_DATABASE
   - DB_USERNAME
   - DB_PASSWORD
+- Generate new application key: **php artisan key:generate**
 - Run migration and seeder: **php artisan migrate --seed**
 - Run queue listener daemon: **php artisan queue:work --daemon**
 - Run GoIP Listener: **php artisan goip:listener**

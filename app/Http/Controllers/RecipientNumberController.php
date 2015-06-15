@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Recipient;
 use Illuminate\Support\Facades\Input;
 use App\Http\Requests\CreateRecipientNumberRequest;
 use App\RecipientNumber;
@@ -13,6 +14,9 @@ class RecipientNumberController extends Controller {
 	 * @return Response
 	 */
 	public function ___construct(RecipientNumber $recipientNumber){
+		// Add auth filter
+		$this->middleware('auth');
+
 		$this->recipientNumber = $recipientNumber;
 	}
 
@@ -93,6 +97,22 @@ class RecipientNumberController extends Controller {
 		$return_nums = RecipientNumber::getNumFnc();
 
 		return $return_nums;
+	}
+
+	/**
+	 * @param 
+	 */
+	public function getAllRecipientNumbersJSON(){
+		$json = array();
+		$noName = Recipient::where('name', '=', 'NO NAME')->get()->modelKeys();
+		//dd(array_values($noName));
+		$recipientNumbers = RecipientNumber::whereNotIn('recipient_id', $noName)->with('recipient')->get();
+
+		foreach($recipientNumbers as $recipientNumber) {
+			$json[$recipientNumber->id] = $recipientNumber->recipient->name . ' ('.$recipientNumber->phone_number.')';
+		}
+
+		return json_encode($json);
 	}
 
 }

@@ -8,7 +8,6 @@ use App\Recipient;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\CreateRecipientTeamRequest;
-use App\Http\Requests\CreateTagRecipientRequest;
 
 class RecipientTeamController extends Controller {
 
@@ -19,6 +18,9 @@ class RecipientTeamController extends Controller {
 	 */
 	public function __constructor( RecipientTeam $recipientTeam,
 								   Team $team) {
+		// Add auth filter
+		$this->middleware('auth');
+
 		$this->recipientTeam = $recipientTeam;
 		$this->team = $team;
 	}

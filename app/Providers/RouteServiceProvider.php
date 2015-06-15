@@ -24,6 +24,9 @@ class RouteServiceProvider extends ServiceProvider {
 	{
 		parent::boot($router);
 
+		$router->model('team', '\App\Team');
+		$router->model('smsactivity', '\App\SmsActivity');
+		$router->model('sms', '\App\Sms');
 		//
 	}
 

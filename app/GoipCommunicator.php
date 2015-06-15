@@ -84,7 +84,7 @@ class GoipCommunicator extends UdpSocket
 
         /* Wait for GoIP reply */
         $retry = 0;
-        while ($retry < 6) {
+        while ($retry < 12) {
             // run loop in 5 seconds limit
             $timeLimit = time() + 5;
             echo "Waiting for sending status.....\n";
@@ -139,6 +139,17 @@ class GoipCommunicator extends UdpSocket
         //disect each information
         $data = explode(';', $smsData);
 
+        echo "Getting the sms content \n";
+        //get the sms content
+        $smsContentTemp = explode(';msg:', $smsData);
+        $smsContent = $smsContentTemp[1];
+
+        // exit if sms is empty
+        if(empty($smsContent)) {
+            echo "Sms content empty. Discarding.... \n";
+            return;
+        }
+
         echo "Getting the date \n";
         //get the date
         $smsDateTemp = explode(':', $data[0]);
@@ -148,6 +159,7 @@ class GoipCommunicator extends UdpSocket
         //get the source goip
         $smsGoipTemp = explode(':', $data[1]);
         $smsGoip = $smsGoipTemp[1];
+
         // respond to GoIP that we received the text
         $goip = Goip::where('name', $smsGoip)->first();
         $goipCommunicator = new GoipCommunicator($goip->id);
@@ -164,11 +176,6 @@ class GoipCommunicator extends UdpSocket
         $smsNumberTemp = explode(':', $data[3]);
         $smsNumber = $smsNumberTemp[1];
 
-        echo "Getting the sms content \n";
-        //get the sms content
-        $smsContentTemp = explode(':', $data[4]);
-        $smsContent = $smsContentTemp[1];
-
         echo "Search if sender was already added in recipient_numbers table. if not then add new \n";
         //search if sender was already added in recipient_numbers table. if not then add new
         $recipientNumber = RecipientNumber::checkPhoneExist($smsNumber);
@@ -184,17 +191,12 @@ class GoipCommunicator extends UdpSocket
         // Create new SMS instance
         $sms = new Sms();
         $sms->message = $smsContent;
-        $sms->type = 'receive';
+        $sms->type = 'RECEIVED';
         $sms->save();
 
         echo "Create new SMS activity instance\n\n";
         // Create new SMS activity instance;
-        $smsActivity = new SmsActivity();
-        $smsActivity->sms_id = $sms->id;
-        $smsActivity->recipient_number_id = $recipientNumber->id;
-        $smsActivity->recipient_team_id = 0;
-        $smsActivity->status = 'RECEIVED';
-        $smsActivity->goip_name = $smsGoip;
+        $smsActivity = $sms->sms_activity()->save(new SmsActivity(['recipient_number_id' => $recipientNumber->id, 'recipient_team_id' => 0, 'status' => 'RECEIVED', 'goip_name' => $smsGoip]));
         $smsActivity->save();
 
         return;

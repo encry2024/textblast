@@ -1,7 +1,7 @@
-@extends('app')
+@extends('...app')
 
 @section('header')
-	@include('util.m-topbar')
+	@include('...util.m-topbar')
 @stop
 
 @section('content')
@@ -12,12 +12,12 @@
 			{{ Session::get('success_msg')  }}
 		</div>
 	@endif
-    @include('util.m-sidebar')
+    @include('...util.m-sidebar')
     <div class="col-lg-9 col-md-offset-center-2">
     <br/>
         <div class="panel panel-default col-lg-12">
            <div class="page-header">
-                <h3><span class="glyphicon glyphicon-inbox"></span> Inbox</h3>
+                <h3><span class="glyphicon glyphicon-tasks"></span> Outbox</h3>
            </div>
            <br/>
            <table id="messages" class="table"></table>
@@ -29,33 +29,7 @@
 
 @section('script')
 <script type="text/javascript">
-	var choices = [];
-	$(document).ready(function() {
-		$("#ui-id-1").empty();
-		$("#myTags").tagit({
-			autocomplete: {
-			delay: 0,
-			minLength: 2,
-			source: function(search, showChoices) {
-				$.getJSON("{{ route('team.index') }}", {q: search.term},
-					function (data) {
-						$.each(data, function (idx, tag) {
-							choices.push(tag.name, tag.id);
-							$("#myTags").data(tag.name, tag.id);
-						});
-						showChoices(choices);
-					});
-				}
-
-			},
-			showAutocompleteOnFocus: true,
-			allowSpaces: true,
-			removeConfirmation: true,
-			fieldName: "receivers[]"
-		});
-	});
-
-	$.getJSON("sms", function(data) {
+	$.getJSON("{{ url() }}/sms/status/PENDING", function(data) {
 		$('#messages').dataTable({
 			"aaData": data,
 			"aaSorting": [],
@@ -75,17 +49,17 @@
 				{"sTitle": "#", "mDataProp": "id"},
 				{"sTitle": "Message", "mDataProp": "msg"},
 				{"sTitle": "Sender", "mDataProp": "sender"},
-				{"sTitle": "Type", "mDataProp": "type"},
-				{"sTitle": "Recipients", "mDataProp": "recipients"},
-				{"sTitle": "Date", "mDataProp": "created_at"},
+				{"sTitle": "Recipient", "mDataProp": "recipient"},
+				{"sTitle": "Created Date", "mDataProp": "created_at"},
 			],
 			"aoColumnDefs":
 			[
 				//FORMAT THE VALUES THAT IS DISPLAYED ON mDataProp
 				{
 					"aTargets": [ 0 ], // Column to target
+					"width": "10%",
 					"mRender": function ( data, type, full ) {
-						return "<label>SMS" + data + "</label>";
+						return "<label>SMS-" + data + "</label>";
 					}
 				},
 				{
@@ -103,30 +77,24 @@
 				{
 					"aTargets": [ 2 ], // Column to target
 					"mRender": function ( data, type, full ) {
-					return '<label class="text-center size-14"> ' + data + ' </label>';
+						return '<label class="size-14 text-left"> ' + data + ' </label>';
 					}
 				},
-				{
-					"aTargets": [ 3 ], // Column to target
-					"mRender": function ( data, type, full ) {
-						return '<label class="text-center size-14"> ' + data + ' </label>';
-					}
-				},
+		        {
+                    "aTargets": [ 3 ], // Column to target
+                    "mRender": function ( data, type, full ) {
+                    return '<label class="text-left size-14"> ' + data + ' </label>';
+                    }
+                },
 				{
 					"aTargets": [ 4 ], // Column to target
 					"mRender": function ( data, type, full ) {
 						return '<label class="text-center size-14"> ' + data + ' </label>';
 					}
-				},
-		        {
-                    "aTargets": [ 5 ], // Column to target
-                    "mRender": function ( data, type, full ) {
-                    return '<label class="text-center size-14"> ' + data + ' </label>';
-                    }
-                }
+				}
 			]
 		});
-	$('div.dataTables_filter input').attr('placeholder', 'Filter Date');
-});
+		$('div.dataTables_filter input').attr('placeholder', 'Filter Date');
+	});
 </script>
 @stop

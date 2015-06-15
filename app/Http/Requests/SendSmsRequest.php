@@ -2,7 +2,7 @@
 
 use App\Http\Requests\Request;
 
-class CreateSmsRequest extends Request {
+class SendSmsRequest extends Request {
 
 	/**
 	 * Determine if the user is authorized to make this request.
