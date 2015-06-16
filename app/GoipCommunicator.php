@@ -6,6 +6,7 @@ namespace App;
 use Illuminate\Support\Facades\DB;
 use Monolog\Handler\SyslogUdp\UdpSocket;
 
+
 class GoipCommunicator extends UdpSocket
 {
     private $socket;
@@ -135,68 +136,59 @@ class GoipCommunicator extends UdpSocket
      * @param 
      */
     public static function receiveSMSRequest($smsData){
-        echo "Message received! \n";
+        echo "Message Received: " . $smsData . "\n";
         //disect each information
         $data = explode(';', $smsData);
 
-        echo "Getting the sms content \n";
+        //get the date
+        $smsDateTemp = explode(':', $data[0]);
+
+        //get the source goip
+        $smsGoipTemp = explode(':', $data[1]);
+
+        // respond to GoIP that we received the text
+        $goip = Goip::where('name', $smsGoipTemp[1])->first();
+        $goipCommunicator = new GoipCommunicator($goip->id);
+        $goipCommunicator->socket->write("RECEIVE " . $smsDateTemp[1] . " OK\n");
+        $goipCommunicator->socket->close();
+
+        // check if sms already received then exit
+        $oldSms = Sms::where('type', 'RECEIVED')->where('other_info', $smsDateTemp[1])->get();
+        if(count($oldSms)>0) {
+            echo "Sms already added. Discarding.... \n";
+            return;
+        }
+
         //get the sms content
         $smsContentTemp = explode(';msg:', $smsData);
-        $smsContent = $smsContentTemp[1];
-
         // exit if sms is empty
-        if(empty($smsContent)) {
+        if(empty($smsContentTemp[1])) {
             echo "Sms content empty. Discarding.... \n";
             return;
         }
 
-        echo "Getting the date \n";
-        //get the date
-        $smsDateTemp = explode(':', $data[0]);
-        $smsDate = $smsDateTemp[1];
-
-        echo "Getting the source goip \n";
-        //get the source goip
-        $smsGoipTemp = explode(':', $data[1]);
-        $smsGoip = $smsGoipTemp[1];
-
-        // respond to GoIP that we received the text
-        $goip = Goip::where('name', $smsGoip)->first();
-        $goipCommunicator = new GoipCommunicator($goip->id);
-        $goipCommunicator->socket->write("RECEIVE " . $smsDate . " OK\n");
-        $goipCommunicator->socket->close();
-
-        echo "Getting the goip password \n";
-        //get the goip password
-        $smsPasswordTemp = explode(':', $data[2]);
-        $smsPassword = $smsPasswordTemp[1];
-
-        echo "Getting the source sms number \n";
         //get the source sms number
         $smsNumberTemp = explode(':', $data[3]);
-        $smsNumber = $smsNumberTemp[1];
 
-        echo "Search if sender was already added in recipient_numbers table. if not then add new \n";
         //search if sender was already added in recipient_numbers table. if not then add new
-        $recipientNumber = RecipientNumber::checkPhoneExist($smsNumber);
+        $recipientNumber = RecipientNumber::checkPhoneExist($smsNumberTemp[1]);
 
         if(count($recipientNumber) == 0) {
             $recipient = new Recipient();
             $recipient->name = "NO NAME";
             $recipient->save();
-            $recipient->phoneNumbers()->save($recipientNumber = new RecipientNumber(['recipient_id' => $recipient->id, 'phone_number' => $smsNumber]));
+            $recipient->phoneNumbers()->save($recipientNumber = new RecipientNumber(['recipient_id' => $recipient->id, 'phone_number' => $smsNumberTemp[1]]));
         }
 
-        echo "Create new SMS instance \n";
         // Create new SMS instance
         $sms = new Sms();
-        $sms->message = $smsContent;
+        $sms->message = $smsContentTemp[1];
         $sms->type = 'RECEIVED';
+        $sms->other_info = $smsDateTemp[1];
         $sms->save();
 
-        echo "Create new SMS activity instance\n\n";
         // Create new SMS activity instance;
-        $smsActivity = $sms->sms_activity()->save(new SmsActivity(['recipient_number_id' => $recipientNumber->id, 'recipient_team_id' => 0, 'status' => 'RECEIVED', 'goip_name' => $smsGoip]));
+        $smsActivity = $sms->sms_activity()->save(new SmsActivity(['recipient_number_id' => $recipientNumber->id, 'recipient_team_id' => 0, 'status' => 'RECEIVED', 'goip_name' => $smsGoipTemp[1]]));
         $smsActivity->save();
 
         return;

@@ -45,6 +45,7 @@ class RecipientController extends Controller {
 			$json[] = array(
 				'id' 				=> $recipient->id,
 				'name' 				=> $recipient->name,
+				'phones'			=> $recipient->phoneNumbers,
 				'recent_updates'    => date('F d, Y [ h:i A D ]', strtotime($recipient->updated_at)),
 			);
         }
