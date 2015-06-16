@@ -9,7 +9,7 @@
 	<div class="col-lg-3">
 		<div class="panel panel-default col-lg-12">
 			<div class="panel-body">
-				<a href="{{ route('/home') }}" class="col-lg-12"><span class="glyphicon glyphicon-menu-left" ></span> Back to Sent SMS</a>
+				<a href="{{ route('/home') }}" class="col-lg-12"><span class="glyphicon glyphicon-menu-left" ></span> Back to Inbox</a>
 			</div>
 		</div>
 	</div>
