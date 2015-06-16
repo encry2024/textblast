@@ -16,7 +16,7 @@ class Recipient extends Eloquent {
     protected $fillable = ['name'];
 
     public function phoneNumbers() {
-        return $this->hasMany('App\RecipientNumber');
+        return $this->hasMany('App\RecipientNumber')->select(array('phone_number'));;
     }
 
     public function recipientTeam() {
