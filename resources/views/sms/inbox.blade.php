@@ -66,12 +66,11 @@
 							"aTargets": [ 1 ], // Column to target
 							"width": "40%",
 							"mRender": function ( data, type, full ) {
-								var url = '{{ route('sms.edit', ":id") }}';
-								url = url.replace(':id', full["id"]);
+								var url = '{{ url('sms') }}';
 								if(data.length > 50) {
 									data = data.substr(0, 50) + '...';
 								}
-								return "<a href='"+ url +"' class='size-14 text-left'>" + data + "</a><br><hr><h6>Seen by: " + full['seen_by'] + "</h6>";
+								return "<a href='"+ url +"/"+ full["id"] + "/received' class='size-14 text-left'>" + data + "</a><br><hr><h6>Seen by: " + full['seen_by'] + "</h6>";
 							}
 						},
 						{

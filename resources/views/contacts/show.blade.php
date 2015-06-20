@@ -94,6 +94,7 @@
 @section('script')
 <script type="text/javascript">
 	$.getJSON("recipient", function(data) {
+		console.log(data);
 		$('#contacts').dataTable({
 			"aaData": data,
 			"lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
@@ -113,6 +114,7 @@
 			"aoColumns":
 			[
 				{"sTitle": "Name", "sWidth": "15%", "mDataProp": "name"},
+				{"sTitle": "Phones", "sWidth": "15%", "mDataProp": "phone"},
 				{"sTitle": "Recent Update", "sWidth": "15%","mDataProp": "recent_updates"},
 			],
 			"aoColumnDefs":
@@ -129,16 +131,31 @@
 						return "<a href='" + url + "' class='size-14 text-left'>" + full["name"] + "</a>";
 					}
 				},
-
-				// RECIPIENT'S GROUP NAME
 				{
 					"aTargets": [ 1 ], // Column to target
 						"mRender": function ( data, type, full ) {
+							var phones = '';
+							full["phones"].forEach(function(entry) {
+								phones += entry["phone_number"] +  ",";
+							});
+
+							phones = phones.substr(0, phones.length - 1);
+
+						// 'full' is the row's data object, and 'data' is this column's data
+						// e.g. 'full[0]' is the comic id, and 'data' is the comic title
+						return '<label class="text-center size-14"> ' + phones + ' </label>';
+						}
+				},
+
+				// RECIPIENT'S GROUP NAME
+				{
+					"aTargets": [ 2 ], // Column to target
+					"mRender": function ( data, type, full ) {
 						// 'full' is the row's data object, and 'data' is this column's data
 						// e.g. 'full[0]' is the comic id, and 'data' is the comic title
 						return '<label class="text-center size-14"> ' + full["recent_updates"] + ' </label>';
-						}
-				},
+					}
+				}
 				// CHANGES ON RECIPIENT
 				/*{
 					"aTargets": [ 4 ], // Column to target
@@ -149,16 +166,6 @@
 					}
 				},*/
 			]
-			/*"fnDrawCallback": function( oSettings ) {
-				*//* Need to redo the counters if filtered or sorted *//*
-				if ( oSettings.bSorted || oSettings.bFiltered )
-				{
-					for ( var i=0, iLen=oSettings.aiDisplay.length ; i<iLen ; i++ )
-					{
-						$('td:eq(0)', oSettings.aoData[ oSettings.aiDisplay[i] ].nTr ).html( "<label>" + (i+1) + "</label>" );
-					}
-				}
-			}*/
 		});
 	$('div.dataTables_filter input').attr('placeholder', 'Filter Date');
 });

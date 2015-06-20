@@ -28,7 +28,22 @@
     <div class="col-lg-9 col-md-offset-center-2">
 		<div class="panel panel-default col-lg-12">
 			<div class="page-header">
+<<<<<<< HEAD
 				<h3><span class="glyphicon glyphicon-send"></span> Sent Messages <br><span><label class="size-14">Sender: {{ isset($sms->user->name)?$sms->user->name:'No sender information' }}</label></span><span class="right"><label class="size-14">Date Sent: {{ date('M d, Y h:i A', strtotime($sms->created_at)) }}</label></span></h3>
+=======
+				<h3><span class="glyphicon glyphicon-envelope"></span> SMS Details <span class="right"><label class="size-14">Date Sent: {{ date('M d, Y h:i A', strtotime($sms->created_at)) }}</label></span></h3>
+				<h5></h5>
+			</div>
+			<div class="offset1 span8 pull-right">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						Legends:<br>
+						<span class="label label-primary">PENDING</span>
+						<span class="label label-success">SUCCESS</span>
+						<span class="label label-danger">FAILED</span>
+					</div>
+				</div>
+>>>>>>> 668527b282e14bc79ee6649696674b877f7ae424
 			</div>
 			<div class="col-lg-6">
 				<label for="">Recipients: </label>
