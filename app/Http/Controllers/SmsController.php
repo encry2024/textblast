@@ -189,7 +189,8 @@ class SmsController extends Controller {
 
 			$json[] = [
 				'id' => $smsActivity->sms->id,
-				'msg' => $smsActivity->sms->message,
+				'msg' => str_limit($smsActivity->sms->message, $limit=25, $end='...'),
+				'full_msg' => $smsActivity->sms->message,
 				'sender' => $smsActivity->status!='RECEIVED'?($smsActivity->user->name):($smsActivity->recipient_number->recipient->name . " (" . $smsActivity->recipient_number->phone_number . ")"),
 				'recipient' => $smsActivity->status!='RECEIVED'?($smsActivity->recipient_number->recipient->name . " (" . $smsActivity->recipient_number->phone_number . ")"):($smsActivity->goip_name),
 				'origin' => $smsActivity->goip_name,
