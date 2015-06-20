@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default point-border">
+<nav class="navbar navbar-default point-border" style="border-radius: 0px;">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -11,7 +11,8 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                     Logged in as :: {!! Auth::user()->name !!} <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="{!! URL::to('/') !!}/auth/register"><span class="glyphicon glyphicon-user"></span> Register User</a></li>
+                    	<li><a href="{!! URL::to('/') !!}/user"><span class="glyphicon glyphicon-user"></span> Registered Users</a></li>
+                        <li><a href="{!! URL::to('/') !!}/auth/register"><span class="glyphicon glyphicon-pencil"></span> Sign up User</a></li>
                         <li><a href="{!! URL::to('/') !!}/history"><span class="glyphicon glyphicon-book"></span> History</a></li>
                         <li><a href="{!! URL::to('/') !!}/auth/change_password"><span class="glyphicon glyphicon-refresh"></span> Change Password</a></li>
                         <li class="divider"></li>

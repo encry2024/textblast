@@ -12,18 +12,18 @@
 			{{ Session::get('success_msg')  }}
 		</div>
 	@endif
-    @include('...util.m-sidebar')
-    <div class="col-lg-9 col-md-offset-center-2">
-    <br/>
-        <div class="panel panel-default col-lg-12">
-           <div class="page-header">
-                <h3><span class="glyphicon glyphicon-share-alt"></span> Sent SMS</h3>
-           </div>
-           <br/>
-           <table id="messages" class="table"></table>
-           <br/><br/>
-        </div>
-    </div>
+	@include('...util.m-sidebar')
+	<div class="col-lg-9 col-md-offset-center-2">
+	<br/>
+		<div class="panel panel-default col-lg-12">
+			<div class="page-header">
+				<h3><span class="glyphicon glyphicon-share-alt"></span> Sent SMS</h3>
+			</div>
+			<br/>
+			<table id="messages" class="table"></table>
+			<br/><br/>
+		</div>
+	</div>
 </div>
 @endsection
 

@@ -4,6 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta id="_token" name="_token" content="{{ csrf_token() }}"/>
 	<title>NSI :: Text Blast v0.1</title>
     <link rel="stylesheet" href="{!! URL::to('/') !!}/packages/css/btn.css"/>
     <link rel="stylesheet" href="{!! URL::to('/') !!}/packages/css/links.css"/>
@@ -21,6 +22,7 @@
     <link rel="stylesheet" href="{{ URL::to('/') }}/packages/datepicker/css/datepicker.css"/>
 </head>
 <body>
+	<script src="{{ URL::to('/') }}/packages/jquery-ohsnap/ohSnap.js"></script>
     <script src="{{ URL::to('/') }}/bootstrap/bootstrap-3.3.4/js/jquery-1.11.2.min.js"></script>
 	<script src="{{ URL::to('/') }}/jquery-ui-1.11.4/jquery-ui.min.js"></script>
     <script>
