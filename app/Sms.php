@@ -69,12 +69,26 @@ class Sms extends Eloquent {
 								$recipient->name = "NO NAME";
 								$recipient->save();
 
+
+								$audit = new Audit();
+								$audit->user_id = Auth::user()->id;
+								$audit->action = "create new recipient";
+								$audit->object = $recipient->name;
+								$audit->save();
+								
+
 								// Recipient's who received this text is stored in a text file.
 								$recipientNumber = $recipient->phoneNumbers()
 									->save(new RecipientNumber([
 										'recipient_id' => $recipient->id,
 										'phone_number' => $mobileNumber
 									]));
+
+								$audit = new Audit();
+								$audit->user_id = Auth::user()->id;
+								$audit->action = "sent message to";
+								$audit->object = $recipient->name;
+								$audit->save();
 							}
 							$this->createActivityAndDispatch($recipientNumber, NULL, $message);
 						} elseif($recipientNumber = RecipientNumber::find($id)) {
@@ -84,6 +98,13 @@ class Sms extends Eloquent {
 					case 'T':
 						if ($team = Team::find($id)) {
 							$recipients = $team->recipients;
+
+							$audit = new Audit();
+							$audit->user_id = Auth::user()->id;
+							$audit->action = "sent message to";
+							$audit->object = $team->name;
+							$audit->save();
+
 							foreach ($recipients as $recipient) {
 								if (count($recipientNumbers = $recipient->phoneNumbers) > 0) {
 									foreach ($recipientNumbers as $recipientNumber) {
@@ -95,7 +116,6 @@ class Sms extends Eloquent {
 						break;
 					default:
 						break;
-
 				};
 			}
 		}

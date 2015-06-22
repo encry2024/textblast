@@ -49,29 +49,24 @@
 						{"sTitle": "#", "mDataProp": "id"},
 						{"sTitle": "Message", "mDataProp": "msg"},
 						{"sTitle": "Sender", "mDataProp": "sender"},
-						{"sTitle": "Recipient", "mDataProp": "recipient"},
-						{"sTitle": "Created Date", "mDataProp": "created_at"},
+						{"sTitle": "Recipient", "width":"30%","mDataProp": "recipient"},
+						{"sTitle": "Created Date", "width":"10%","mDataProp": "created_at"},
 					],
 			"aoColumnDefs":
 					[
 						//FORMAT THE VALUES THAT IS DISPLAYED ON mDataProp
 						{
 							"aTargets": [ 0 ], // Column to target
-							"width": "10%",
 							"mRender": function ( data, type, full ) {
 								return "<label>SMS-" + data + "</label>";
 							}
 						},
 						{
 							"aTargets": [ 1 ], // Column to target
-							"width": "40%",
 							"mRender": function ( data, type, full ) {
 								var url = '{{ route('sms.edit', ":id") }}';
 								url = url.replace(':id', full["id"]);
-								if(data.length > 50) {
-									data = data.substr(0, 50) + '...';
-								}
-								return "<a href='"+ url +"' class='size-14 text-left'>" + data + "</a>";
+								return "<a href='"+ url +"' class='size-14 text-left' data-popover='true' data-html='true' data-trigger='hover' data-content='" + full["full_msg"] + "'>" + data + "</a>";
 							}
 						},
 						{
@@ -96,5 +91,7 @@
 		});
 		$('div.dataTables_filter input').attr('placeholder', 'Filter Date');
 	});
+
+	$('body').popover({ selector: '[data-popover]', trigger: 'hover', placement: 'right', delay: {show: 50, hide: 50}});
 </script>
 @stop

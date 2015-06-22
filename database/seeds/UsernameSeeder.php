@@ -14,6 +14,7 @@ class UsernameSeeder extends Seeder {
                     'name'       => env('ADMIN_NAME'),
                     'type'       => env('ADMIN_TYPE'),
                     'password'   => Hash::make(env('ADMIN_PASSWORD')),
+                    'status'     => env('ADMIN_STATUS'),
                     'created_at' => date('Y-m-d H:i:s'),
                     'updated_at' => date('Y-m-d H:i:s')
                 ),
