@@ -2,6 +2,9 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Audit;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -97,6 +100,27 @@ class UserController extends Controller {
 		$fetchStatus = User::fetchStatus($user_id);
 
 		return $fetchStatus;
+	}
+
+	public function changePass( Request $request )
+	{
+		$auth = User::find(Auth::user()->id)->update(['password' => Hash::make($request->get('password'))]);
+
+		$audit = new Audit();
+		$audit->user_id = Auth::user()->id;
+		$audit->action = "changed";
+		$audit->object = "password";
+		$audit->save();
+
+		$audit = new Audit();
+		$audit->user_id = Auth::user()->id;
+		$audit->action = "redirected to login after changing";
+		$audit->object = "password";
+		$audit->save();
+
+		Auth::logout();
+
+		return redirect('auth/login')->with('success_msg', 'Your password was successfully changed');
 	}
 
 }

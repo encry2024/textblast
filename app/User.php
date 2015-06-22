@@ -31,14 +31,18 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	protected $hidden = ['password', 'remember_token'];
 
+	public function audit()
+	{
+		return $this->hasMany('App\Audit');
+	}
+
 	public static function fetch_users()
 	{
-		# code...
 		$json = [];
 		$users = User::all();
 
 		foreach ($users as $user) {
-			# code...
+
 			$json[] = [
 				'user_id' => $user->id,
 				'user_name' => $user->name,

@@ -8,6 +8,7 @@ Route::bind('recipientTeam', 	function( $id ) 	{ return App\RecipientTeam::find(
 Route::bind('recipientNumber', 	function( $id ) 	{ return App\RecipientNumber::find($id); });
 Route::bind('template', 		function( $id )		{ return App\Template::find($id); });
 Route::bind('user',				function( $id )		{ return App\User::find($id); });
+Route::bind('audit', 			function( $id )		{ return App\Audit::find($id); });
 
 
 Route::group(array('before' => 'auth'), function() {

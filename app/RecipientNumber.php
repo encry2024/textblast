@@ -33,6 +33,12 @@ class RecipientNumber extends Eloquent {
 		$reg_rec_num->recipient_id	= $id;
 		$reg_rec_num->save();
 
+		$audit = new Audit();
+		$audit->user_id = Auth::user()->id;
+		$audit->action = "registered (phone number: ".$get_num_req["phone_number"].", provider: ".$get_num_req["provider"].")";
+		$audit->object = $recipient->name;
+		$audit->save();
+
 		return redirect()->back()->with('success_msg', 'Additional Contact Number has been proccessed successfully');
 	}
 
@@ -45,7 +51,13 @@ class RecipientNumber extends Eloquent {
 		$provider = Input::get('provider');
 
 		$rcp_num->find(Input::get('rcp_id'))->update(['phone_number' => $phone, 'provider' => $provider]);
-		Recipient::find(Input::get('rcp_id'))->touch();
+		$recipient = Recipient::find(Input::get('rcp_id'))->touch();
+
+		$audit = new Audit();
+		$audit->user_id = Auth::user()->id;
+		$audit->action = "udpates " . $recipient->name . " contact number";
+		$audit->save();
+
 		return redirect()->back()->with('success_msg', "Recipient's contact was successfully updated.");
 	}
 

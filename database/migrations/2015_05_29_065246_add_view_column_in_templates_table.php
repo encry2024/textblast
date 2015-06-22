@@ -13,7 +13,7 @@ class AddViewColumnInTemplatesTable extends Migration {
 	public function up()
 	{
 		Schema::table('templates', function($table){
-			$table->string('view')->after('name');
+			$table->text('view')->after('name');
 		});
 	}
 

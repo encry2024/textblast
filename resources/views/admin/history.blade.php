@@ -23,7 +23,7 @@
 
 @section('script')
 <script type="text/javascript">
-	$.getJSON("{{ route('audit') }}", function(data) {
+	$.getJSON("{{ route('get_history') }}", function(data) {
 		$('#history').dataTable({
 			"aaData": data,
 			"aaSorting": [],
@@ -40,12 +40,10 @@
 			//DISPLAYS THE VALUE
 			"aoColumns":
 			[
-				{"sTitle": "#", "mDataProp": "user_id"},
-				{"sTitle": "User", "mDataProp": "user_name"},
-				{"sTitle": "Type", "mDataProp": "user_type"},
-				{"sTitle": "E-mail", "mDataProp": "user_email"},
-				{"sTitle": "Status", "mDataProp": "user_status"},
-				{"sTitle": "Recent Update", "mDataProp": "updated_at"},
+				{"sTitle": "#", "mDataProp": "id"},
+				{"sTitle": "User", "mDataProp": "user"},
+				{"sTitle": "Action", "mDataProp": "action"},
+				{"sTitle": "Date", "mDataProp": "created_at"},
 			],
 
 			"aoColumnDefs":
@@ -54,7 +52,7 @@
 				{
 					"aTargets": [ 0 ], // Column to target
 					"mRender": function ( data, type, full ) {
-						return "<label>USER-" + data + "</label>";
+						return "<label>" + data + "</label>";
 					}
 				},
 				{
@@ -69,24 +67,6 @@
 					"aTargets": [ 2 ], // Column to target
 					"mRender": function ( data, type, full ) {
 						return '<label class="size-14 text-left"> ' + data + ' </label>';
-					}
-				},
-				{
-					"aTargets": [ 3 ], // Column to target
-					"mRender": function ( data, type, full ) {
-						return '<label class="text-center size-14"> ' + data + ' </label>';
-					}
-				},
-				{
-					"aTargets": [ 4 ], // Column to target
-					"mRender": function ( data, type, full ) {
-						return '<label class="text-center size-14"> ' + data + ' </label>';
-					}
-				},
-				{
-					"aTargets": [ 5 ], // Column to target
-					"mRender": function ( data, type, full ) {
-						return '<label class="text-center size-14"> ' + data + ' </label>';
 					}
 				}
 			]
