@@ -57,12 +57,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	}
 
 	public static function updateStatus($user, $request) {
-		# code...
 		$user = User::find($user->id)->update(['status' => $request->get('status')]);
 	}
 
 	public static function fetchStatus($user_id) {
-		# code...
 		$user = User::find($user_id);
 		$status = $user->status!=1 ? 'INACTIVE':'ACTIVE';
 		return json_encode($status);

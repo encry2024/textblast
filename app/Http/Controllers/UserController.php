@@ -87,6 +87,13 @@ class UserController extends Controller {
 		//
 	}
 
+	public function viewChangePassword()
+	{
+		return view('auth.change_password');
+	}
+
+	# JSONS
+
 	public function fetchUser()
 	{
 		# code...

@@ -116,7 +116,6 @@ class Sms extends Eloquent {
 						break;
 					default:
 						break;
-
 				};
 			}
 		}

@@ -3,6 +3,7 @@
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Auth;
 
 class RecipientNumber extends Eloquent {
 
@@ -16,10 +17,6 @@ class RecipientNumber extends Eloquent {
 	public function recipient() {
 		return $this->belongsTo('App\Recipient');
 	}
-
-
-
-
 
 	/**
 	 * @param $get_num_req
