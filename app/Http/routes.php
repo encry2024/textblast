@@ -27,6 +27,7 @@ Route::controllers(array('auth' => 'Auth\AuthController','password' => 'Auth\Pas
 
 # GET
 Route::get('/', ['as' => '/home', 'uses' => 'SmsController@inbox']);
+Route::get('home', ['uses' => 'SmsController@inbox']);
 Route::get('contacts', ['as'  => 'pb', 'uses' => function() {return view('contacts.show');}]);
 Route::get('groups', ['as' => 'grp', 'uses' => function() {return view('groups.show');}]);
 Route::get('test', function() {return view('tests.testform'); });
