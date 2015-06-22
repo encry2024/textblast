@@ -41,6 +41,12 @@ class Recipient extends Eloquent {
 
         $store_recipient_number->save();
 
+        $audit = new Audit();
+        $audit->user_id = Auth::user()->id;
+        $audit->action = "created recipient";
+        $audit->object = $store_recipient->name;
+        $audit->save();
+
         return redirect()->back()->with('success_msg', 'Recipient:'.$store_recipient->name.' was successfully saved.');
     }
 }

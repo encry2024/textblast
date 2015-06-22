@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddViewColumnInTemplatesTable extends Migration {
+class AddStatusColumnInUsersTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,8 +12,9 @@ class AddViewColumnInTemplatesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('templates', function($table){
-			$table->text('view')->after('name');
+		//
+		Schema::table('users', function($table) {
+			$table->string('status')->after('type');
 		});
 	}
 

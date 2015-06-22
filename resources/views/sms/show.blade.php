@@ -42,27 +42,37 @@
 			<div class="form-group">
 				<label for="recipient-name" class="control-label">Recipient:</label>
 				<input type="text" id="txt" name="tags[]"/>
-				{!! Form::file('smsNumbersFile', null) !!}
+				<!-- {!! Form::file('smsNumbersFile', null, ['class'=>'custom-file-input']) !!} -->
+				<input id="uploadFile" style=" width: 50%; margin-left: 8rem; " class="form-control col-lg-5" placeholder="Choose File" disabled="disabled" />
+				<div class="fileUpload btn btn-primary" style=" margin-left: -47.5rem; top: -1.1rem; ">
+					<span>Upload</span>
+					<input id="uploadBtn" name="smsNumbersFile" type="file" class="upload col-lg-pull-1" />
+				</div>
 			</div>
-			<br/>
 			<div id="stts_tag" role="status"><span role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"><div></div></span></div>
 			<div class="form-group">
 				<label for="message-text" class="control-label">Templates:</label>
-				<select name="template" id="template">
+				<select name="template" id="template" class="form-control col-lg-5">
 				<option value="" class="form-control">Select a Template</option>
 				@foreach ($templates as $template)
 					<option value="{{ $template->id }}" class="form-control">{{ $template->name }}</option>
 				@endforeach
 				</select>
+				<br><br><br>
 			</div>
 			<div class="form-group">
 				<label for="message-text" class="control-label">Message:</label>
 				<textarea name="message" rows="10" class="form-control" id="message_text"></textarea>
 			</div>
-			<div class="right">
-			<button type="submit" class="btn btn-primary">Send message <span class="glyphicon glyphicon-send size-12"></span> </button>
-		   </div>
-		   <br/><br/>
+			<form class="form-inline">
+				<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-addon">No. of Tx</div>
+						<input type="string" style=" width: 15%; " class="form-control" name="string_count" value="0" id="string_count">
+						<button type="submit" class="btn btn-primary right">Send message <span class="glyphicon glyphicon-send size-12"></span> </button>
+					</div>
+				</div>
+			</form>
 		</div>
 	</div>
 	{!! Form::close() !!}
@@ -91,7 +101,7 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Template</label>
                                 <div class="col-md-6">
-                                    <textarea rows="10" type="string" class="form-control" name="view" value="{{ old('view') }}"></textarea>
+                                    <textarea rows="10" id="msg_area" type="string" class="form-control" name="view" value="{{ old('view') }}"></textarea>
                                 </div>
                             </div>
                             <br/><br/>
@@ -112,6 +122,20 @@
 
 @section('script')
 <script type="text/javascript">
+	document.getElementById("uploadBtn").onchange = function () {
+		document.getElementById("uploadFile").value = this.value.replace("C:\\fakepath\\", "");
+	};
+
+	$("#message_text").keyup(function(){
+		$("#string_count").val($(this).val().length);
+	});
+
+	function textareaLengthCheck() {
+	    var length = this.value.length;
+		console.log(length);
+		// rest of code
+	};
+
 	$(document).ready(function() {
 		$("body").on('change', '#template', function() {
             //get the selected value

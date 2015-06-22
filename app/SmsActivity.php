@@ -3,6 +3,8 @@
 use Illuminate\Database\Eloquent\Model;
 use App\Commands\SendSmsCommand;
 use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Support\Facades\Auth;
+
 
 class SmsActivity extends Model {
 
@@ -42,6 +44,12 @@ class SmsActivity extends Model {
 		// update smsactivity status to PENDING
 		$this->status = 'PENDING';
 		$this->save();
+
+		$audit = new Audit();
+		$audit->user_id = Auth::user()->id;
+		$audit->action = "resend";
+		$audit->object =  "message: " . $this->sms->message . " to " . $this->recipient_number->recipient->name;
+		$audit->save();
 
 		// Send to queue
 		$this->dispatch(new SendSmsCommand($this->recipient_number->phone_number, $this->sms->message, $this->id));
