@@ -39,7 +39,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	public static function fetch_users()
 	{
 		$json = [];
-		$users = User::all();
+		$users = User::where('type', '!=', 'Admin')->get();
 
 		foreach ($users as $user) {
 
