@@ -26,14 +26,14 @@ Route::resource('audit', 'AuditController', ['only' => ['index']]);
 Route::controllers(array('auth' => 'Auth\AuthController','password' => 'Auth\PasswordController'));
 
 # GET
-Route::get('/', ['as' => '/home', 'uses' => 'SmsController@inbox']);
-Route::get('home', ['uses' => 'SmsController@inbox']);
-Route::get('contacts', ['as'  => 'pb', 'uses' => function() {return view('contacts.show');}]);
-Route::get('groups', ['as' => 'grp', 'uses' => function() {return view('groups.show');}]);
+Route::get('/', ['middleware' => 'check_auth_status', 'as' => '/home', 'uses' => 'SmsController@inbox']);
+Route::get('home', ['middleware' => 'check_auth_status', 'uses' => 'SmsController@inbox']);
+Route::get('contacts', ['middleware' => 'check_auth_status','as'  => 'pb', 'uses' => function() {return view('contacts.show');}]);
+Route::get('groups', ['middleware' => 'check_auth_status','as' => 'grp', 'uses' => function() {return view('groups.show');}]);
 Route::get('test', function() {return view('tests.testform'); });
-Route::get('messaging', ['as' => 'msg', 'uses' => 'SmsController@retSmsCount']);
+Route::get('messaging', ['middleware' => 'check_auth_status','as' => 'msg', 'uses' => 'SmsController@retSmsCount']);
 Route::get('template/{template_id}', ['as' => 'req_temp', 'uses' => 'TemplateController@show']);
-Route::get('change_password', ['as' => 'change_password', 'uses' => 'UserController@viewChangePassword']);
+Route::get('change_password', ['middleware' => 'check_auth_status','as' => 'change_password', 'uses' => 'UserController@viewChangePassword']);
 
 # POST
 Route::post('team/{id}/untag', ['as' => 'untag', 'uses' => 'TeamController@untagRecipient']);
