@@ -15,12 +15,11 @@ class CheckAuthStatus {
 	{
 		$user = $request->user();
 
-		if ($user->checkStatus() == 1) {
+		if ($user && $user->checkStatus() == 1) {
 			return $next($request);
+		} else if ($user && $user->checkStatus() == 0) {
+			return "Account has been disableds";
 		}
-
-		return "Account has been disabled";
-
 	}
 
 }
