@@ -94,7 +94,7 @@ class RecipientTeamController extends Controller {
 	 * @return Response
 	 */
 	public function destroy( Request $request ) {
-		$untag_rcptTeam = RecipientTeam::find( $request->get('team_id') );
+		$untag_rcptTeam = RecipientTeam::where('recipient_id', $request->get('recipient_id'))->where('team_id', $request->get('team_id'))->first();
 		$untag_rcptTeam->delete();
 
 		return redirect()->back()->with('success_msg', 'Recipient was successfully untagged.');

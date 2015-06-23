@@ -50,7 +50,7 @@
 					<div class="form-group" style="margin-left: -1.5rem;">
 						<div class="col-lg-12">
 							<div class="alert alert-success col-lg-12" style="width: 105%; height: 5rem;" role="alert">
-								<button type="button" class="close" onclick="untagRecipient({{$recipient->id }}, '{{ $recipientTeam->name }}')" data-toggle="modal" data-target="#dlt"> <span class="glyphicon glyphicon-trash size-12" aria-hidden="true" style="margin-left: 0.5rem;"> </span></button>
+								<button type="button" class="close" onclick="untagRecipient({{$recipient->id }}, {{ $recipientTeam->id }})" data-toggle="modal" data-target="#dlt"> <span class="glyphicon glyphicon-trash size-12" aria-hidden="true" style="margin-left: 0.5rem;"> </span></button>
 								<button type="button" class="close" onclick="editGroup({{$recipient->id }}, '{{ $recipientTeam->name }}')" data-toggle="modal" data-target="#editGroup"> <span class="glyphicon glyphicon-pencil size-12" title="Edit Recipient's Group" aria-hidden="true"></span></button>
 								{{ $recipientTeam->name }}
 							</div>
@@ -66,7 +66,7 @@
 				<h4><span class="glyphicon glyphicon-book"></span> Recipient's Contacts</h4>
 				<br/>
 				<form class="form-inline">
-				@foreach ($recipient->phoneNumbers as $rpt_num)
+				@foreach ($recipient->numbers as $rpt_num)
 					<div class="form-group" style="margin-left: -1.5rem;">
 						<div class="col-lg-12">
 							<div class="alert alert-success col-lg-12" style="width: 105%; height: 5rem;" role="alert">
@@ -187,7 +187,8 @@
 				</div>
 				<br/>
 				<div class="modal-footer">
-					{!! Form::hidden('team_id', '', ['id'=>'id_textbox'] ) !!}
+					{!! Form::hidden('recipient_id', '', ['id'=>'id_textbox'] ) !!}
+					{!! Form::hidden('team_id', '', ['id'=>'group_textbox'] ) !!}
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 					<button type="submit" class="btn btn-primary">Untag</button>
 				</div>
@@ -414,9 +415,9 @@
 
 @section('script')
 <script>
-	function untagRecipient(id,name) {
+	function untagRecipient(id,group_id) {
 		document.getElementById("id_textbox").value = id;
-		document.getElementById('name_textbox').innerHTML = name;
+		document.getElementById('group_textbox').value = group_id;
 	}
 
 	function deleteNum(num_id) {
@@ -446,14 +447,14 @@
 			single: true,
 			labelText: 'Select Group',
 			datalist: datalist,
-			enableSearch: true,
+			enableSearch: true
 		});
 
 		$('#ch_group_list').multilist({
 			single: true,
 			labelText: "Select Group",
 			datalist: datalist,
-			enableSearch: true,
+			enableSearch: true
 		});
 	});
 </script>
