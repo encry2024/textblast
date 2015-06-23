@@ -21,27 +21,21 @@ Route::resource('template', 'TemplateController', ['only' => ['store', 'update',
 Route::resource('audit', 'AuditController', ['only' => ['index']]);
 //Route::post('tag/recipient', ['as' => 'tr', 'uses' => 'RecipientTeamController@tag']);
 
-# POST
 
 # AUTH CONTROLLERS
-Route::controllers(array('auth' => 'Auth\AuthController', 'password' => 'Auth\PasswordController'));
-Route::group(['middleware' => 'check_auth_status'], function() {
-	# GET
-	Route::get('/', ['as' => '/home', 'uses' => 'SmsController@inbox']);
-	Route::get('home', ['uses' => 'SmsController@inbox']);
-	Route::get('contacts', ['as' => 'pb', 'uses' => function () {
-		return view('contacts.show');
-	}]);
-	Route::get('groups', ['as' => 'grp', 'uses' => function () {
-		return view('groups.show');
-	}]);
-	Route::get('test', function () {
-		return view('tests.testform');
-	});
-	Route::get('messaging', ['as' => 'msg', 'uses' => 'SmsController@retSmsCount']);
-	Route::get('template/{template_id}', ['as' => 'req_temp', 'uses' => 'TemplateController@show']);
-	Route::get('change_password', ['as' => 'change_password', 'uses' => 'UserController@viewChangePassword']);
-});
+Route::controllers(array('auth' => 'Auth\AuthController','password' => 'Auth\PasswordController'));
+
+# GET
+Route::get('/', ['as' => '/home', 'uses' => 'SmsController@inbox']);
+Route::get('home', ['uses' => 'SmsController@inbox']);
+Route::get('contacts', ['as'  => 'pb', 'uses' => function() {return view('contacts.show');}]);
+Route::get('groups', ['as' => 'grp', 'uses' => function() {return view('groups.show');}]);
+Route::get('test', function() {return view('tests.testform'); });
+Route::get('messaging', ['as' => 'msg', 'uses' => 'SmsController@retSmsCount']);
+Route::get('template/{template_id}', ['as' => 'req_temp', 'uses' => 'TemplateController@show']);
+Route::get('change_password', ['as' => 'change_password', 'uses' => 'UserController@viewChangePassword']);
+
+# POST
 Route::post('team/{id}/untag', ['as' => 'untag', 'uses' => 'TeamController@untagRecipient']);
 Route::post('sms/send', ['as' => 'sendsms', 'uses' => 'SmsController@send']);
 Route::post('sms/resend/{smsactivity}', ['as' => 'resendsms', 'uses' => 'SmsActivityController@resend']);
