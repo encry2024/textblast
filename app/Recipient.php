@@ -19,6 +19,10 @@ class Recipient extends Eloquent {
         return $this->hasMany('App\RecipientNumber')->select(array('phone_number'));;
     }
 
+    public function numbers() {
+        return $this->hasMany('App\RecipientNumber');
+    }
+
     public function recipientTeam() {
         return $this->hasManyThrough('App\Team', 'App\RecipientTeam', 'recipient_id', 'id');
     }

@@ -192,10 +192,13 @@ class SmsController extends Controller {
 		$getSmsActivity = SmsActivity::whereStatus($status)->orderBy('created_at', 'DESC')->get();
 
 		foreach ($getSmsActivity as $smsActivity) {
+			$seenUsers = array();
 			//generate user views
-			$seenByUsers = $smsActivity->sms->views()->lists('user_id');
-			$users = \App\User::whereIn('id', $seenByUsers)->lists('name');
-			$users = implode(',', $users);
+			$seenByUsers = $smsActivity->sms->views()->orderBy('sms_views.created_at')->lists('user_id');
+			foreach($seenByUsers as $user) {
+				array_push($seenUsers, \App\User::find($user)->name);
+			}
+			$users = implode(',', $seenUsers);
 
 			$json[] = [
 				'id' => $smsActivity->sms->id,

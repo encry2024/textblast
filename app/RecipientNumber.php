@@ -33,7 +33,7 @@ class RecipientNumber extends Eloquent {
 		$audit = new Audit();
 		$audit->user_id = Auth::user()->id;
 		$audit->action = "registered (phone number: ".$get_num_req["phone_number"].", provider: ".$get_num_req["provider"].")";
-		$audit->object = $recipient->name;
+		$audit->object = $reg_rec_num->recipient->name;
 		$audit->save();
 
 		return redirect()->back()->with('success_msg', 'Additional Contact Number has been proccessed successfully');
@@ -43,16 +43,18 @@ class RecipientNumber extends Eloquent {
 	 * @param $rcp_num
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
-	public static function update_RecipientNumber($rcp_num){
+	public static function update_RecipientNumber(){
 		$phone	= Input::get('phone_number');
 		$provider = Input::get('provider');
 
-		$rcp_num->find(Input::get('rcp_id'))->update(['phone_number' => $phone, 'provider' => $provider]);
-		$recipient = Recipient::find(Input::get('rcp_id'))->touch();
+		$rcp_num = RecipientNumber::find(Input::get('rcp_id'));
+		$rcp_num->update(['phone_number' => $phone, 'provider' => $provider]);
+		$recipient = $rcp_num->recipient;
+		$recipient->touch();
 
 		$audit = new Audit();
 		$audit->user_id = Auth::user()->id;
-		$audit->action = "udpates " . $recipient->name . " contact number";
+		$audit->action = "updates " . $recipient->name . " contact number";
 		$audit->save();
 
 		return redirect()->back()->with('success_msg', "Recipient's contact was successfully updated.");
