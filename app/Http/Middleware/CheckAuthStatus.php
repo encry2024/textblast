@@ -18,7 +18,7 @@ class CheckAuthStatus {
 		if ($user && $user->checkStatus() == 1) {
 			return $next($request);
 		} else if ($user && $user->checkStatus() == 0) {
-			return "Account has been disableds";
+			return "Account has been disabled";
 		}
 	}
 
