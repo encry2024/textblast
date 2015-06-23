@@ -10,4 +10,8 @@ class Audit extends Eloquent {
 	public function user() {
 		return $this->belongsTo('App\User');
 	}
+
+	public function checkStatus() {
+		return $this->status;
+	}
 }
