@@ -1,6 +1,7 @@
 <?php namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class CheckAuthStatus {
 
@@ -15,11 +16,13 @@ class CheckAuthStatus {
 	{
 		$user = $request->user();
 
-		if ($user && $user->checkStatus() == 1) {
+
+		if ($user->checkStatus() == 1) {
 			return $next($request);
-		} else if ($user && $user->checkStatus() == 0) {
-			return "Account has been disabled";
 		}
+
+		Auth::logout();
+		return redirect('auth/login');
 	}
 
 }
