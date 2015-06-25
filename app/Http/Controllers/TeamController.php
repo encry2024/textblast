@@ -22,7 +22,7 @@ class TeamController extends Controller {
 
     public function __construct(Team $team) {
 		// Add auth filter
-		$this->middleware('auth');
+		$this->middleware('auth.status');
 
         $this->team = $team;
     }

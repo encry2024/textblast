@@ -15,7 +15,7 @@ class StatsController extends Controller {
      */
     public function __construct() {
         // Add auth filter
-        $this->middleware('auth');
+        $this->middleware('auth.status');
     }
 
     /**

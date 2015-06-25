@@ -13,7 +13,7 @@ class SmsActivityController extends Controller {
 	 */
 	public function __construct(){
 		// Add auth filter
-		$this->middleware('auth');
+		$this->middleware('auth.status');
 	}
 	/**
 	 * Display a listing of the resource.
