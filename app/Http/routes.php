@@ -26,14 +26,14 @@ Route::resource('audit', 'AuditController', ['only' => ['index']]);
 Route::controllers(array('auth' => 'Auth\AuthController','password' => 'Auth\PasswordController'));
 
 # GET
-Route::get('/', ['middleware' => 'check_auth_status', 'as' => '/home', 'uses' => 'SmsController@inbox']);
-Route::get('home', ['middleware' => 'check_auth_status', 'uses' => 'SmsController@inbox']);
+Route::get('/', ['middleware' => 'auth.status', 'as' => '/home', 'uses' => 'SmsController@inbox']);
+Route::get('home', ['middleware' => 'auth.status', 'uses' => 'SmsController@inbox']);
 Route::get('contacts', ['as'  => 'pb', 'uses' => function() {return view('contacts.show');}]);
-Route::get('groups', ['middleware' => 'check_auth_status', 'as' => 'grp', 'uses' => function() {return view('groups.show');}]);
+Route::get('groups', ['middleware' => 'auth.status', 'as' => 'grp', 'uses' => function() {return view('groups.show');}]);
 Route::get('test', function() {return view('tests.testform'); });
 Route::get('messaging', ['as' => 'msg', 'uses' => 'SmsController@retSmsCount']);
 Route::get('template/{template_id}', ['as' => 'req_temp', 'uses' => 'TemplateController@show']);
-Route::get('change_password', ['middleware' => 'check_auth_status', 'as' => 'change_password', 'uses' => 'UserController@viewChangePassword']);
+Route::get('change_password', ['middleware' => 'auth.status', 'as' => 'change_password', 'uses' => 'UserController@viewChangePassword']);
 
 # POST
 Route::post('team/{id}/untag', ['as' => 'untag', 'uses' => 'TeamController@untagRecipient']);
@@ -53,8 +53,8 @@ Route::get('mobile-numbers/json', 'RecipientNumberController@getAllRecipientNumb
 Route::get('teams/json', 'TeamController@getAllTeamsJSON');
 Route::get('sms/status/{status}', 'SmsController@getSmsByStatusJSON');
 
-Route::any('stats/sms', ['middleware' => 'check_auth_status', 'uses' => 'StatsController@dailySms']);
-Route::any('sms/{sms}/views', ['middleware' => 'check_auth_status', 'uses' => 'SmsController@views']);
+Route::any('stats/sms', ['middleware' => 'auth.status', 'uses' => 'StatsController@dailySms']);
+Route::any('sms/{sms}/views', ['middleware' => 'auth.status', 'uses' => 'SmsController@views']);
 Route::get('sms/inbox', ['uses' => 'SmsController@inbox']);
 Route::get('sms/outbox', ['uses' => 'SmsController@outbox']);
 Route::get('sms/sent', ['uses' => 'SmsController@sent']);
