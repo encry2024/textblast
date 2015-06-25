@@ -41,13 +41,13 @@ class StatsController extends Controller {
             ->addNumberColumn('Percent');
 
         foreach($users as $user) {
-            $reasons->addRow(array($user->name, $user->total));
+            $reasons->addRow(array((string)$user->name, (integer)$user->total));
         }
 
         $piechart = $lava->PieChart('SMS')
             ->setOptions(array(
                 'datatable' => $reasons,
-                'title' => 'Daily SMS Count per User' . ($request->date?" (".$request->date.")":" (All time)"),
+                'title' => 'SMS Count per User' . ($request->date?" (".$request->date.")":" (All time)"),
                 'is3D' => true,
                 'height' => 400,
                 'width' => 600
