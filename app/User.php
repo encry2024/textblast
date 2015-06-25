@@ -66,8 +66,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		return json_encode($status);
 	}
 
-	public function checkStatus() {
-		return $this->status;
+	public function isActivated() {
+		return (bool) $this->status;
 	}
 
 }

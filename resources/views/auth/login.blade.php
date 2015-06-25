@@ -26,6 +26,15 @@
 						</div>
 					@endif
 
+					@if (Session::has('deactivated'))
+						<div class="alert alert-danger">
+							<strong>Whoops!</strong> There were some problems with your input.<br><br>
+							<ul>
+								<li>{{ Session::get('deactivated') }}</li>
+							</ul>
+						</div>
+					@endif
+
 					<form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/login') }}">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <br>

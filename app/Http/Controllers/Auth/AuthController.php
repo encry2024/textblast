@@ -32,7 +32,7 @@ class AuthController extends Controller {
 
 		$validations = array('getLogin'=>'getLogin', 'postLogin'=>'postLogin');
 
-		$this->middleware('auth', ['except' => $validations]);
+		$this->middleware('auth.status', ['except' => $validations]);
 	}
 
 }

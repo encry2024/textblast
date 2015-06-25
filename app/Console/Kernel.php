@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel {
 	protected $commands = [
 		'App\Console\Commands\Inspire',
 		'App\Console\Commands\GoipListenerCommand',
+		'App\Console\Commands\ResendPendingSms',
 	];
 
 	/**
@@ -25,6 +26,8 @@ class Kernel extends ConsoleKernel {
 	{
 		$schedule->command('inspire')
 				 ->hourly();
+		$schedule->command('sms:resend')
+				->everyTenMinutes();
 	}
 
 }
