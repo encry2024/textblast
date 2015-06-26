@@ -38,6 +38,7 @@ Route::get('change_password', ['middleware' => 'auth.status', 'as' => 'change_pa
 # POST
 Route::post('team/{id}/untag', ['as' => 'untag', 'uses' => 'TeamController@untagRecipient']);
 Route::post('sms/send', ['as' => 'sendsms', 'uses' => 'SmsController@send']);
+Route::post('sms/reply/{recipientnumber}', ['uses' => 'SmsController@reply']);
 Route::post('sms/resend/{smsactivity}', ['as' => 'resendsms', 'uses' => 'SmsActivityController@resend']);
 Route::post('delete/recipient', ['as' => 'dr', 'uses' => 'RecipientTeamController@deleteRecipient']);
 Route::post('user/changed_password', ['as' => 'auth_cp', 'uses' => 'UserController@changePass']);

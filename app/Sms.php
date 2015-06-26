@@ -213,4 +213,18 @@ class Sms extends Eloquent {
 			$smsView->save();
 		}
 	}
+
+	/**
+	 * @param
+	 */
+	public function reply($recipientNumber, $message){
+		$this->message = $message;
+		$this->type = 'SEND';
+		$this->user_id = Auth::user()->id;
+		$this->save();
+
+		$this->createActivityAndDispatch($recipientNumber, NULL, $message);
+
+		return redirect()->back()->with('success_msg', 'Message has been sent to queue.');
+	}
 }

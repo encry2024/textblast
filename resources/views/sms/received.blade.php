@@ -23,6 +23,7 @@
 			<br/>
 			<label for="">
 			@foreach ($sms->sms_activity as $smsAct)
+				<?php $recipientNumber = $smsAct->recipient_number ?>
                 @if($smsAct->recipient_team_id == 0)
 				<li>
 					<a href="{{ route('recipient.edit', $smsAct->recipient_number->recipient->id) }}" {{ $smsAct->status=='SENT'?'style=color:#5cb85c':($smsAct->status=='FAILED'?'style=color:#d9534f':'') }} data-popover="true" data-html="true" title="<label>Recipient Information</label>" data-trigger="hover" data-content="
@@ -41,11 +42,37 @@
 			<br/><br/><br/>
 			<label for="message">Message:</label>
 			<br/>
-			{!! Form::textarea('message', $sms->message, ['class'=>'form-control', 'disabled']) !!}
-			<br/>
+			<div class="highlight">{{ $sms->message }}</div>
 		</div>
     </div>
 
+	<div class="col-lg-3"></div>
+	<div class="col-lg-9 col-md-offset-center-2">
+		<div class="panel panel-default col-lg-12">
+			<div class="page-header">
+				<h3><span class="glyphicon glyphicon-comment"></span> SMS Conversation </h3>
+				<h5></h5>
+			</div>
+			<div class="col-lg-12">
+			@foreach($recipientNumber->smsActivities as $smsActivity)
+				@if($smsActivity->sms->type == 'RECEIVED')
+					<div class="bs-callout {{ $smsActivity->sms_id==$sms->id?"bs-callout-danger-active":"bs-callout-danger" }} pull-left"><div>{{ $smsActivity->sms->message }}</div><br><div class="sms-date">{{ $smsActivity->created_at }}</div></div>
+				@elseif($smsActivity->sms->type == 'SEND')
+					<div class="bs-callout bs-callout-info pull-right"><div>{{ $smsActivity->sms->message }}</div><br><div class="sms-date">{{ $smsActivity->created_at }}</div></div>
+				@endif
+			@endforeach
+			</div>
+			<div class="col-lg-12">
+				<form method="POST" action="{{ url('/') . '/sms/reply/' . $recipientNumber->id }}" id="reply-form">
+				<div class="input-group">
+						<textarea name="message" class="form-control custom-control" rows="3" style="resize:none" placeholder="Type your reply here..."></textarea> <span class="input-group-addon btn btn-primary glyphicon glyphicon-send" id="reply-btn"></span>
+				</div>
+				{!! Form::token() !!}
+				</form>
+			</div>
+			<div class="col-lg-12">&nbsp;</div>
+		</div>
+	</div>
 </div>
 @stop
 
@@ -73,6 +100,9 @@
       }
     };
 
+	$('#reply-btn').click(function(){
+		$('#reply-form').submit();
+	});
 
     $('body').popover({ selector: '[data-popover]', trigger: 'click hover', placement: 'right', delay: {show: 50, hide: 50}});
 

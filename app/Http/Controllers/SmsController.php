@@ -1,11 +1,13 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\RecipientNumber;
 use App\Sms;
 use App\Http\Requests\SendSmsRequest;
 use App\SmsActivity;
 use App\Template;
 use App\Http\Requests\CreateSmsRequest;
+use Illuminate\Support\Facades\Request;
 
 class SmsController extends Controller {
 
@@ -170,6 +172,14 @@ class SmsController extends Controller {
 		$send_sms = $sms->send($request);
 
 		return $send_sms;
+	}
+
+	/**
+	 * @param
+	 */
+	public function reply(RecipientNumber $recipientNumber){
+		$sms = new Sms();
+		return $sms->reply($recipientNumber, Request::input('message'));
 	}
 
 	/**

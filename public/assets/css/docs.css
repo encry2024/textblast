@@ -1,0 +1,43 @@
+.bs-callout {
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: 1px solid #eee;
+    border-radius: 3px;
+    width: 80%;
+}
+
+.bs-callout-warning {
+    border-left-width: 5px;
+    border-left-color: #aa6708;
+}
+
+.bs-callout-danger {
+    background-color: #fffcfc;
+    border-left-width: 5px;
+    border-left-color: #ce4844;
+}
+
+.bs-callout-danger-active {
+    background-color: #ffe2e2;
+    border-left-width: 5px;
+    border-left-color: #ce4844;
+}
+
+.bs-callout-info {
+    background-color: #f4fcff;
+    border-right-width: 5px;
+    border-right-color: #1b809e;
+}
+
+.sms-date {
+    font-size: 10px;
+    color: #9b9b9b;
+}
+
+.highlight {
+    padding: 9px 14px;
+    margin-bottom: 14px;
+    background-color: #f7f7f9;
+    border: 1px solid #e1e1e8;
+    border-radius: 4px;
+}

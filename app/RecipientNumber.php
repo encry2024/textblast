@@ -19,6 +19,13 @@ class RecipientNumber extends Eloquent {
 	}
 
 	/**
+	 * @param
+	 */
+	public function smsActivities(){
+		return $this->hasMany('App\SmsActivity')->orderBy('created_at');
+	}
+
+	/**
 	 * @param $get_num_req
 	 * @param $id
 	 * @return \Illuminate\Http\RedirectResponse
