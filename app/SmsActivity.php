@@ -56,4 +56,18 @@ class SmsActivity extends Model {
 
 		return true;
 	}
+
+	/**
+	 * @param 
+	 */
+	public static function getCountPendingSms(){
+		return SmsActivity::whereStatus('PENDING')->count();
+	}
+
+	/**
+	 * @param
+	 */
+	public static function getCountFailedSms(){
+		return SmsActivity::whereStatus('FAILED')->count();
+	}
 }

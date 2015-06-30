@@ -230,4 +230,12 @@ class Sms extends Eloquent {
 
 		return redirect()->back()->with('success_msg', 'Message has been sent to queue.');
 	}
+
+
+	/**
+	 * @param 
+	 */
+	public static function getCountUnreadSms(){
+		return Sms::whereSeen('0')->whereType('RECEIVED')->count();
+	}
 }
