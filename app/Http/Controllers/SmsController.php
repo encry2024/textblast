@@ -7,6 +7,7 @@ use App\Http\Requests\SendSmsRequest;
 use App\SmsActivity;
 use App\Template;
 use App\Http\Requests\CreateSmsRequest;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 
 class SmsController extends Controller {
@@ -218,6 +219,46 @@ class SmsController extends Controller {
 				'recipient' => $smsActivity->status!='RECEIVED'?($smsActivity->recipient_number->recipient->name . " (" . $smsActivity->recipient_number->phone_number . ")"):($smsActivity->goip_name),
 				'origin' => $smsActivity->goip_name,
 				'created_at' => date('m/d/Y h:i A', strtotime($smsActivity->created_at)),
+				'seen_by' => $users
+			];
+		}
+
+		return json_encode($json);
+	}
+
+	/**
+	 * @param
+	 */
+	public function prepareInbox(){
+		$json = array();
+		$getSmsActivity = DB::table('sms')
+							->join('sms_activities', 'sms.id', '=', 'sms_activities.sms_id')
+							->where('sms_activities.status', 'RECEIVED')
+							->groupBy('sms_activities.recipient_number_id')
+							->orderBy('sms.seen')
+							->orderBy('sms_activities.created_at', 'DESC')
+							->select(DB::raw('max(txt_sms_activities.sms_id) as sms_id, txt_sms_activities.recipient_number_id'))
+							->get();
+		//$getSmsActivity = SmsActivity::whereStatus('RECEIVED')->groupBy('recipient_number_id')->orderBy('created_at', 'DESC')->select(DB::raw('max(sms_id) as sms_id, recipient_number_id'))->get();
+
+		foreach ($getSmsActivity as $smsActivity) {
+			$sms = Sms::find($smsActivity->sms_id);
+			$recipientNumber = RecipientNumber::find($smsActivity->recipient_number_id);
+
+			$seenUsers = array();
+			//generate user views
+			$seenByUsers = $sms->views()->orderBy('sms_views.created_at')->lists('user_id');
+			foreach($seenByUsers as $user) {
+				array_push($seenUsers, \App\User::find($user)->name);
+			}
+			$users = implode(',', $seenUsers);
+
+			$json[] = [
+				'id' => $sms->id,
+				'msg' => $sms->seen==1?str_limit($sms->message, $limit=30, $end='...'):"<strong style='font-size: 16px'>" .str_limit($sms->message, $limit=30, $end='...'). "</strong>",
+				'full_msg' => $sms->message,
+				'sender' => $recipientNumber->recipient->name . " (" . $recipientNumber->phone_number . ")",
+				'created_at' => date('m/d/Y h:i A', strtotime($sms->created_at)),
 				'seen_by' => $users
 			];
 		}

@@ -29,7 +29,7 @@
 
 @section('script')
 <script type="text/javascript">
-	$.getJSON("{{ url() }}/sms/status/RECEIVED", function(data) {
+	$.getJSON("{{ url() }}/sms/getInbox", function(data) {
 		$('#messages').dataTable({
 			"aaData": data,
 			"aaSorting": [],
@@ -49,7 +49,6 @@
 						{"sTitle": "#", "mDataProp": "id"},
 						{"sTitle": "Message", "mDataProp": "msg"},
 						{"sTitle": "Sender", "mDataProp": "sender"},
-						{"sTitle": "Recipient", "mDataProp": "recipient"},
 						{"sTitle": "Created Date", "mDataProp": "created_at"},
 					],
 			"aoColumnDefs":
@@ -67,9 +66,6 @@
 							"width": "40%",
 							"mRender": function ( data, type, full ) {
 								var url = '{{ url('sms') }}';
-								if(data.length > 50) {
-									data = data.substr(0, 50) + '...';
-								}
 								return "<a href='"+ url +"/"+ full["id"] + "/received' class='size-14 text-left'>" + data + "</a><br><hr><h6>Seen by: " + full['seen_by'] + "</h6>";
 							}
 						},
@@ -81,12 +77,6 @@
 						},
 						{
 							"aTargets": [ 3 ], // Column to target
-							"mRender": function ( data, type, full ) {
-								return '<label class="text-center size-14"> ' + data + ' </label>';
-							}
-						},
-						{
-							"aTargets": [ 4 ], // Column to target
 							"mRender": function ( data, type, full ) {
 								return '<label class="text-center size-14"> ' + data + ' </label>';
 							}
