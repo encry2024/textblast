@@ -40,7 +40,7 @@ class RecipientController extends Controller {
 	{
 		//code...
         $json = array();
-        $recipients = $this->recipient->get();
+        $recipients = $this->recipient->latest()->get();
         foreach ($recipients as $recipient) {
 			$json[] = array(
 				'id' 				=> $recipient->id,
@@ -72,9 +72,9 @@ class RecipientController extends Controller {
                           CreateRecipientNumberRequest $rcp_n_request) {
 
 		
-        /*$store_recipient = Recipient::register_Recipient($rcp_request, $rcp_n_request);
+		$store_recipient = Recipient::register_Recipient($rcp_request, $rcp_n_request);
 
-        return $store_recipient;*/
+        return $store_recipient;
 	}
 
 
