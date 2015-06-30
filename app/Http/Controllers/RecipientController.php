@@ -66,13 +66,15 @@ class RecipientController extends Controller {
 	 * @param CreateRecipientRequest $rcp_request
 	 * @param CreateRecipientNumberRequest $rcp_n_request
 	 * @return \Illuminate\Http\RedirectResponse
+	 * @
 	 */
 	public function store(CreateRecipientRequest $rcp_request,
                           CreateRecipientNumberRequest $rcp_n_request) {
 
-        $store_recipient = Recipient::register_Recipient($rcp_request, $rcp_n_request);
+		
+        /*$store_recipient = Recipient::register_Recipient($rcp_request, $rcp_n_request);
 
-        return $store_recipient;
+        return $store_recipient;*/
 	}
 
 
