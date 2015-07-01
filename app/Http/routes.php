@@ -8,7 +8,7 @@ Route::bind('recipientTeam', 	function( $id ) 	{ return App\RecipientTeam::find(
 Route::bind('recipientNumber', 	function( $id ) 	{ return App\RecipientNumber::find($id); });
 Route::bind('template', 		function( $id )		{ return App\Template::find($id); });
 Route::bind('user',				function( $id )		{ return App\User::find($id); });
-Route::bind('audit', 			function( $id )		{ return App\Audit::find($id); });
+Route::bind('activity', 		function( $id )		{ return App\Activity::find($id); });
 
 # RESOURCES
 Route::resource('recipient', 'RecipientController', [ 'except' => ['create'] ]);
@@ -18,7 +18,7 @@ Route::resource('team', 'TeamController');
 Route::resource('user', 'UserController');
 Route::resource('recipientTeam', 'RecipientTeamController');
 Route::resource('template', 'TemplateController', ['only' => ['store', 'update', 'show']]);
-Route::resource('audit', 'AuditController', ['only' => ['index']]);
+Route::resource('activity', 'ActivityController', ['only' => ['index']]);
 //Route::post('tag/recipient', ['as' => 'tr', 'uses' => 'RecipientTeamController@tag']);
 
 
@@ -63,4 +63,4 @@ Route::get('sms/failed', ['uses' => 'SmsController@failed']);
 Route::any('sms/{sms}/received', ['uses' => 'SmsController@received']);
 Route::get('fetch/users', ['as' => 'users', 'uses' => 'UserController@fetchUser']);
 Route::get('fetch/status/{user_id}', ['as' => 'fetchStatus', 'uses' => 'UserController@fetch_status']);
-Route::get('fetchHistory', ['as' => 'get_history', 'uses' => 'AuditController@fetchHistory']);
+Route::get('fetchHistory', ['as' => 'get_history', 'uses' => 'ActivityController@fetchHistory']);
