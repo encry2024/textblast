@@ -90,16 +90,29 @@ class ActivityController extends Controller {
 	public function fetchHistory()
 	{
 		$json = [];
-		$audit = Activity::all();
+		$activities = Activity::with(['user', 'subject'])->latest()->get();
 
-		foreach ($audit as $adt) {
-			$json[] = [
-				'id' => $adt->id,
-				'user' => $adt->user->name,
-				'user_id' => $adt->user->id,
-				'action' => $adt->action . ' ' . $adt->object,
-				'created_at' => date('m/d/Y h:i A', strtotime($adt->created_at))
-			];
+		foreach ($activities as $event) {
+			if ($event->name == "created_recipient") {
+				$json[] = [
+					'event_id' => $event->id,
+					'user_name' => $event->user->name,
+					'user_id' => $event->user->id,
+					'event_name' => 'added new Recipient :: ' . $event->subject->name,
+					'created_at' => date('m/d/Y h:i A', strtotime($event->created_at))
+				];
+			}
+
+			if ($event->name == "created_recipient") {
+				$json[] = [
+					'event_id' => $event->id,
+					'user_name' => $event->user->name,
+					'user_id' => $event->user->id,
+					'event_name' => 'added new Recipient :: ' . $event->subject->name,
+					'created_at' => date('m/d/Y h:i A', strtotime($event->created_at))
+				];
+			}
+
 		}
 
 		return json_encode($json);
