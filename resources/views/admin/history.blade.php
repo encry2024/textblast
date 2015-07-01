@@ -40,9 +40,9 @@
 			//DISPLAYS THE VALUE
 			"aoColumns":
 			[
-				{"sTitle": "#", "mDataProp": "id"},
-				{"sTitle": "User", "mDataProp": "user"},
-				{"sTitle": "Action", "mDataProp": "action"},
+				{"sTitle": "#", "width":"5%" ,"mDataProp": "event_id"},
+				{"sTitle": "User", "mDataProp": "user_name"},
+				{"sTitle": "Event", "mDataProp": "event_name"},
 				{"sTitle": "Date", "mDataProp": "created_at"},
 			],
 
