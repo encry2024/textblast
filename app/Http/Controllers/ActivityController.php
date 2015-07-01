@@ -2,10 +2,10 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Audit;
+use App\Activity;
 use Illuminate\Http\Request;
 
-class AuditController extends Controller {
+class ActivityController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
@@ -90,7 +90,7 @@ class AuditController extends Controller {
 	public function fetchHistory()
 	{
 		$json = [];
-		$audit = Audit::all();
+		$audit = Activity::all();
 
 		foreach ($audit as $adt) {
 			$json[] = [
