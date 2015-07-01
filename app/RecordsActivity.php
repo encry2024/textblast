@@ -28,7 +28,7 @@ trait RecordsActivity {
 	protected function getActivityName($model, $action) {
 		$name = strtolower(class_basename($model));
 
-		return "{$action} {$name}";
+		return "{$action}_{$name}";
 	}
 
 	protected static function getModelEvents()
