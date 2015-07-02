@@ -1,6 +1,7 @@
 <?php namespace App;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 use ReflectionClass;
 
 
@@ -17,12 +18,44 @@ trait RecordsActivity {
 
 	public function recordActivity($event)
 	{
-		$activity = new Activity();
-		$activity->subject_id = $this->id;
-		$activity->subject_type = get_class($this);
-		$activity->name = $this->getActivityName($this, $event);
-		$activity->user_id = Auth::user()->id;
-		$activity->save();
+		$model = strtolower(class_basename($this));
+
+		if ($event == "created") {
+			$activity = new Activity();
+			$activity->subject_id = $this->id;
+			$activity->subject_type = get_class($this);
+			$activity->name = $this->getActivityName($this, $event);
+			$activity->user_id = Auth::user()->id;
+			$activity->save();
+		} else if ($event == "updates") {
+			if ($model == "recipient") {
+				$activity = new Activity();
+
+				$activity->subject_id = $this->id;
+				$activity->subject_type = get_class($this);
+				$activity->name = $this->getActivityName($this, $event);
+				$activity->old_value = class_basename($this);
+				$activity->new_value = Input::get('name');
+				$activity->user_id = Auth::user()->id;
+				$activity->save();
+
+				$this->name = Input::get('name');
+				$this->save();
+			} else if ($model == "recipientnumber") {
+				$activity = new Activity();
+
+				$activity->subject_id = $this->id;
+				$activity->subject_type = get_class($this);
+				$activity->name = $this->getActivityName($this, $event);
+				$activity->old_value = $this->phone_number;
+				$activity->new_value = Input::get('phone_number');
+				$activity->user_id = Auth::user()->id;
+				$activity->save();
+
+				$this->phone_number = Input::get('phone_number');
+				$this->save();
+			}
+		}
 	}
 
 	protected function getActivityName($model, $action) {

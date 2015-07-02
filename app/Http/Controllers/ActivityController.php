@@ -82,8 +82,7 @@ class ActivityController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
-	{
+	public function destroy($id) {
 		//
 	}
 
@@ -98,23 +97,38 @@ class ActivityController extends Controller {
 					'event_id' => $event->id,
 					'user_name' => $event->user->name,
 					'user_id' => $event->user->id,
-					'event_name' => 'added new Recipient :: ' . $event->subject->name,
-					'created_at' => date('m/d/Y h:i A', strtotime($event->created_at))
+					'event_name' => 'added new Recipient :: ',
+					'event_subject' => $event->subject->name,
+					'event_subject_id' => $event->subject->id,
+					'created_at' => $event->created_at->diffForHumans(),
+					'full_time' => date('F d, Y [ h:i A ]', strtotime($event->created_at))
 				];
 			}
 
-			if ($event->name == "created_recipient") {
+			if ($event->name == "created_recipientnumber") {
 				$json[] = [
 					'event_id' => $event->id,
 					'user_name' => $event->user->name,
 					'user_id' => $event->user->id,
-					'event_name' => 'added new Recipient :: ' . $event->subject->name,
-					'created_at' => date('m/d/Y h:i A', strtotime($event->created_at))
+					'event_name' => 'stored Contact # ' . $event->subject->phone_number . ' to ',
+					'event_subject' => $event->subject->recipient->name,
+					'event_subject_id' => $event->subject->recipient->id,
+					'created_at' => $event->created_at->diffForHumans(),
+					'full_time' => date('F d, Y [ h:i A ]', strtotime($event->created_at))
+				];
+			} else if ($event->name == "updates_recipient" || $event->name == "updates_recipientnumber") {
+				$json[] = [
+					'event_id' => $event->id,
+					'user_name' => $event->user->name,
+					'user_id' => $event->user->id,
+					'event_name' => $event->old_value . ' was changed to ',
+					'event_subject' =>  $event->new_value,
+					'event_subject_id' => $event->subject->id,
+					'created_at' => $event->created_at->diffForHumans(),
+					'full_time' => date('F d, Y [ h:i A ]', strtotime($event->created_at))
 				];
 			}
-
 		}
-
 		return json_encode($json);
 	}
 

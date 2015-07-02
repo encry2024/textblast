@@ -5,8 +5,6 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
-
-
 class Recipient extends Eloquent {
 
 	//
@@ -34,14 +32,13 @@ class Recipient extends Eloquent {
 	}
 
 	 public static function register_Recipient($rcp_request, $rcp_n_request) {
-
 		$user = User::find(Auth::user()->id);
 
 		$store_recipient      = new Recipient();
 		$store_recipient->name  = $rcp_request->get('name');
 		$store_recipient->save();
 
-	 	$user->recordActivity('created',$store_recipient);
+	 	//$user->recordActivity('created', $store_recipient);
 
 		$recipient_id   =   $store_recipient->id;
 
@@ -52,6 +49,16 @@ class Recipient extends Eloquent {
 
 		$store_recipient_number->save();
 
+	 	//$user->recordActivity('created', $store_recipient_number);
+
 		return redirect()->back()->with('success_msg', 'Recipient:'.$store_recipient->name.' was successfully saved.');
+	}
+
+	public static function updateName($recipient) {
+		$user = User::find(Auth::user()->id);
+
+		$user->recordActivity('updates', $recipient);
+
+		return redirect()->back()->with('success_msg', "Recipient's name was successfully updated.");
 	}
 }

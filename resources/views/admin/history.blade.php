@@ -23,6 +23,10 @@
 
 @section('script')
 <script type="text/javascript">
+	$(document).ready(function() {
+        $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+    });
+
 	$.getJSON("{{ route('get_history') }}", function(data) {
 		$('#history').dataTable({
 			"aaData": data,
@@ -43,7 +47,7 @@
 				{"sTitle": "#", "width":"5%" ,"mDataProp": "event_id"},
 				{"sTitle": "User", "mDataProp": "user_name"},
 				{"sTitle": "Event", "mDataProp": "event_name"},
-				{"sTitle": "Date", "mDataProp": "created_at"},
+				/*{"sTitle": "Date", "mDataProp": "created_at"},*/
 			],
 
 			"aoColumnDefs":
@@ -66,7 +70,9 @@
 				{
 					"aTargets": [ 2 ], // Column to target
 					"mRender": function ( data, type, full ) {
-						return '<label class="size-14 text-left"> ' + data + ' </label>';
+						var url = '{{ route('recipient.show', ":id") }}';
+						url = url.replace(':id', full["event_subject_id"]);
+						return '<label class="size-14 text-left"> ' + data + "<span><a href='"+ url +"'>" + full['event_subject'] + "</a></span>" + '</label> <br><label class="size-12" data-toggle="tooltip" data-placement="right" title="' + full['full_time'] + '"><i>' + full['created_at'] + '</i></label>';
 					}
 				}
 			]

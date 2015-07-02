@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Auth;
 class RecipientNumber extends Eloquent {
 
 	//
+
+	use RecordsActivity;
+
 	protected $fillable = array('phone_number');
 
 
@@ -50,19 +53,19 @@ class RecipientNumber extends Eloquent {
 	 * @param $rcp_num
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
-	public static function update_RecipientNumber(){
+	public static function update_RecipientNumber() {
 		$phone	= Input::get('phone_number');
 		$provider = Input::get('provider');
 
-		$rcp_num = RecipientNumber::find(Input::get('rcp_id'));
-		$rcp_num->update(['phone_number' => $phone, 'provider' => $provider]);
-		$recipient = $rcp_num->recipient;
-		$recipient->touch();
+		$user = User::find(Auth::user()->id);
 
-		$audit = new Audit();
-		$audit->user_id = Auth::user()->id;
-		$audit->action = "updates " . $recipient->name . " contact number";
-		$audit->save();
+		$rcp_num = RecipientNumber::find(Input::get('rcp_id'));
+
+		$user->recordActivity('updates', $rcp_num);
+		/*$rcp_num->update(['phone_number' => $phone, 'provider' => $provider]);
+		$recipient = $rcp_num->recipient;
+		$recipient->touch();*/
+
 
 		return redirect()->back()->with('success_msg', "Recipient's contact was successfully updated.");
 	}

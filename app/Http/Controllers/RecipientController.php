@@ -111,12 +111,11 @@ class RecipientController extends Controller {
 	 * @param  Recipient $recipient
 	 * @return Response
 	 */
-	public function update( Recipient $recipient, CreateRecipientRequest $crr ) {
-		$recipient->name = $crr->get('name');
-		$recipient->save();
-		$recipient->touch();
+	public function update( Recipient $recipient) {
+		$update_recipient_name = Recipient::updateName($recipient);
 
-		return redirect()->back()->with('success_msg', "Recipient's name was successfully updated.");
+		return $update_recipient_name;
+
 	}
 
 	/**
