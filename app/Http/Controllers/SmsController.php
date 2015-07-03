@@ -62,21 +62,27 @@ class SmsController extends Controller {
 	 * @return
 	 */
 	public function outbox() {
-		return view('sms.outbox');
+		$messages = SmsActivity::whereStatus('PENDING')->with(['sms', 'user'])->orderBy('created_at', 'DESC')->paginate(20);
+		$messages->setPath('outbox');
+		return view('sms.outbox', ['messages' => $messages]);
 	}
 
 	/**
 	 * @return
 	 */
 	public function sent() {
-		return view('sms.sent');
+		$messages = SmsActivity::whereStatus('SENT')->with(['sms', 'user'])->orderBy('created_at', 'DESC')->paginate(20);
+		$messages->setPath('sent');
+		return view('sms.sent', ['messages' => $messages]);
 	}
 
 	/**
 	 * @return
 	 */
 	public function failed() {
-		return view('sms.failed');
+		$messages = SmsActivity::whereStatus('FAILED')->with(['sms', 'user'])->orderBy('created_at', 'DESC')->paginate(20);
+		$messages->setPath('failed');
+		return view('sms.failed', ['messages' => $messages]);
 	}
 
 	/**
@@ -245,21 +251,13 @@ class SmsController extends Controller {
 			$sms = Sms::find($smsActivity->sms_id);
 			$recipientNumber = RecipientNumber::find($smsActivity->recipient_number_id);
 
-			$seenUsers = array();
-			//generate user views
-			$seenByUsers = $sms->views()->orderBy('sms_views.created_at')->lists('user_id');
-			foreach($seenByUsers as $user) {
-				array_push($seenUsers, \App\User::find($user)->name);
-			}
-			$users = implode(',', $seenUsers);
-
 			$json[] = [
 				'id' => $sms->id,
 				'msg' => $sms->seen==1?str_limit($sms->message, $limit=30, $end='...'):"<strong style='font-size: 16px'>" .str_limit($sms->message, $limit=30, $end='...'). "</strong>",
 				'full_msg' => $sms->message,
 				'sender' => $recipientNumber->recipient->name . " (" . $recipientNumber->phone_number . ")",
 				'created_at' => date('m/d/Y h:i A', strtotime($sms->created_at)),
-				'seen_by' => $users
+				'seen_by' => $sms->views()
 			];
 		}
 

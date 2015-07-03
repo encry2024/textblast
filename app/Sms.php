@@ -32,7 +32,14 @@ class Sms extends Eloquent {
 	}
 
 	public function views(){
-		return $this->hasMany('App\SmsView');
+		$seenUsers = array();
+
+		$seenByUsers = $this->hasMany('App\SmsView')->orderBy('sms_views.created_at')->lists('user_id');
+		foreach($seenByUsers as $user) {
+			array_push($seenUsers, \App\User::find($user)->name);
+		}
+
+		return implode(',', $seenUsers);
 	}
 
 	public function send($request) {
