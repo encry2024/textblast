@@ -29,6 +29,13 @@ class RecipientNumber extends Eloquent {
 	}
 
 	/**
+	 * @param
+	 */
+	public function smsReceived(){
+		return $this->belongsToMany('App\Sms', 'sms_activities')->wherePivot('status', 'RECEIVED');
+	}
+
+	/**
 	 * @param $get_num_req
 	 * @param $id
 	 * @return \Illuminate\Http\RedirectResponse

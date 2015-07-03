@@ -204,13 +204,16 @@ class Sms extends Eloquent {
 		// only applicable to RECEIVED sms
 		if($this->type != 'RECEIVED') return;
 
-		$smsView = SmsView::where('sms_id', $this->id) ->where('user_id', Auth::user()->id)->count();
+		// get the recipient id and insert smsView record for all activity for that recipient
+		$smsActivity = SmsActivity::where('sms_id', $this->id)->where('status', 'RECEIVED')->first();
+		$smsReceived = $smsActivity->recipient_number->smsReceived;
+		foreach($smsReceived as $sms) {
+			if($sms->seen == 1) continue;
 
-		if($smsView == 0) {
-			$smsView = new SmsView;
-			$smsView->sms_id = $this->id;
-			$smsView->user_id = Auth::user()->id;
-			$smsView->save();
+			$sms->seen = 1;
+			$sms->save();
+
+			$sms->views()->save(new SmsView(['sms_id'=>$sms->id, 'user_id'=>Auth::user()->id]));
 		}
 	}
 
@@ -226,5 +229,13 @@ class Sms extends Eloquent {
 		$this->createActivityAndDispatch($recipientNumber, NULL, $message);
 
 		return redirect()->back()->with('success_msg', 'Message has been sent to queue.');
+	}
+
+
+	/**
+	 * @param 
+	 */
+	public static function getCountUnreadSms(){
+		return Sms::whereSeen('0')->whereType('RECEIVED')->count();
 	}
 }

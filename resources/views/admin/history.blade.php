@@ -72,7 +72,7 @@
 					"mRender": function ( data, type, full ) {
 						var url = '{{ route('recipient.show', ":id") }}';
 						url = url.replace(':id', full["event_subject_id"]);
-						return '<label class="size-14 text-left"> ' + data + "<span><a href='"+ url +"'>" + full['event_subject'] + "</a></span>" + '</label> <br><label class="size-12" data-toggle="tooltip" data-placement="right" title="' + full['full_time'] + '"><i>' + full['created_at'] + '</i></label>';
+						return '<label class="size-14 text-left"> ' + data + "<span><a href='"+ url +"'>" + full['event_subject'] + "</a></span>" + '</label> <br><label class="size-12" data-toggle="tooltip" data-placement="left" data-html="true" title="' + full['full_time'] + '"><i>' + full['created_at'] + '</i></label>';
 					}
 				}
 			]

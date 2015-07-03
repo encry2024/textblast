@@ -101,7 +101,7 @@ class ActivityController extends Controller {
 					'event_subject' => $event->subject->name,
 					'event_subject_id' => $event->subject->id,
 					'created_at' => $event->created_at->diffForHumans(),
-					'full_time' => date('F d, Y [ h:i A ]', strtotime($event->created_at))
+					'full_time' => date('F d, Y h:i A', strtotime($event->created_at))
 				];
 			}
 
@@ -114,7 +114,7 @@ class ActivityController extends Controller {
 					'event_subject' => $event->subject->recipient->name,
 					'event_subject_id' => $event->subject->recipient->id,
 					'created_at' => $event->created_at->diffForHumans(),
-					'full_time' => date('F d, Y [ h:i A ]', strtotime($event->created_at))
+					'full_time' => date('F d, Y h:i A', strtotime($event->created_at))
 				];
 			} else if ($event->name == "updates_recipient" || $event->name == "updates_recipientnumber") {
 				$json[] = [
@@ -125,7 +125,7 @@ class ActivityController extends Controller {
 					'event_subject' =>  $event->new_value,
 					'event_subject_id' => $event->subject->id,
 					'created_at' => $event->created_at->diffForHumans(),
-					'full_time' => date('F d, Y [ h:i A ]', strtotime($event->created_at))
+					'full_time' => date('F d, Y h:i A', strtotime($event->created_at))
 				];
 			}
 		}
