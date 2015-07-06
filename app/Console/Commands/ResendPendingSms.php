@@ -39,7 +39,7 @@ class ResendPendingSms extends Command {
 	public function fire()
 	{
 		$smsActivities = \App\SmsActivity::where('status', 'PENDING')
-			->whereRaw("(UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(created_at)) > 900")
+			->whereRaw("(UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(created_at)) > 86400")
 			->get();
 
 		foreach($smsActivities as $smsActivity) {
