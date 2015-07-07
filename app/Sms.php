@@ -31,6 +31,11 @@ class Sms extends Eloquent {
 		return $this->belongsTo('App\User');
 	}
 
+	public function userViews(){
+
+		return $this->hasMany('App\SmsView');
+	}
+
 	public function views(){
 		$seenUsers = array();
 
@@ -220,7 +225,7 @@ class Sms extends Eloquent {
 			$sms->seen = 1;
 			$sms->save();
 
-			$sms->views()->save(new SmsView(['sms_id'=>$sms->id, 'user_id'=>Auth::user()->id]));
+			$sms->userViews()->save(new SmsView(['sms_id'=>$sms->id, 'user_id'=>Auth::user()->id]));
 		}
 	}
 
