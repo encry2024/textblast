@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Activity;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class ActivityController extends Controller {
 
@@ -18,9 +19,16 @@ class ActivityController extends Controller {
 		$this->middleware('auth.status');
 	}
 
-	public function index()
+	public function index(Request $request)
 	{
-		return view('admin.history');
+		$activities = Activity::with(['user', 'subject'])->latest();
+		$activities = $activities->where('old_value', 'LIKE', '%'.$request->get('filter').'%');
+		$activities = $activities->orwhere('new_value', 'LIKE', '%'.$request->get('filter').'%');
+		$activities = $activities->orWhere('name', 'LIKE', '%'.$request->get('filter').'%')->paginate(25);
+
+
+		$activities->setPath('/activity');
+		return view('admin.history', compact('activities'));
 	}
 
 	/**
@@ -84,52 +92,6 @@ class ActivityController extends Controller {
 	 */
 	public function destroy($id) {
 		//
-	}
-
-	public function fetchHistory()
-	{
-		$json = [];
-		$activities = Activity::with(['user', 'subject'])->latest()->get();
-
-		foreach ($activities as $event) {
-			if ($event->name == "created_recipient") {
-				$json[] = [
-					'event_id' => $event->id,
-					'user_name' => $event->user->name,
-					'user_id' => $event->user->id,
-					'event_name' => 'added new Recipient :: ',
-					'event_subject' => $event->subject->name,
-					'event_subject_id' => $event->subject->id,
-					'created_at' => $event->created_at->diffForHumans(),
-					'full_time' => date('F d, Y h:i A', strtotime($event->created_at))
-				];
-			}
-
-			if ($event->name == "created_recipientnumber") {
-				$json[] = [
-					'event_id' => $event->id,
-					'user_name' => $event->user->name,
-					'user_id' => $event->user->id,
-					'event_name' => 'stored Contact # ' . $event->subject->phone_number . ' to ',
-					'event_subject' => $event->subject->recipient->name,
-					'event_subject_id' => $event->subject->recipient->id,
-					'created_at' => $event->created_at->diffForHumans(),
-					'full_time' => date('F d, Y h:i A', strtotime($event->created_at))
-				];
-			} else if ($event->name == "updates_recipient" || $event->name == "updates_recipientnumber") {
-				$json[] = [
-					'event_id' => $event->id,
-					'user_name' => $event->user->name,
-					'user_id' => $event->user->id,
-					'event_name' => $event->old_value . ' was changed to ',
-					'event_subject' =>  $event->new_value,
-					'event_subject_id' => $event->subject->id,
-					'created_at' => $event->created_at->diffForHumans(),
-					'full_time' => date('F d, Y h:i A', strtotime($event->created_at))
-				];
-			}
-		}
-		return json_encode($json);
 	}
 
 }

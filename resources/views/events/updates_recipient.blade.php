@@ -1,0 +1,1 @@
+{{ $event->user->name }} changed {{ $event->old_value }} to {{ $event->new_value }}<span class="right"><i>{{ $event->created_at->diffForHumans() }}</i></span>

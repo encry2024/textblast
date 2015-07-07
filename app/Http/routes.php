@@ -65,6 +65,6 @@ Route::get('fetch/users', ['as' => 'users', 'uses' => 'UserController@fetchUser'
 Route::get('fetch/status/{user_id}', ['as' => 'fetchStatus', 'uses' => 'UserController@fetch_status']);
 
 Route::get('fetchHistory', ['as' => 'get_history', 'uses' => 'ActivityController@fetchHistory']);
-
+Route::get('fetch_allHistory', ['as' => 'all_history', 'uses' => 'ActivityController@fetchAllHistory']);
 //Route::get('fetchHistory', ['as' => 'get_history', 'uses' => 'AuditController@fetchHistory']);
 Route::get('sms/getInbox', ['uses' => 'SmsController@prepareInbox']);
