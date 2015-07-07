@@ -31,9 +31,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	protected $hidden = ['password', 'remember_token'];
 
-	public function audit()
+	public function activity()
 	{
-		return $this->hasMany('App\Audit');
+		return $this->hasMany('App\Activity');
 	}
 
 	public static function fetch_users()
@@ -68,6 +68,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
 	public function isActivated() {
 		return (bool) $this->status;
+	}
+
+	public function recordActivity($name, $related)
+	{
+		return $related->recordActivity($name);
 	}
 
 }

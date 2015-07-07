@@ -2,10 +2,11 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Audit;
+use App\Activity;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
-class AuditController extends Controller {
+class ActivityController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
@@ -18,9 +19,16 @@ class AuditController extends Controller {
 		$this->middleware('auth.status');
 	}
 
-	public function index()
+	public function index(Request $request)
 	{
-		return view('admin.history');
+		$activities = Activity::with(['user', 'subject'])->latest();
+		$activities = $activities->where('old_value', 'LIKE', '%'.$request->get('filter').'%');
+		$activities = $activities->orwhere('new_value', 'LIKE', '%'.$request->get('filter').'%');
+		$activities = $activities->orWhere('name', 'LIKE', '%'.$request->get('filter').'%')->paginate(25);
+
+
+		$activities->setPath('/activity');
+		return view('admin.history', compact('activities'));
 	}
 
 	/**
@@ -82,27 +90,8 @@ class AuditController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
-	{
+	public function destroy($id) {
 		//
-	}
-
-	public function fetchHistory()
-	{
-		$json = [];
-		$audit = Audit::all();
-
-		foreach ($audit as $adt) {
-			$json[] = [
-				'id' => $adt->id,
-				'user' => $adt->user->name,
-				'user_id' => $adt->user->id,
-				'action' => $adt->action . ' ' . $adt->object,
-				'created_at' => date('m/d/Y h:i A', strtotime($adt->created_at))
-			];
-		}
-
-		return json_encode($json);
 	}
 
 }
