@@ -31,9 +31,13 @@ body{
 }
 
 .st_search{
-  max-width: 200px;
-  float: right;
-  margin-bottom: 10px;
+  max-width: 200px !important;
+  float: right !important;;
+  margin-bottom: 10px !important;;
+}
+
+input {
+    width: 100%;
 }
 
 .pagination{
@@ -41,9 +45,6 @@ body{
   margin-top: 0px;
 }
 
-.pagination li.active a{
-  background-color: #DCDCDC;
-}
 
 .st_per_page{
   width: 50px;

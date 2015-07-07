@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Team extends Eloquent {
 
-	use SoftDeletes;
+	use SoftDeletes, RecordsActivity;
 
 	protected $table = 'teams';
 	protected $softDelete = true;
