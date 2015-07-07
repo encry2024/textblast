@@ -26,6 +26,12 @@ trait RecordsActivity {
 			$activity->subject_type = get_class($this);
 			$activity->name = $this->getActivityName($this, $event);
 			$activity->user_id = Auth::user()->id;
+
+			if ($model == "recipientnumber") {
+				$activity->old_value = Input::get('phone_number');
+			} else {
+				$activity->old_value = Input::get('name');
+			}
 			$activity->save();
 		} else if ($event == "updates") {
 			if ($model == "recipient") {
