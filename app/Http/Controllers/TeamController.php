@@ -10,7 +10,7 @@ use App\Http\Requests\CreateTeamRequest;
 use App\Http\Requests\UpdateTeamRequest;
 # INPUT
 use Illuminate\Support\Facades\Input;
-
+use Illuminate\Pagination\Paginator;
 class TeamController extends Controller {
 
 	/**

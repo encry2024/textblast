@@ -40,7 +40,7 @@ class RecipientController extends Controller {
 	{
 		//code...
         $json = array();
-        $recipients = $this->recipient->get();
+        $recipients = $this->recipient->latest()->get();
         foreach ($recipients as $recipient) {
 			$json[] = array(
 				'id' 				=> $recipient->id,
@@ -66,11 +66,13 @@ class RecipientController extends Controller {
 	 * @param CreateRecipientRequest $rcp_request
 	 * @param CreateRecipientNumberRequest $rcp_n_request
 	 * @return \Illuminate\Http\RedirectResponse
+	 * @
 	 */
 	public function store(CreateRecipientRequest $rcp_request,
                           CreateRecipientNumberRequest $rcp_n_request) {
 
-        $store_recipient = Recipient::register_Recipient($rcp_request, $rcp_n_request);
+		
+		$store_recipient = Recipient::register_Recipient($rcp_request, $rcp_n_request);
 
         return $store_recipient;
 	}
@@ -109,12 +111,11 @@ class RecipientController extends Controller {
 	 * @param  Recipient $recipient
 	 * @return Response
 	 */
-	public function update( Recipient $recipient, CreateRecipientRequest $crr ) {
-		$recipient->name = $crr->get('name');
-		$recipient->save();
-		$recipient->touch();
+	public function update( Recipient $recipient) {
+		$update_recipient_name = Recipient::updateName($recipient);
 
-		return redirect()->back()->with('success_msg', "Recipient's name was successfully updated.");
+		return $update_recipient_name;
+
 	}
 
 	/**

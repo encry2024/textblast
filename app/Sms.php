@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Auth;
 
 class Sms extends Eloquent {
-	use DispatchesCommands;
+	use DispatchesCommands, RecordsActivity;
 	//
 	protected $fillable = array('recipient_id', 'message', 'type', 'team_id');
 

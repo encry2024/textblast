@@ -13,7 +13,7 @@
                     <ul class="dropdown-menu" role="menu">
                     	<li><a href="{!! URL::to('/') !!}/user"><span class="glyphicon glyphicon-user"></span> Registered Users</a></li>
                         <li><a href="{!! URL::to('/') !!}/auth/register"><span class="glyphicon glyphicon-pencil"></span> Sign up User</a></li>
-                        <li><a href="{{ route('audit.index') }}"><span class="glyphicon glyphicon-book"></span> History</a></li>
+                        <li><a href="{{ route('activity.index') }}"><span class="glyphicon glyphicon-book"></span> History</a></li>
                         <li><a href="{{ route('change_password') }}"><span class="glyphicon glyphicon-refresh"></span> Change Password</a></li>
                         <li class="divider"></li>
                         <li><a href="{!! URL::to('/') !!}/auth/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>

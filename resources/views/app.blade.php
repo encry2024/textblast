@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,13 +17,15 @@
     <link rel="stylesheet" href="{!! URL::to('/') !!}/packages/css/separators.css"/>
     <link rel="stylesheet" href="{!! URL::to('/') !!}/packages/jquery-dropdown/source/css/multilist.css"/>
     <link href="{{ asset('packages/css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ URL::to('/') }}/bootstrap/bootstrap-3.3.4/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="{{ URL::to('/') }}/bootstrap/bootstrap-3.3.4/css/bootstrap.min.css" media="screen"/>
     <link rel="stylesheet" href="{{ URL::to('/') }}/packages/DataTables-1.10.4/media/css/jquery.dataTables.min.css"/>
 	<link rel="stylesheet" href="{{ URL::to('/') }}/packages/autocomplete/css/jquery.tagit.css"/>
 	<link rel="stylesheet" href="{{ URL::to('/') }}/packages/autocomplete/css/tagit.ui-zendesk.css"/>
     <link rel="stylesheet" href="{{ URL::to('/') }}/packages/datepicker/css/datepicker.css"/>
+
 </head>
 <body>
+	<script src="{{ URL::to('/') }}/packages/StreamTable/mustache.js" type="text/javascript"></script>
 	<script src="{{ URL::to('/') }}/packages/jquery-ohsnap/ohSnap.js"></script>
     <script src="{{ URL::to('/') }}/bootstrap/bootstrap-3.3.4/js/jquery-1.11.2.min.js"></script>
 	<script src="{{ URL::to('/') }}/jquery-ui-1.11.4/jquery-ui.min.js"></script>
@@ -36,6 +39,8 @@
 	<script src="{{ URL::to('/') }}/packages/jquery-dropdown/source/js/multilist.js"></script>
 	<script src="{{ URL::to('/') }}/packages/autocomplete/js/tag-it.min.js"></script>
     <script src="{{ URL::to('/') }}/packages/datepicker/js/bootstrap-datepicker.js"></script>
+	<script src="{{ URL::to('/') }}/packages/StreamTable/mustache.js" type="text/javascript"></script>
+	<script src="{{ URL::to('/') }}/packages/StreamTable/stream_table.js" type="text/javascript"></script>
 
 	@yield('header')
 	@yield('content')
