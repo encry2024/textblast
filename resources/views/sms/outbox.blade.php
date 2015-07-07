@@ -14,14 +14,36 @@
 	@endif
     @include('...util.m-sidebar')
     <div class="col-lg-9 col-md-offset-center-2">
-    <br/>
+        <br/>
+
         <div class="panel panel-default col-lg-12">
-           <div class="page-header">
+            <div class="page-header">
                 <h3><span class="glyphicon glyphicon-tasks"></span> Outbox</h3>
-           </div>
-           <br/>
-           <table id="messages" class="table"></table>
-           <br/><br/>
+            </div>
+            {!! $messages->render() !!}
+            <table id="messages" class="table">
+                <tr>
+                    <th></th>
+                    <th>SMS ID</th>
+                    <th>Message</th>
+                    <th>Sender</th>
+                    <th>Date</th>
+                </tr>
+                <?php $count = $messages->firstItem() ?>
+                @foreach($messages as $sms)
+                    <tr>
+                        <td>{{ $count++ }}</td>
+                        <td>{{ $sms->sms->id }}</td>
+                        <td>
+                            <a href="{{ url('sms/'.$sms->sms->id.'/edit') }}">{{ strlen($sms->sms->message)>30?substr($sms->sms->message, 0, 27) . '...':$sms->sms->message }}</a>
+                        </td>
+                        <td>{{ $sms->user->name }}</td>
+                        <td>{{ $sms->created_at }}</td>
+                    </tr>
+                @endforeach
+            </table>
+            {!! $messages->render() !!}
+            <br/><br/>
         </div>
     </div>
 </div>
@@ -29,72 +51,6 @@
 
 @section('script')
 <script type="text/javascript">
-	$.getJSON("{{ url() }}/sms/status/PENDING", function(data) {
-		$('#messages').dataTable({
-			"aaData": data,
-			"aaSorting": [],
-			"oLanguage": {
-			    "sEmptyTable": "There are currently no messages...",
-				"sLengthMenu": "per Messages _MENU_",
-				"oPaginate": {
-				"sFirst": "First ", // This is the link to the first
-				"sPrevious": "&#8592; Previous", // This is the link to the previous
-				"sNext": "Next &#8594;", // This is the link to the next
-				"sLast": "Last " // This is the link to the last
-				}
-			},
-			//DISPLAYS THE VALUE
-			"aoColumns":
-			[
-				{"sTitle": "#", "mDataProp": "id"},
-				{"sTitle": "Message", "mDataProp": "msg"},
-				{"sTitle": "Sender", "mDataProp": "sender"},
-				{"sTitle": "Recipient", "mDataProp": "recipient"},
-				{"sTitle": "Created Date", "mDataProp": "created_at"},
-			],
-			"aoColumnDefs":
-			[
-				//FORMAT THE VALUES THAT IS DISPLAYED ON mDataProp
-				{
-					"aTargets": [ 0 ], // Column to target
-					"width": "10%",
-					"mRender": function ( data, type, full ) {
-						return "<label>SMS-" + data + "</label>";
-					}
-				},
-				{
-					"aTargets": [ 1 ], // Column to target
-					"width": "40%",
-					"mRender": function ( data, type, full ) {
-						var url = '{{ route('sms.edit', ":id") }}';
-						url = url.replace(':id', full["id"]);
-						if(data.length > 50) {
-							data = data.substr(0, 50) + '...';
-						}
-						return "<a href='"+ url +"' class='size-14 text-left'>" + data + "</a>";
-					}
-				},
-				{
-					"aTargets": [ 2 ], // Column to target
-					"mRender": function ( data, type, full ) {
-						return '<label class="size-14 text-left"> ' + data + ' </label>';
-					}
-				},
-		        {
-                    "aTargets": [ 3 ], // Column to target
-                    "mRender": function ( data, type, full ) {
-                    return '<label class="text-left size-14"> ' + data + ' </label>';
-                    }
-                },
-				{
-					"aTargets": [ 4 ], // Column to target
-					"mRender": function ( data, type, full ) {
-						return '<label class="text-center size-14"> ' + data + ' </label>';
-					}
-				}
-			]
-		});
-		$('div.dataTables_filter input').attr('placeholder', 'Filter Date');
-	});
+
 </script>
 @stop

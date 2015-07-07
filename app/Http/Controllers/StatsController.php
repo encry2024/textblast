@@ -25,6 +25,7 @@ class StatsController extends Controller {
         // count sms activity per user
         $users = DB::table('sms_activities')
             ->join('users', 'users.id', '=', 'sms_activities.user_id')
+            ->where('sms_activities.status', 'SENT')
             ->groupBy('sms_activities.user_id')
             ->select('users.name', DB::raw('count(*) as total'));
 
