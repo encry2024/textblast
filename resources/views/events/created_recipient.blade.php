@@ -4,5 +4,5 @@
 	</label>
 </div>
 <div class="col-lg-8">
-<a href="{{ route('user.show', $event->user->id) }}">{{ $event->user->name }}</a> added <a href="{{ route('recipient.edit', $event->subject->id) }}">{{$event->subject->name}}</a> to the contacts
+<a href="{{ route('user.show', $event->user->id) }}">{{ $event->user->name }}</a> added <a href="{{ route('recipient.show', $event->subject->id) }}">{{$event->subject->name}}</a> to the contacts
 </div>
