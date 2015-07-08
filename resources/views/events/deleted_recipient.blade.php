@@ -4,5 +4,5 @@
 	</label>
 </div>
 <div class="col-lg-8">
-<a href="{{ route('user.show', $event->user->id) }}">{{ $event->user->name }}</a> sent an <a href="{{ route('sms.edit', $event->subject->id) }}"> {{ $event->old_value }} </a>
+<a href="{{ route('user.show', $event->user->id) }}">{{ $event->user->name }}</a> removed <a href="{{ route('recipient.edit', $event->subject->id) }}">{{$event->subject->name}}</a> from the contacts
 </div>

@@ -18,7 +18,7 @@ class RecipientNumber extends Eloquent {
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */
 	public function recipient() {
-		return $this->belongsTo('App\Recipient');
+		return $this->belongsTo('App\Recipient')->withTrashed();
 	}
 
 	/**
