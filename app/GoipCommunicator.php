@@ -55,7 +55,7 @@ class GoipCommunicator extends UdpSocket
         echo "[".Carbon::now()->toDateTimeString()."]   SENDING MESSAGE TO: $mobileNumber \n";
         $network = GoipCommunicator::networkGetter($mobileNumber);
         $goip = Goip::where('network', $network)->first();
-        $goipCommunicator = new GoipCommunicator($goip->id);
+        $goipCommunicator = new GoipCommunicator($goip?$goip->id:env('GOIP_DEFAULT'));
 
         //check first if socket is active
         if (!$goipCommunicator->socket) {echo "[".Carbon::now()->toDateTimeString()."]   No socket connection.\n"; return FALSE;}
