@@ -18,7 +18,11 @@ class RecipientNumber extends Eloquent {
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */
 	public function recipient() {
-		return $this->belongsTo('App\Recipient')->withTrashed();
+		return $this->belongsTo('App\Recipient');
+	}
+
+	public function getDeletedRecipients() {
+		return $this->belongsTo('App\Recipient', 'id')->withTrashed();
 	}
 
 	/**
