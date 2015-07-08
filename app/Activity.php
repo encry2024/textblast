@@ -13,7 +13,7 @@ class Activity extends Eloquent {
 
 	public function subject()
 	{
-		return $this->morphTo();
+		return $this->morphTo()->withTrashed();
 	}
 
 }
