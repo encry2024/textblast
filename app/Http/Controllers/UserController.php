@@ -119,18 +119,6 @@ class UserController extends Controller {
 	{
 		$auth = User::find(Auth::user()->id)->update(['password' => Hash::make($request->get('password'))]);
 
-		$audit = new Audit();
-		$audit->user_id = Auth::user()->id;
-		$audit->action = "changed";
-		$audit->object = "password";
-		$audit->save();
-
-		$audit = new Audit();
-		$audit->user_id = Auth::user()->id;
-		$audit->action = "redirected to login after changing";
-		$audit->object = "password";
-		$audit->save();
-
 		Auth::logout();
 
 		return redirect('auth/login')->with('success_msg', 'Your password was successfully changed');

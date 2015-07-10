@@ -51,12 +51,6 @@ class RecipientNumber extends Eloquent {
 		$reg_rec_num->recipient_id	= $id;
 		$reg_rec_num->save();
 
-		$audit = new Audit();
-		$audit->user_id = Auth::user()->id;
-		$audit->action = "registered (phone number: ".$get_num_req["phone_number"].", provider: ".$get_num_req["provider"].")";
-		$audit->object = $reg_rec_num->recipient->name;
-		$audit->save();
-
 		return redirect()->back()->with('success_msg', 'Additional Contact Number has been proccessed successfully');
 	}
 
