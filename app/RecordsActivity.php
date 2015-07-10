@@ -25,7 +25,7 @@ trait RecordsActivity {
 			$activity->subject_id = $this->id;
 			$activity->subject_type = get_class($this);
 			$activity->name = $this->getActivityName($this, $event);
-			$activity->user_id = Auth::user()->id;
+			$activity->user_id = Auth::guest()?0:Auth::user()->id;
 
 			if ($model == "recipientnumber") {
 				$activity->old_value = $this->phone_number;
@@ -46,7 +46,7 @@ trait RecordsActivity {
 				$activity->name = $this->getActivityName($this, $event);
 				$activity->old_value = class_basename($this);
 				$activity->new_value = Input::get('name');
-				$activity->user_id = Auth::user()->id;
+				$activity->user_id = Auth::guest()?0:Auth::user()->id;
 				$activity->save();
 
 				$this->name = Input::get('name');
@@ -59,7 +59,7 @@ trait RecordsActivity {
 				$activity->name = $this->getActivityName($this, $event);
 				$activity->old_value = $this->phone_number;
 				$activity->new_value = Input::get('phone_number');
-				$activity->user_id = Auth::user()->id;
+				$activity->user_id = Auth::guest()?0:Auth::user()->id;
 				$activity->save();
 
 				$this->phone_number = Input::get('phone_number');
@@ -70,7 +70,7 @@ trait RecordsActivity {
 			$activity->subject_id = $this->id;
 			$activity->subject_type = get_class($this);
 			$activity->name = $this->getActivityName($this, $event);
-			$activity->user_id = Auth::user()->id;
+			$activity->user_id = Auth::guest()?0:Auth::user()->id;
 
 			if ($model == "recipientnumber") {
 				$activity->old_value = $this->phone_number;

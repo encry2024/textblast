@@ -4,5 +4,7 @@
 	</label>
 </div>
 <div class="col-lg-8">
+@if($event->user_id != 0)
 <a href="{{ route('user.show', $event->user->id) }}">{{ $event->user->name }}</a> added new Team :: <a href="{{ route('team.edit', $event->subject->id) }}">{{$event->subject->name}}</a>
+@endif
 </div>
