@@ -14,7 +14,6 @@
 	@endif
     @include('util.m-sidebar')
     <div class="col-lg-9 col-md-offset-center-2">
-    <br/>
         <div class="panel panel-default col-lg-12">
            <div class="page-header">
                 <h3><span class="glyphicon glyphicon-inbox"></span> Inbox</h3>
