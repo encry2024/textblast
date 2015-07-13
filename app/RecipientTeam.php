@@ -28,12 +28,6 @@ class RecipientTeam extends Eloquent {
 
 				if (count($recipient) > 0) {
 					RecipientTeam::create(['team_id'=>$group->id, 'recipient_id'=>$recipient->id]);
-					
-					$audit = new Audit();
-					$audit->user_id = Auth::user()->id;
-					$audit->action = "added recipient " . $recipient->name . ' to ';
-					$audit->object = $group->name;
-					$audit->save();
 				}
 			}
 		}
