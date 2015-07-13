@@ -12,6 +12,9 @@
 		<div class="panel panel-default col-lg-12">
 			<h3>Audit Trail</h3>
 			<hr/>
+			@if (Request::has('filter'))
+				<div class="alert alert-success" role="alert">Entered Query: "{{ Request::get('filter') }}" Filter Result: {{ $activities->firstItem() }} to {{ $activities->lastItem() }} out of {{$activities->total()}} Events</div>
+			@endif
 			<form class="form-horizontal">
 				<div class="form-group">
 					<div class="col-lg-4">
@@ -19,12 +22,8 @@
 					</div>
 					<button type="submit" class="btn btn-default">Filter</button>
 					<a role="button" class="btn btn-default" href="{{ route('activity.index') }}">Clear filter</a>
-					@if (Request::has('filter'))
-						<label class="col-lg-offset-3">Filter Result: {{ count($activities) }} out of {{ count($total_activities) }}</label>
-					@endif
 				</div>
 			</form>
-			<br/>
 			<form class="form-horizontal">
 				@foreach ($activities as $event)
 				<div class="form-group">
