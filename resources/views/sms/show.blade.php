@@ -23,7 +23,7 @@
 			</ul>
 		</div>
 	@endif
-
+	<br/>
 	<div class="col-lg-3">
 		<div class="panel panel-default col-lg-12">
 			<div class="panel-body">
@@ -35,6 +35,7 @@
 	</div>
 	{!! Form::open([ 'url' => 'sms/send', 'files' => true ]) !!}
 	<div class="col-lg-9 col-md-offset-center-2">
+
 		<div class="panel panel-default col-lg-12">
 		   <div class="page-header">
 				<h3><span class="glyphicon glyphicon-comment"></span> Send Messages</h3>
