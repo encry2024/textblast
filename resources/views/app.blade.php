@@ -48,7 +48,7 @@
 		<div class="col-lg-12">
 			<hr/>
 			<label class="size-12 app-info-label" for=""><span class="">© 2015 Northstar Solutions, Inc.</span></label>
-			<label class="right size-12 app-info-label" for="">Textblast v1.0 &mdash; Build App <kbd>66718f3</kbd></label>
+			<label class="right size-12 app-info-label" for="">Textblast v1.0 &mdash; Build App <kbd>8a461f2</kbd></label>
 		</div>
 	</div>
 	<style>
