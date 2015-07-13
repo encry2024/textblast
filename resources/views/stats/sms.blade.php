@@ -5,16 +5,13 @@
 @stop
 
 @section('content')
+
     <div class="container">
-        <div class="col-lg-3">
-            <div class="panel panel-default col-lg-12">
-                <div class="panel-body">
-                    <a href="{{ url('/') }}" class="col-lg-12"><span class="glyphicon glyphicon-menu-left" ></span> Back to Inbox</a>
-                </div>
-            </div>
-        </div>
+        @include('util.m-sidebar')
+        <br/>
         <div class="col-lg-9 col-md-offset-center-2">
             <div class="panel panel-default col-lg-12">
+
                 <div class="page-header">
                     <h3><span class="glyphicon glyphicon-stats"></span> SMS Statistics</h3>
                     <h5></h5>
