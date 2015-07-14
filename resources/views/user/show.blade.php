@@ -21,18 +21,25 @@
 				<h3><span class="glyphicon glyphicon-user"></span> {{ $user->name }} </h3>
 				<hr>
 				<br/>
-					<form class="form-horizontal">
-						<div class="form-group">
-							<label class="size-14 control-label col-lg-3 col-lg-pull-1" for="type">Account Type:</label>
-							<div class="col-lg-6">
-								<input class="form-control" id="type" type="string" value="{{ $user->type }}" disabled="true">
-							</div>
-						</div>
+					<form class="form-horizontal" action="{{ url("user/{$user->id}/permission_update") }}" method="post">
 						<div class="form-group">
 							<label class="size-14 control-label col-lg-3 col-lg-pull-1" for="email">E-mail:</label>
 							<div class="col-lg-6">
 								<input class="form-control" id="email" type="string" value="{{ $user->email }}" disabled="true">
 							</div>
+						</div>
+						<hr>
+						<div class="form-group">
+							<label class="size-14 control-label col-lg-3 col-lg-pull-1" for="email">Account Type:</label>
+							<div class="col-lg-6">
+								<label class="checkbox-inline">
+									<input type="radio" value="user" name="role" {{ $user->hasRole('user')?'checked="checked"':'' }}> User
+								</label>
+								<label class="checkbox-inline">
+									<input type="radio" value="admin" name="role" {{ $user->hasRole('admin')?'checked="checked"':'' }}> Admin
+								</label>
+							</div>
+							<input type="submit" id="permissions_updater" class="btn btn-danger" value="UPDATE">
 						</div>
 						<hr>
 						<form id="frm_usr_updte" class="frm_usr_updte" action="POST">
@@ -47,6 +54,8 @@
 								<input type="submit" id="status_updater" class=" btn {{ $user->status!=1 ? 'btn-success':'btn-danger' }} btn-update" value="{{ $user->status!=1 ? 'ACTIVATE':'DEACTIVATE' }}">
 							</div>
 						</form>
+
+
 					</form>
 				<br/><br/>
 			</div>
@@ -70,7 +79,7 @@
 	   headers: { 'X-CSRF-Token' : $('meta[name=_token]').attr('content') }
 	});
 
-	$(document).on('submit', 'form', function() {
+	$(document).on('submit', '#frm_usr_updte', function() {
 		var $post              = {};
 		var submit 			   = $(".btn-update");
 		var methodType         = $("input[name=_method]").val();
