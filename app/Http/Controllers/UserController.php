@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Audit;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use App\Role;
 
 class UserController extends Controller {
 
@@ -23,7 +25,9 @@ class UserController extends Controller {
 
 	public function index()
 	{
-		return view('user.users');
+		$accounts = User::where('email', '!=', env('ADMIN_EMAIL'))->paginate(20);
+
+		return view('user.users', compact('accounts'));
 	}
 
 	/**
@@ -117,11 +121,24 @@ class UserController extends Controller {
 
 	public function changePass( Request $request )
 	{
-		$auth = User::find(Auth::user()->id)->update(['password' => Hash::make($request->get('password'))]);
+		User::find(Auth::user()->id)->update(['password' => Hash::make($request->get('password'))]);
 
 		Auth::logout();
 
 		return redirect('auth/login')->with('success_msg', 'Your password was successfully changed');
 	}
 
+	/**
+	 * @param
+	 */
+	public function updatePermissions(User $user, Request $request){
+		//detach first all roles
+		$user->detachRoles(Role::all());
+
+		//insert new roles
+		$role = $request->get('role');
+		$user->attachRole(Role::whereName($role)->first());
+
+		return Redirect::back();
+	}
 }

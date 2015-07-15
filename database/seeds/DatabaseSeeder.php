@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder {
         $this->call('UsernameSeeder');
 		$this->call('GoipSeeder');
 		$this->call('PrefixSeeder');
+		$this->call('RolesAndPermissionsSeeder');
 		// $this->call('UserTableSeeder');
 	}
 
