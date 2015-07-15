@@ -24,7 +24,7 @@
 				@foreach($accounts as $account)
 					<tr>
 						<td>{{ $count++ }}</td>
-						<td>{{ $account->email }}</td>
+						<td><a href="{{ url('user/' . $account->id) }}">{{ $account->email }}</a></td>
 						<td>{{ $account->name }}</td>
 					</tr>
 				@endforeach

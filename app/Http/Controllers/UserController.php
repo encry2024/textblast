@@ -25,7 +25,8 @@ class UserController extends Controller {
 
 	public function index()
 	{
-		$accounts = User::paginate(20);
+		$accounts = User::where('email', '!=', env('ADMIN_EMAIL'))->paginate(20);
+
 		return view('user.users', compact('accounts'));
 	}
 
