@@ -2,6 +2,9 @@
 
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Queue;
+use Log;
+use App\SmsActivity;
 
 class EventServiceProvider extends ServiceProvider {
 
@@ -26,6 +29,20 @@ class EventServiceProvider extends ServiceProvider {
 	{
 		parent::boot($events);
 
+		Queue::failing(function($connection, $job, $data)
+		{
+			if (preg_match('/([0-9]+);s:/', $data['data']['command'], $matched)) {
+				$smsActivityID = trim($matched[1]);
+				$smsActivity = SmsActivity::findOrFail($smsActivityID);
+
+				// update status to FAILED
+				$smsActivity->status = 'FAILED';
+				$smsActivity->save();
+
+				Log::info('SMS Send Queue failed.. Sms Activity: ' . $smsActivityID);
+			}
+
+		});
 		//
 	}
 
