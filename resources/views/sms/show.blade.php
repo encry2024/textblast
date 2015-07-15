@@ -23,20 +23,11 @@
 			</ul>
 		</div>
 	@endif
-	<br/>
-	<div class="col-lg-3">
-		<div class="panel panel-default col-lg-12">
-			<div class="panel-body">
-				<a href="#" class="col-lg-12" data-toggle="modal" data-target="#templateModal"><span class="glyphicon glyphicon-plus" ></span> Create Template</a>
-				<br><br><br><br>
-				<a href="{{ url('/') }}" class="col-lg-12"><span class="glyphicon glyphicon-menu-left" ></span> Back to Inbox</a>
-			</div>
-		</div>
-	</div>
-	{!! Form::open([ 'url' => 'sms/send', 'files' => true ]) !!}
-	<div class="col-lg-9 col-md-offset-center-2">
 
-		<div class="panel panel-default col-lg-12">
+	@include('util.m-sidebar')
+	{!! Form::open([ 'url' => 'sms/send', 'files' => true ]) !!}
+	<div class="col-lg-11">
+		<div class="panel panel-default col-lg-12"  style=" border-top-left-radius: 0px;">
 		   <div class="page-header">
 				<h3><span class="glyphicon glyphicon-comment"></span> Send Messages</h3>
 		   </div>
@@ -45,23 +36,33 @@
 				<input type="text" id="txt" name="tags[]"/>
 				<!-- {!! Form::file('smsNumbersFile', null, ['class'=>'custom-file-input']) !!} -->
 				<input id="uploadFile" style=" width: 50%; margin-left: 8rem; " class="form-control col-lg-5" placeholder="Choose File" disabled="disabled" />
-				<div class="fileUpload btn btn-primary" style=" margin-left: -47.5rem; top: -1.1rem; ">
+				<div class="fileUpload btn btn-primary" style=" margin-left: -57.1rem; top: -1.1rem; ">
 					<span>Upload</span>
 					<input id="uploadBtn" name="smsNumbersFile" type="file" class="upload col-lg-pull-1" />
 				</div>
 			</div>
-			<div id="stts_tag" role="status"><span role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"><div></div></span></div>
-			<div class="form-group">
-				<label for="message-text" class="control-label">Templates:</label>
-				<select name="template" id="template" class="form-control col-lg-5">
+			{{----}}
+			<div id="stts_tag" role="status">
+				<span role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible">
+					<div>
+
+					</div>
+				</span>
+			</div>
+			{{----}}
+			<label for="message-text" class="control-label">Templates:</label>
+			<div class="input-group">
+				<div class="input-group-btn">
+					<a class="btn btn-primary" role="button" href="#" data-toggle="modal" data-target="#templateModal">Create Template</a>
+				</div>
+				<select name="template" id="template" class="form-control">
 				<option value="" class="form-control">Select a Template</option>
 				@foreach ($templates as $template)
 					<option value="{{ $template->id }}" class="form-control">{{ $template->name }}</option>
 				@endforeach
 				</select>
-				<br><br><br>
 			</div>
-			<div class="form-group">
+			<div class="form-group"><br/><br/>
 				<label for="message-text" class="control-label">Message:</label>
 				<textarea name="message" rows="10" class="form-control" id="message_text"></textarea>
 			</div>

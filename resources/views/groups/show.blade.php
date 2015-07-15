@@ -13,19 +13,11 @@
         </div>
     @endif
 
-	<div class="col-lg-3">
-		<div class="panel panel-default col-lg-12">
-			<div class="panel-body">
-				<a href="#" class="col-lg-12" data-toggle="modal" data-target="#groupModal"><span class="glyphicon glyphicon-plus"></span> Add Group</a>
-				<br/><br/><br/><br/><br/><br/><br/>
-				<a href="{{ url('/') }}" class="col-lg-12"><span class="glyphicon glyphicon-menu-left" ></span> Back to Inbox</a>
-			</div>
-		</div>
-	</div>
-	<div class="col-lg-9 col-md-offset-center-2">
-		<div class="panel panel-default col-lg-12">
+	@include('util.m-sidebar')
+	<div class="col-lg-11">
+		<div class="panel panel-default col-lg-12" style="border-top-left-radius: 0px;">
 		   <div class="page-header">
-				<h3><span class="glyphicon glyphicon-book"></span> Groups</h3>
+				<h3><span class="glyphicon glyphicon-book"></span> Groups <span class="right"><button type="button" class="btn btn-success size-12" data-toggle="modal" data-target="#groupModal"><span class="glyphicon glyphicon-plus"></span> Add Group</button></span></h3>
 		   </div>
 		   <br/><br/>
 		   <table id="group" class="table"></table>

@@ -8,14 +8,13 @@
 <div class="container">
 	@if (Session::has('success_msg'))
 		<div class="alert alert-success center" role="alert">
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			{{ Session::get('success_msg')  }}
 		</div>
 	@endif
     @include('...util.m-sidebar')
-    <div class="col-lg-9 col-md-offset-center-2">
-    <br/>
-        <div class="panel panel-default col-lg-12">
+    <div class="col-lg-11">
+        <div class="panel panel-default col-lg-12" style=" border-top-left-radius: 0px;">
            <div class="page-header">
                 <h3><span class="glyphicon glyphicon-inbox"></span> Inbox</h3>
            </div>

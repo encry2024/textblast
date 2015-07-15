@@ -39,18 +39,21 @@
 	<script src="{{ URL::to('/') }}/packages/jquery-dropdown/source/js/multilist.js"></script>
 	<script src="{{ URL::to('/') }}/packages/autocomplete/js/tag-it.min.js"></script>
 	<script src="{{ URL::to('/') }}/packages/datepicker/js/bootstrap-datepicker.js"></script>
-	<script>
-		$('.sms_status_util').popover({trigger: 'click hover', placement: 'left', delay: {show: 50, hide: 50}});
-	</script>
+
 	@yield('content')
 	@yield('script')
 	<div class="container">
 		<div class="col-lg-12">
 			<hr/>
 			<label class="size-12 app-info-label" for=""><span class="">© 2015 Northstar Solutions, Inc.</span></label>
-			<label class="right size-12 app-info-label" for="">Textblast v1.0 &mdash; Build App <kbd>8a461f2</kbd></label>
+			<label class="right size-12 app-info-label" for="">Textblast v1.0 &mdash; Build App <kbd>#07c7e6a</kbd></label>
 		</div>
 	</div>
+
+	<script>
+		$('.sms_status_util').popover({trigger: 'click hover', placement: 'left', delay: {show: 50, hide: 50}});
+	</script>
+
 	<style>
 		.app-info-label {
 			color: #767676;

@@ -49,8 +49,8 @@
 		</div>
 	</div>
 
-	<div class="col-lg-9 col-md-offset-center-2">
-		<div class="panel panel-default">
+	<div class="col-lg-11">
+		<div class="panel panel-default" style=" border-top-left-radius: 0px;">
 			<div class="panel-heading" style="background-color: white;">
 				<h3><span class="glyphicon glyphicon-comment"></span> SMS Conversation </h3>
 			</div>

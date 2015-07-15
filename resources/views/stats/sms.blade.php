@@ -8,9 +8,8 @@
 
     <div class="container">
         @include('util.m-sidebar')
-        <br/>
-        <div class="col-lg-9 col-md-offset-center-2">
-            <div class="panel panel-default col-lg-12">
+        <div class="col-lg-11">
+            <div class="panel panel-default col-lg-12" style=" border-top-left-radius: 0px; ">
 
                 <div class="page-header">
                     <h3><span class="glyphicon glyphicon-stats"></span> SMS Statistics</h3>

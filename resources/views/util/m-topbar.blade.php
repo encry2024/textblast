@@ -26,25 +26,3 @@
 		</div><!-- /.navbar-collapse -->
 	</div><!-- /.container-fluid -->
 </nav>
-
-
-
-<div class="btn-toolbar right" role="toolbar" aria-label="...">
-	<div class="btn-group-vertical" role="group" aria-label="..." style=" margin-bottom: -11.5rem; margin-right: 6.5rem; ">
-		<a href="" data-toggle="popover" data-html="true" data-content="<kbd>{{ \App\Sms::getCountUnreadSms() }}</kbd> Unread SMS " data-container="body" class="sms_status_util btn
-		{{ \App\Sms::getCountUnreadSms()>0 ? "btn-primary" : "btn-default" }}
-		" role="button"><span class="glyphicon glyphicon-envelope"></span>
-		</a>
-
-		<a href="" data-toggle="popover" data-html="true" data-content="<kbd>{{ \App\SmsActivity::getCountPendingSms() }}</kbd> SMS on Queue" data-container="body"  class="sms_status_util btn
-		 {{  \App\SmsActivity::getCountPendingSms()>0 ? "btn-info" : "btn-default"  }}
-		 glyphicon glyphicon-refresh" role="button" >
-		</a>
-
-		<a href="" data-toggle="popover" data-html="true" data-content="<kbd>{{ \App\SmsActivity::getCountFailedSms() }}</kbd> Failed SMS" data-container="body" class="sms_status_util btn
-		{{ \App\SmsActivity::getCountFailedSms()>0 ? "btn-danger" : "btn-default" }}
-		" role="button"><span class="glyphicon glyphicon-exclamation-sign"></span>
-		</a>
-	</div>
-	<!-- <div class="btn-group" role="group" aria-label="...">...</div> -->
-</div>

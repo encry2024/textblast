@@ -7,9 +7,8 @@
 @section('content')
 <div class="container">
 	@include('util.m-sidebar')
-	<div class="col-lg-9 col-md-offset-center-2">
-		<br/>
-		<div class="panel panel-default col-lg-12">
+	<div class="col-lg-11">
+		<div class="panel panel-default col-lg-12" style=" border-top-left-radius: 0px; ">
 			<h3>Audit Trail</h3>
 			<hr/>
 			@if (Request::has('filter'))
