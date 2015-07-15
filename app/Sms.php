@@ -233,4 +233,8 @@ class Sms extends Eloquent {
 	public static function getCountUnreadSms(){
 		return Sms::whereSeen('0')->whereType('RECEIVED')->count();
 	}
+
+	public static function getCountInbox(){
+		return Sms::whereType('RECEIVED')->count();
+	}
 }
