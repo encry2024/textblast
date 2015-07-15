@@ -7,6 +7,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use App\GoipCommunicator;
 use Illuminate\Foundation\Bus\DispatchesCommands;
+use Carbon\Carbon;
+use App\Goip;
 
 class GoipListenerCommand extends Command {
 
@@ -54,13 +56,31 @@ class GoipListenerCommand extends Command {
 		//create listener
 		while (1) {
 			socket_recvfrom($socket, $buf, 512, 0, $remote_ip, $remote_port);
-			echo $buf . "\n";
+			echo "[".Carbon::now()->toDateTimeString()."]  " . $buf . "\n";
 			/* Check if Receive data was received */
 			if (strpos($buf, "RECEIVE") !== FALSE) {
-				echo "Message received: $buf \n";
+				$smsData = $buf;
+				echo "[".Carbon::now()->toDateTimeString()."]   Message Received: " . $smsData . "\n";
+				//disect each information
+				$data = explode(';', $smsData);
+
+				//get the date
+				$smsDateTemp = explode(':', $data[0]);
+
+				//get the source goip
+				$smsGoipTemp = explode(':', $data[1]);
+
+				// respond to GoIP that we received the text
+				$goip = Goip::where('name', $smsGoipTemp[1])->first();
+				$goipCommunicator = new GoipCommunicator($goip->id);
+				echo "[".Carbon::now()->toDateTimeString()."]   RECEIVE " . $smsDateTemp[1] . " OK\n";
+				$goipCommunicator->socket->write("RECEIVE " . $smsDateTemp[1] . " OK\n");
+				$goipCommunicator->socket->close();
+
 				//dispatch
 				$this->dispatch(new ReceiveSmsCommand($buf));
 			}
+			usleep(3000000);
 		}
 
 		echo "Exiting.......";
