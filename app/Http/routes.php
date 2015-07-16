@@ -42,6 +42,7 @@ Route::post('sms/reply/{recipientnumber}', ['uses' => 'SmsController@reply']);
 Route::post('sms/resend/{smsactivity}', ['as' => 'resendsms', 'uses' => 'SmsActivityController@resend']);
 Route::post('delete/recipient', ['as' => 'dr', 'uses' => 'RecipientTeamController@deleteRecipient']);
 Route::post('user/changed_password', ['as' => 'auth_cp', 'uses' => 'UserController@changePass']);
+Route::any('user/{user}/permission_update', 'UserController@updatePermissions');
 
 # JSON
 Route::get('getNum', 'RecipientNumberController@getNumber');
@@ -68,3 +69,13 @@ Route::get('fetchHistory', ['as' => 'get_history', 'uses' => 'ActivityController
 Route::get('fetch_allHistory', ['as' => 'all_history', 'uses' => 'ActivityController@fetchAllHistory']);
 //Route::get('fetchHistory', ['as' => 'get_history', 'uses' => 'AuditController@fetchHistory']);
 Route::get('sms/getInbox', ['uses' => 'SmsController@prepareInbox']);
+
+
+# Entrust page permission
+Entrust::routeNeedsPermission('messaging', 'send-sms');
+Entrust::routeNeedsPermission('recipient*', 'edit-contact');
+Entrust::routeNeedsPermission('group*', 'edit-contact');
+Entrust::routeNeedsPermission('contact*', 'edit-contact');
+Entrust::routeNeedsPermission('team*', 'edit-contact');
+Entrust::routeNeedsPermission('user*', 'edit-user');
+Entrust::routeNeedsPermission('auth/register', 'edit-user');

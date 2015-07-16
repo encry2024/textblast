@@ -1,4 +1,3 @@
-
 <div class="col-lg-1">
 	<div class="btn-toolbar" role="toolbar" aria-label="...">
 		<div class="btn-group-vertical" role="group" aria-label="..." style=" right: -5.4rem;">
