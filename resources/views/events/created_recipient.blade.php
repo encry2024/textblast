@@ -4,5 +4,7 @@
 	</label>
 </div>
 <div class="col-lg-8">
+@if($event->user_id != 0)
 <a href="{{ route('user.show', $event->user->id) }}">{{ $event->user->name }}</a> added <a href="{{ route('recipient.show', $event->subject->id) }}">{{$event->subject->name}}</a> to the contacts
+@endif
 </div>

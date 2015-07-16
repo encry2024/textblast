@@ -7,6 +7,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use App\GoipCommunicator;
 use Illuminate\Foundation\Bus\DispatchesCommands;
+use Carbon\Carbon;
+use App\Goip;
 
 class GoipListenerCommand extends Command {
 
@@ -54,13 +56,14 @@ class GoipListenerCommand extends Command {
 		//create listener
 		while (1) {
 			socket_recvfrom($socket, $buf, 512, 0, $remote_ip, $remote_port);
-			echo $buf . "\n";
 			/* Check if Receive data was received */
 			if (strpos($buf, "RECEIVE") !== FALSE) {
-				echo "Message received: $buf \n";
+				echo "[".Carbon::now()->toDateTimeString()."]   Message Received: " . $buf . "\n";
+
 				//dispatch
 				$this->dispatch(new ReceiveSmsCommand($buf));
 			}
+			usleep(3000000);
 		}
 
 		echo "Exiting.......";

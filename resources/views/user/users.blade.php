@@ -18,13 +18,15 @@
 					<th></th>
 					<th>Email</th>
 					<th>Name</th>
+					<th>Account Status</th>
 				</tr>
 				<?php $count = $accounts->firstItem() ?>
 				@foreach($accounts as $account)
 					<tr>
 						<td>{{ $count++ }}</td>
-						<td>{{ $account->email }}</td>
+						<td><a href="{{ url('user/' . $account->id) }}">{{ $account->email }}</a></td>
 						<td>{{ $account->name }}</td>
+						<td>{{ $account->status != 1 ? '<code>INACTIVE</code>' : 'ACTIVE' }}</td>
 					</tr>
 				@endforeach
 			</table>

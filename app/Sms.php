@@ -80,15 +80,6 @@ class Sms extends Eloquent {
 								$recipient = new Recipient();
 								$recipient->name = "NO NAME";
 								$recipient->save();
-
-
-								// Recipient's who received this text is stored in a text file.
-								$recipientNumber = $recipient->phoneNumbers()
-									->save(new RecipientNumber([
-										'recipient_id' => $recipient->id,
-										'phone_number' => $mobileNumber
-									]));
-
 							}
 							$this->createActivityAndDispatch($recipientNumber, NULL, $message);
 						} elseif($recipientNumber = RecipientNumber::find($id)) {
@@ -98,8 +89,6 @@ class Sms extends Eloquent {
 					case 'T':
 						if ($team = Team::find($id)) {
 							$recipients = $team->recipients;
-
-
 							foreach ($recipients as $recipient) {
 								if (count($recipientNumbers = $recipient->phoneNumbers) > 0) {
 									foreach ($recipientNumbers as $recipientNumber) {

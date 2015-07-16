@@ -10,7 +10,7 @@ use Carbon\Carbon;
 
 class GoipCommunicator extends UdpSocket
 {
-    private $socket;
+    public $socket;
 
     /**
      * @return resource

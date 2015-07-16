@@ -4,5 +4,7 @@
 	</label>
 </div>
 <div class="col-lg-8">
+@if($event->user_id != 0)
 <a href="{{ route('user.show', $event->user->id) }}">{{ $event->user->name }}</a> stored contact number {{$event->subject->phone_number}} to <a href="{{ route('recipient.show', $event->subject->getDeletedRecipients->id) }}">{{ $event->subject->getDeletedRecipients->name }}</a>
+@endif
 </div>
