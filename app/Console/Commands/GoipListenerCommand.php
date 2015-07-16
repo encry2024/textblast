@@ -56,26 +56,9 @@ class GoipListenerCommand extends Command {
 		//create listener
 		while (1) {
 			socket_recvfrom($socket, $buf, 512, 0, $remote_ip, $remote_port);
-			echo "[".Carbon::now()->toDateTimeString()."]  " . $buf . "\n";
 			/* Check if Receive data was received */
 			if (strpos($buf, "RECEIVE") !== FALSE) {
-				$smsData = $buf;
-				echo "[".Carbon::now()->toDateTimeString()."]   Message Received: " . $smsData . "\n";
-				//disect each information
-				$data = explode(';', $smsData);
-
-				//get the date
-				$smsDateTemp = explode(':', $data[0]);
-
-				//get the source goip
-				$smsGoipTemp = explode(':', $data[1]);
-
-				// respond to GoIP that we received the text
-				$goip = Goip::where('name', $smsGoipTemp[1])->first();
-				$goipCommunicator = new GoipCommunicator($goip->id);
-				echo "[".Carbon::now()->toDateTimeString()."]   RECEIVE " . $smsDateTemp[1] . " OK\n";
-				$goipCommunicator->socket->write("RECEIVE " . $smsDateTemp[1] . " OK\n");
-				$goipCommunicator->socket->close();
+				echo "[".Carbon::now()->toDateTimeString()."]   Message Received: " . $buf . "\n";
 
 				//dispatch
 				$this->dispatch(new ReceiveSmsCommand($buf));

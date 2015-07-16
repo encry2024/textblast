@@ -154,11 +154,11 @@ class GoipCommunicator extends UdpSocket
         $smsGoipTemp = explode(':', $data[1]);
 
         // respond to GoIP that we received the text
-        /*$goip = Goip::where('name', $smsGoipTemp[1])->first();
+        $goip = Goip::where('name', $smsGoipTemp[1])->first();
         $goipCommunicator = new GoipCommunicator($goip->id);
         echo "[".Carbon::now()->toDateTimeString()."]   RECEIVE " . $smsDateTemp[1] . " OK\n";
         $goipCommunicator->socket->write("RECEIVE " . $smsDateTemp[1] . " OK\n");
-        $goipCommunicator->socket->close();*/
+        $goipCommunicator->socket->close();
 
         // check if sms already received then exit
         $oldSms = Sms::where('type', 'RECEIVED')->where('other_info', $smsDateTemp[1])->get();
