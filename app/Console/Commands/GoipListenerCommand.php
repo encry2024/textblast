@@ -2,19 +2,14 @@
 
 use App\Commands\ReceiveSmsCommand;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Queue;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
-use App\GoipCommunicator;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Carbon\Carbon;
-use App\Goip;
 
 class GoipListenerCommand extends Command {
 
 	use DispatchesCommands;
-
-	private $goipCommunicator;
 
 	/**
 	 * The console command name.
@@ -51,21 +46,25 @@ class GoipListenerCommand extends Command {
 		$socket = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
 
 		//create socket bindings
-		GoipCommunicator::createSocketBindings($socket);
+		socket_bind($socket, "0.0.0.0", env('LOCAL_PORT'));
 
 		//create listener
-		while (1) {
+		for(;;) {
 			socket_recvfrom($socket, $buf, 512, 0, $remote_ip, $remote_port);
 			/* Check if Receive data was received */
 			if (strpos($buf, "RECEIVE") !== FALSE) {
 				echo "[".Carbon::now()->toDateTimeString()."]   Message Received: " . $buf . "\n";
 
+				// Acknowledge
+				$data = explode(';', $buf);
+				$smsDateTemp = explode(':', $data[0]);
+				$chunk = "RECEIVE " . $smsDateTemp[1] . " OK\n";
+				socket_sendto($socket, $chunk, strlen($chunk), $flags = 0, $remote_ip, $remote_port);
+
 				//dispatch
 				$this->dispatch(new ReceiveSmsCommand($buf));
 			}
-			usleep(3000000);
 		}
-
 		echo "Exiting.......";
 	}
 
