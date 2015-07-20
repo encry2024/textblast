@@ -11,14 +11,6 @@ use Carbon\Carbon;
 class GoipCommunicator extends UdpSocket
 {
     public $socket;
-
-    /**
-     * @return resource
-     */
-    public function getSocket()
-    {
-        return $this->socket;
-    }
     private $goip;
 
     /**
@@ -27,18 +19,25 @@ class GoipCommunicator extends UdpSocket
     public function __construct($goipID)
     {
         $this->goip = Goip::find($goipID);
-        if(!$this->goip) return FALSE;
 
+        if(!$this->goip) return FALSE;
         if(!$this->createSocketConnection()) return FALSE;
 
         return TRUE;
     }
 
+    /**
+     * @return resource
+     */
+    public function getSocket()
+    {
+        return $this->socket;
+    }
 
     /**
      * @param
      */
-    public function createSocketConnection()
+    private function createSocketConnection()
     {
         //create new socket
         if(!$this->socket = new UdpSocket($this->goip->ip_address, $this->goip->port)) return FALSE;
@@ -80,61 +79,46 @@ class GoipCommunicator extends UdpSocket
             echo "[".Carbon::now()->toDateTimeString()."]   Something went wrong upon sending password: " . $goipCommunicator->goip->password . "\n";
             return FALSE;
         }
-        /* Send recipient number */
-        echo "[".Carbon::now()->toDateTimeString()."]   Sending message.....\n";
+
         if (strpos($response, "SEND") !== FALSE) {
-            echo "[".Carbon::now()->toDateTimeString()."]   SEND " . $sessionID . " 1 " . $mobileNumber . "\n";
-            $goipCommunicator->socket->write("SEND " . $sessionID . " 1 " . $mobileNumber . "\n");
+            echo "[" . Carbon::now()->toDateTimeString() . "]   Sending message.....\n";
         }
+        /* Send recipient number */
+        echo "[" . Carbon::now()->toDateTimeString() . "]   SEND " . $sessionID . " 1 " . $mobileNumber . "\n";
+        $goipCommunicator->socket->write("SEND " . $sessionID . " 1 " . $mobileNumber . "\n");
+        for (;;) {
+            usleep(2000000);
+            socket_recv($goipCommunicator->socket->socket, $buf, 8192, 0);
+            //$response = $goipCommunicator->getResponse();
+            if (is_numeric(strpos($buf, "OK")) == TRUE) {
+                echo "[" . Carbon::now()->toDateTimeString() . "]   Message sent!\n\n";
+                $goipCommunicator->socket->write("DONE " . $sessionID . "\n");
 
-        /* Wait for GoIP reply */
-        $retry = 0;
-        while ($retry < 12) {
-            // run loop in 3 seconds limit
-            $timeLimit = time() + 5;
-            echo "[".Carbon::now()->toDateTimeString()."]   Waiting for sending status.....\n";
-            while (1) {
-                usleep(1000000);
-                if(is_numeric(strpos($response = $goipCommunicator->getResponse(), "OK")) == TRUE) break;
-                if($timeLimit < time()) break;
+                // Update smsActivity
+                $smsActivity = SmsActivity::find($sessionID);
+                $smsActivity->status = 'SENT';
+                $smsActivity->goip_name = $goip->name;
+                $smsActivity->save();
+                usleep(10000000);
+                break;
+            } elseif(is_numeric(strpos($buf, "FAILED")) == TRUE) {
+                echo "[".Carbon::now()->toDateTimeString()."]   Message not sent! Exiting.....\n\n";
 
-                echo "[".Carbon::now()->toDateTimeString()."]   SEND " . $sessionID . " 1 " . $mobileNumber . "\n";
-                $goipCommunicator->socket->write("SEND " . $sessionID . " 1 " . $mobileNumber . "\n");
-            }
-
-            // Check if will retry again
-            $willRetry = is_numeric(strpos($response, "OK"))?FALSE:TRUE;
-            if ($willRetry == TRUE) {
-                echo "[".Carbon::now()->toDateTimeString()."]   Retrying(".++$retry.")....\n";
-                echo "[".Carbon::now()->toDateTimeString()."]   SEND " . $sessionID . " 1 " . $mobileNumber . "\n";
-                $goipCommunicator->socket->write("SEND " . $sessionID . " 1 " . $mobileNumber . "\n");
-            } else {
+                // Update smsActivity
+                $smsActivity = SmsActivity::find($sessionID);
+                $smsActivity->status = 'FAILED';
+                $smsActivity->goip_name = $goip->name;
+                $smsActivity->save();
+                usleep(10000000);
                 break;
             }
         }
 
-        /* Check if the response is OK */
-        if (strpos($goipCommunicator->getResponse(), "OK") !== FALSE) {
-            echo "[".Carbon::now()->toDateTimeString()."]   DONE " . $sessionID . "\n";
-            $goipCommunicator->socket->write("DONE " . $sessionID . "\n");
-            echo "[".Carbon::now()->toDateTimeString()."]   Message sent!\n\n";
-
-            // Update smsActivity
-            $smsActivity = SmsActivity::find($sessionID);
-            $smsActivity->status = 'SENT';
-            $smsActivity->goip_name = $goip->name;
-            $smsActivity->save();
-        } else {
-            echo "[".Carbon::now()->toDateTimeString()."]   Message not sent! Exiting.....\n\n";
-
-            // Update smsActivity
-            $smsActivity = SmsActivity::find($sessionID);
-            $smsActivity->status = 'FAILED';
-            $smsActivity->goip_name = $goip->name;
-            $smsActivity->save();
-        }
-
+        // close the active socket
         $goipCommunicator->socket->close();
+
+        // close the database
+        DB::disconnect();
 
         return;
     }
@@ -163,7 +147,11 @@ class GoipCommunicator extends UdpSocket
         // check if sms already received then exit
         $oldSms = Sms::where('type', 'RECEIVED')->where('other_info', $smsDateTemp[1])->get();
         if(count($oldSms)>0) {
-            echo "[".Carbon::now()->toDateTimeString()."]   Sms already added. Discarding.... \n";
+            echo "[".Carbon::now()->toDateTimeString()."]   Sms already added. Discarding.... \n\n";
+
+            // close the database
+            DB::disconnect();
+
             return;
         }
 
@@ -171,7 +159,11 @@ class GoipCommunicator extends UdpSocket
         $smsContentTemp = explode(';msg:', $smsData);
         // exit if sms is empty
         if(empty($smsContentTemp[1])) {
-            echo "[".Carbon::now()->toDateTimeString()."]   Sms content empty. Discarding.... \n";
+            echo "[".Carbon::now()->toDateTimeString()."]   Sms content empty. Discarding.... \n\n";
+
+            // close the database
+            DB::disconnect();
+
             return;
         }
 
@@ -198,6 +190,9 @@ class GoipCommunicator extends UdpSocket
         // Create new SMS activity instance;
         $smsActivity = $sms->sms_activity()->save(new SmsActivity(['recipient_number_id' => $recipientNumber->id, 'recipient_team_id' => 0, 'status' => 'RECEIVED', 'goip_name' => $smsGoipTemp[1]]));
         $smsActivity->save();
+
+        // close the database
+        DB::disconnect();
 
         return;
     }
