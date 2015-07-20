@@ -184,8 +184,13 @@ class Sms extends Eloquent {
 		$smsActivity = $this->sms_activity()->save(new SmsActivity(['recipient_number_id' => $recipientNumber->id, 'recipient_team_id' => isset($team)?$team->id:0, 'status' => 'PENDING']));
 		$smsActivity->user_id = Auth::user()->id;
 		$smsActivity->save();
-		// Send to queue
-		$this->dispatch(new SendSmsCommand($recipientNumber->phone_number, $message, $smsActivity->id));
+
+		$messages = str_split($message, 150);
+
+		foreach($messages as $message) {
+			// Send to queue
+			$this->dispatch(new SendSmsCommand($recipientNumber->phone_number, $message, $smsActivity->id));
+		}
 	}
 
 
