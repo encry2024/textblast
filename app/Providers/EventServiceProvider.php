@@ -5,6 +5,7 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use Illuminate\Support\Facades\Queue;
 use Log;
 use App\SmsActivity;
+use Illuminate\Support\Facades\DB;
 
 class EventServiceProvider extends ServiceProvider {
 
@@ -42,6 +43,7 @@ class EventServiceProvider extends ServiceProvider {
 				Log::info('SMS Send Queue failed.. Sms Activity: ' . $smsActivityID);
 			}
 
+			DB::disconnect();
 		});
 		//
 	}
