@@ -185,11 +185,14 @@ class Sms extends Eloquent {
 		$smsActivity->user_id = Auth::user()->id;
 		$smsActivity->save();
 
-		$messages = str_split($message, 150);
+		$messages = explode( "\n", wordwrap($message, 150));
 
+		$total = count($messages);
+		$counter = 0;
 		foreach($messages as $message) {
 			// Send to queue
-			$this->dispatch(new SendSmsCommand($recipientNumber->phone_number, $message, $smsActivity->id));
+			++$counter;
+			$this->dispatch(new SendSmsCommand($recipientNumber->phone_number, "[{$counter}/{$total}] {$message}", $smsActivity->id));
 		}
 	}
 
