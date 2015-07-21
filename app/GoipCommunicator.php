@@ -81,7 +81,7 @@ class GoipCommunicator extends UdpSocket
         }
 
         if (strpos($response, "SEND") !== FALSE) {
-            echo "[" . Carbon::now()->toDateTimeString() . "]   Sending message.....\n";
+            echo "[" . Carbon::now()->toDateTimeString() . "]   Sending message using {$goip->name}.....\n";
         }
         /* Send recipient number */
         echo "[" . Carbon::now()->toDateTimeString() . "]   SEND " . $sessionID . " 1 " . $mobileNumber . "\n";
