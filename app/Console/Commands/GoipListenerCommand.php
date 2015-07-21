@@ -46,7 +46,7 @@ class GoipListenerCommand extends Command {
 		$socket = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
 
 		//create socket bindings
-		socket_bind($socket, "0.0.0.0", env('LOCAL_PORT'));
+		@socket_bind($socket, "0.0.0.0", env('LOCAL_PORT'));
 
 		//create listener
 		for(;;) {
