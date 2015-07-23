@@ -241,8 +241,8 @@ class SmsController extends Controller {
 							->join('sms_activities', 'sms.id', '=', 'sms_activities.sms_id')
 							->where('sms_activities.status', 'RECEIVED')
 							->groupBy('sms_activities.recipient_number_id')
-							->orderBy('sms.seen')
-							->orderBy('sms_activities.created_at', 'DESC')
+							->orderBy(DB::raw('min(txt_sms.seen)'))
+							->orderBy(DB::raw('max(txt_sms_activities.created_at)'), 'DESC')
 							->select(DB::raw('max(txt_sms_activities.sms_id) as sms_id, txt_sms_activities.recipient_number_id'))
 							->get();
 		//$getSmsActivity = SmsActivity::whereStatus('RECEIVED')->groupBy('recipient_number_id')->orderBy('created_at', 'DESC')->select(DB::raw('max(sms_id) as sms_id, recipient_number_id'))->get();
