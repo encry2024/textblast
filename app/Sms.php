@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Queue;
 
 class Sms extends Eloquent {
 	use DispatchesCommands, RecordsActivity;
@@ -192,7 +193,7 @@ class Sms extends Eloquent {
 		foreach($messages as $message) {
 			// Send to queue
 			++$counter;
-			$this->dispatch(new SendSmsCommand($recipientNumber->phone_number, "[{$counter}/{$total}] {$message}", $smsActivity->id));
+			Queue::push(new SendSmsCommand($recipientNumber->phone_number, "[{$counter}/{$total}] {$message}", $smsActivity->id));
 		}
 	}
 

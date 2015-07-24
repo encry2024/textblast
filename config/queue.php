@@ -42,6 +42,13 @@ return [
 			'expire' => 60,
 		],
 
+		'received' => [
+			'driver' => 'database',
+			'table' => 'jobs',
+			'queue' => 'received',
+			'expire' => 60,
+		],
+
 		'beanstalkd' => [
 			'driver' => 'beanstalkd',
 			'host'   => 'localhost',

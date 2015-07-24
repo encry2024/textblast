@@ -6,6 +6,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Queue;
 
 class GoipListenerCommand extends Command {
 
@@ -62,7 +63,7 @@ class GoipListenerCommand extends Command {
 				socket_sendto($socket, $chunk, strlen($chunk), $flags = 0, $remote_ip, $remote_port);
 
 				//dispatch
-				$this->dispatch(new ReceiveSmsCommand($buf));
+				Queue::pushOn('received', new ReceiveSmsCommand($buf));
 			}
 		}
 		echo "Exiting.......";

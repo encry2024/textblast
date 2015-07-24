@@ -15,6 +15,6 @@
   - GOIP_DEFAULT
 - Generate new application key: **php artisan key:generate**
 - Run migration and seeder: **php artisan migrate --seed**
-- Run queue listener daemon: **php artisan queue:work --daemon**
+- Run queue listener daemon: **php artisan queue:work --queue=received,default --daemon**
 - Run GoIP Listener: **php artisan goip:listener**
 - Edit crontab and add these line: ** * * * * * php /path/to/artisan schedule:run 1>> /dev/null 2>&1**
