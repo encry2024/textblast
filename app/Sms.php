@@ -193,7 +193,8 @@ class Sms extends Eloquent {
 		foreach($messages as $message) {
 			// Send to queue
 			++$counter;
-			Queue::push(new SendSmsCommand($recipientNumber->phone_number, "[{$counter}/{$total}] {$message}", $smsActivity->id));
+			$smsCount = $total>1?"[{$counter}/{$total}] ":"";
+			Queue::push(new SendSmsCommand($recipientNumber->phone_number, "{$smsCount}{$message}", $smsActivity->id));
 		}
 	}
 
