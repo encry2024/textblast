@@ -59,7 +59,7 @@
 					@if($smsActivity->sms->type == 'RECEIVED')
 						<div class="bs-callout {{ $smsActivity->sms_id==$sms->id?"bs-callout-danger-active":"bs-callout-danger" }} pull-left"><div>{{ $smsActivity->sms->message }}</div><br><div class="sms-date">{{ $smsActivity->created_at }}</div></div>
 					@elseif($smsActivity->sms->type == 'SEND')
-						<div class="bs-callout bs-callout-info pull-right"><div>{{ $smsActivity->sms->message }}</div><br><div class="sms-date">{{ $smsActivity->created_at }}</div></div>
+						<div class="bs-callout bs-callout-info pull-right"><div>{{ $smsActivity->sms->message }}</div><br><div class="sms-date">{{ $smsActivity->user->name }} | {{ $smsActivity->created_at }}</div></div>
 					@endif
 				@endforeach
 			</div>
