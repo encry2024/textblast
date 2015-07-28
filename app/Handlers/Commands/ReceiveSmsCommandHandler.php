@@ -1,9 +1,7 @@
 <?php namespace App\Handlers\Commands;
 
 use App\Commands\ReceiveSmsCommand;
-
 use App\GoipCommunicator;
-use Illuminate\Queue\InteractsWithQueue;
 
 class ReceiveSmsCommandHandler {
 

@@ -4,9 +4,9 @@ use App\Commands\Command;
 
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldBeQueued;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SendSmsCommand extends Command implements ShouldBeQueued {
+class SendSmsCommand extends Command implements ShouldQueue {
 
 	use InteractsWithQueue, SerializesModels;
 	public $phoneNumber;
