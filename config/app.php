@@ -136,6 +136,7 @@ return [
 		'Illuminate\Translation\TranslationServiceProvider',
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
+		'Illuminate\Broadcasting\BroadcastServiceProvider',
 
 		/*
 		 * Application Service Providers...
@@ -147,6 +148,7 @@ return [
 		'App\Providers\RouteServiceProvider',
 
 		'Zizaco\Entrust\EntrustServiceProvider',
+
 
 	],
 

@@ -52,6 +52,7 @@ class GoipListenerCommand extends Command {
 		//create listener
 		for(;;) {
 			socket_recvfrom($socket, $buf, 512, 0, $remote_ip, $remote_port);
+			echo "[".Carbon::now()->toDateTimeString()."]   " . $buf . "\n";
 			/* Check if Receive data was received */
 			if (strpos($buf, "RECEIVE") !== FALSE) {
 				echo "[".Carbon::now()->toDateTimeString()."]   Message Received: " . $buf . "\n";

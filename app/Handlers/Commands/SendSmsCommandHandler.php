@@ -3,8 +3,6 @@
 use App\Commands\SendSmsCommand;
 use App\GoipCommunicator;
 
-use Illuminate\Queue\InteractsWithQueue;
-
 class SendSmsCommandHandler {
 
 	/**
