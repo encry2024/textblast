@@ -59,14 +59,6 @@
 					</form>
 				<br/><br/>
 			</div>
-			<!-- USER SMS ACTIVITY LOG -->
-			<div class="panel panel-default col-lg-12">
-				<h3> <span class="glyphicon glyphicon-envelope"></span> SMS Activity Log</h3>
-				<hr>
-				<br/>
-						
-				<br/><br/>
-			</div>
 		</div>
 		<div id="ohsnap"></div>
 		{!! Form::hidden('status', $user->status!=1 ? 1:0, ['id' => 'stts']) !!}

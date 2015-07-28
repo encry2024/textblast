@@ -7,9 +7,8 @@
 @section('content')
 <div class="container">
 	@include('util.m-sidebar')
-	<div class="col-lg-9 col-md-offset-center-2">
-	<br/>
-		<div class="panel panel-default col-lg-12">
+	<div class="col-lg-11">
+		<div class="panel panel-default col-lg-12" STYLE="border-top-left-radius: 0px;">
 			<div class="page-header">
 				<h3><span class="glyphicon glyphicon-user"></span> Registered Users</h3>
 			</div>
@@ -19,6 +18,7 @@
 					<th></th>
 					<th>Email</th>
 					<th>Name</th>
+					<th>Account Status</th>
 				</tr>
 				<?php $count = $accounts->firstItem() ?>
 				@foreach($accounts as $account)
@@ -26,6 +26,7 @@
 						<td>{{ $count++ }}</td>
 						<td><a href="{{ url('user/' . $account->id) }}">{{ $account->email }}</a></td>
 						<td>{{ $account->name }}</td>
+						<td>{{ $account->status != 1 ? '<code>INACTIVE</code>' : 'ACTIVE' }}</td>
 					</tr>
 				@endforeach
 			</table>

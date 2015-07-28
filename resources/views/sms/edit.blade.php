@@ -25,8 +25,8 @@
 			</div>
 		</div>
 	</div>
-    <div class="col-lg-9 col-md-offset-center-2">
-		<div class="panel panel-default col-lg-12">
+    <div class="col-lg-11">
+		<div class="panel panel-default col-lg-12" style=" border-top-left-radius: 0px;">
 			<div class="page-header">
 				<h3><span class="glyphicon glyphicon-envelope"></span> SMS Details <br><span><label class="size-14">Sender: {{ isset($sms->user->name)?$sms->user->name:'No sender information' }}</label></span><span class="right"><label class="size-14">Date Sent: {{ date('M d, Y h:i A', strtotime($sms->created_at)) }}</label></span></h3>
 			</div>

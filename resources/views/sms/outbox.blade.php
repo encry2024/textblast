@@ -13,10 +13,8 @@
 		</div>
 	@endif
     @include('...util.m-sidebar')
-    <div class="col-lg-9 col-md-offset-center-2">
-        <br/>
-
-        <div class="panel panel-default col-lg-12">
+    <div class="col-lg-11">
+        <div class="panel panel-default col-lg-12" style="border-top-left-radius: 0px;">
             <div class="page-header">
                 <h3><span class="glyphicon glyphicon-tasks"></span> Outbox</h3>
             </div>
