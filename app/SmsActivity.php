@@ -45,8 +45,18 @@ class SmsActivity extends Model {
 		$this->status = 'PENDING';
 		$this->save();
 
-		// Send to queue
-		$this->dispatch(new SendSmsCommand($this->recipient_number->phone_number, $this->sms->message, $this->id));
+		$message = $this->sms->message;
+
+		$messages = explode( "\n", wordwrap($message, 150));
+
+		$total = count($messages);
+		$counter = 0;
+		foreach($messages as $message) {
+			// Send to queue
+			++$counter;
+			$smsCount = $total>1?"[{$counter}/{$total}] ":"";
+			Queue::push(new SendSmsCommand($this->recipient_number->phone_number, "{$smsCount}{$message}", $this->id));
+		}
 
 		return true;
 	}
