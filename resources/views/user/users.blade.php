@@ -7,10 +7,10 @@
 @section('content')
 <div class="container">
 	@include('util.m-sidebar')
-	<div class="col-lg-11">
+	<div class="col-lg-10">
 		<div class="panel panel-default col-lg-12" STYLE="border-top-left-radius: 0px;">
 			<div class="page-header">
-				<h3><span class="glyphicon glyphicon-user"></span> Registered Users</h3>
+				<h3><span class="glyphicon glyphicon-user"></span> Users<span class="right"><a href="{{ url('auth/register') }}" type="button" class="btn btn-success size-12"><span class="glyphicon glyphicon-plus"></span> Add User</a></span></h3>
 			</div>
 			{!! $accounts->render() !!}
 			<table id="messages" class="table">

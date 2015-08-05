@@ -14,12 +14,17 @@
     @endif
 
 	@include('util.m-sidebar')
-	<div class="col-lg-11">
+	<div class="col-lg-10">
 		<div class="panel panel-default col-lg-12" style="border-top-left-radius: 0px;">
-		   <div class="page-header">
-				<h3><span class="glyphicon glyphicon-book"></span> Groups <span class="right"><button type="button" class="btn btn-success size-12" data-toggle="modal" data-target="#groupModal"><span class="glyphicon glyphicon-plus"></span> Add Group</button></span></h3>
-		   </div>
-		   <br/><br/>
+			<div class="page-header">
+				<h3>Contacts > Groups<span class="right"><button type="button" class="btn btn-success size-12" data-toggle="modal" data-target="#groupModal"><span class="glyphicon glyphicon-plus"></span> Add Group</button></span></h3>
+			</div>
+			<br/>
+			<ul class="nav nav-tabs" role="tablist">
+				<li role="presentation"><a href="{{ url('contacts') }}"><span class="glyphicon glyphicon-book"></span> Contacts</a></li>
+				<li role="presentation" class="active"><a href="#"><span class="glyphicon glyphicon-list-alt"></span> Groups</a></li>
+			</ul>
+			<br/>
 		   <table id="group" class="table"></table>
 		</div>
 	</div>

@@ -26,7 +26,7 @@
 
 	@include('util.m-sidebar')
 	{!! Form::open([ 'url' => 'sms/send', 'files' => true ]) !!}
-	<div class="col-lg-11">
+	<div class="col-lg-10">
 		<div class="panel panel-default col-lg-12"  style=" border-top-left-radius: 0px;">
 		   <div class="page-header">
 				<h3><span class="glyphicon glyphicon-comment"></span> Send Messages</h3>
@@ -36,7 +36,7 @@
 				<input type="text" id="txt" name="tags[]"/>
 				<!-- {!! Form::file('smsNumbersFile', null, ['class'=>'custom-file-input']) !!} -->
 				<input id="uploadFile" style=" width: 50%; margin-left: 8rem; " class="form-control col-lg-5" placeholder="Choose File" disabled="disabled" />
-				<div class="fileUpload btn btn-primary" style=" margin-left: -57.1rem; top: -1.1rem; ">
+				<div class="fileUpload btn btn-primary" style=" margin-left: -52.4rem; top: -1.1rem; ">
 					<span>Upload</span>
 					<input id="uploadBtn" name="smsNumbersFile" type="file" class="upload col-lg-pull-1" />
 				</div>

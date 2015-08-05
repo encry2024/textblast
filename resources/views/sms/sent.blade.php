@@ -6,19 +6,19 @@
 
 @section('content')
 <div class="container">
-	@if (Session::has('success_msg'))
-		<div class="alert alert-success center" role="alert">
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			{{ Session::get('success_msg')  }}
-		</div>
-	@endif
 	@include('...util.m-sidebar')
-	<div class="col-lg-11">
+	<div class="col-lg-10">
 		<div class="panel panel-default col-lg-12" style=" border-top-left-radius: 0px;">
 			<div class="page-header">
-				<h3><span class="glyphicon glyphicon-share-alt"></span> Sent SMS</h3>
+				<h3>Messaging > Sent<span class="right"><a href="{{ url('sms/send') }}" type="button" class="btn btn-success size-12"><span class="glyphicon glyphicon-plus"></span> Send SMS</a></span></h3>
 			</div>
-			{!! $messages->render() !!}
+			<br/>
+			<ul class="nav nav-tabs" role="tablist">
+				<li role="presentation"><a href="{{ url('messaging') }}"><span class="glyphicon glyphicon-inbox"></span> Inbox</a></li>
+				<li role="presentation" class="active"><a href="#"><span class="glyphicon glyphicon-share-alt"></span> Sent</a></li>
+				<li role="presentation"><a href="{{ url('sms/outbox') }}"><span class="glyphicon glyphicon-tasks"></span> Sending</a></li>
+				<li role="presentation"><a href="{{ url('sms/failed') }}"><span class="glyphicon glyphicon-exclamation-sign"></span> Failed</a></li>
+			</ul>
 			<table id="messages" class="table">
 				<tr>
 					<th></th>
@@ -41,7 +41,6 @@
 				@endforeach
 			</table>
 			{!! $messages->render() !!}
-			<br/><br/>
 		</div>
 	</div>
 </div>

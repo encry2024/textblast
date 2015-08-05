@@ -28,10 +28,12 @@ Route::controllers(array('auth' => 'Auth\AuthController','password' => 'Auth\Pas
 # GET
 Route::get('/', ['middleware' => 'auth.status', 'as' => '/home', 'uses' => 'SmsController@inbox']);
 Route::get('home', ['middleware' => 'auth.status', 'uses' => 'SmsController@inbox']);
+Route::get('messaging', ['middleware' => 'auth.status', 'uses' => 'SmsController@inbox']);
 Route::get('contacts', ['as'  => 'pb', 'uses' => function() {return view('contacts.show');}]);
 Route::get('groups', ['middleware' => 'auth.status', 'as' => 'grp', 'uses' => function() {return view('groups.show');}]);
 Route::get('test', function() {return view('tests.testform'); });
-Route::get('messaging', ['as' => 'msg', 'uses' => 'SmsController@retSmsCount']);
+Route::get('sms/send', ['as' => 'msg', 'uses' => 'SmsController@retSmsCount']);
+//Route::get('messaging', ['as' => 'msg', 'uses' => 'SmsController@retSmsCount']);
 Route::get('template/{template_id}', ['as' => 'req_temp', 'uses' => 'TemplateController@show']);
 Route::get('change_password', ['middleware' => 'auth.status', 'as' => 'change_password', 'uses' => 'UserController@viewChangePassword']);
 

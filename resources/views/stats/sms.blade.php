@@ -8,7 +8,7 @@
 
     <div class="container">
         @include('util.m-sidebar')
-        <div class="col-lg-11">
+        <div class="col-lg-10">
             <div class="panel panel-default col-lg-12" style=" border-top-left-radius: 0px; ">
 
                 <div class="page-header">
