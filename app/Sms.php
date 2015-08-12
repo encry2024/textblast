@@ -84,6 +84,10 @@ class Sms extends Eloquent {
 								$recipient = new Recipient();
 								$recipient->name = "NO NAME";
 								$recipient->save();
+
+								// Recipient's who received this text is stored in a text file.
+								$recipientNumber = $recipient->phoneNumbers()
+									->save(new RecipientNumber(['recipient_id' => $recipient->id,'phone_number' => $mobileNumber]));
 							}
 							$this->createActivityAndDispatch($recipientNumber, NULL, $message);
 						} elseif($recipientNumber = RecipientNumber::find($id)) {
