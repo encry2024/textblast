@@ -49,6 +49,9 @@ class Sms extends Eloquent {
 	}
 
 	public function send($request) {
+		// set execution time to 200 seconds. This is for process with too many receipients
+		set_time_limit(200);
+
 		// update and assign values
 		$receivers= is_null($request->get('receivers'))?array():$request->get('receivers');
 		$message = $request->get('message');
